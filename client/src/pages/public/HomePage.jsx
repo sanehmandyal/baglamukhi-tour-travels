@@ -16,6 +16,8 @@ import {
   ArrowRight,
   ChevronRight,
   Heart,
+  Users,
+  Navigation,
 } from 'lucide-react';
 import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
@@ -39,12 +41,13 @@ const HomePage = () => {
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Hero search state
+  // Hero search state: "When to go", "From where", "To where", "How many members"
+  const [searchPickup, setSearchPickup] = useState('Chandigarh');
   const [searchDestination, setSearchDestination] = useState('Pilgrimage');
-  const [searchCategory, setSearchCategory] = useState('Pilgrimage');
   const [searchDate, setSearchDate] = useState(
     new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   );
+  const [searchMembers, setSearchMembers] = useState('4 Members');
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -76,7 +79,7 @@ const HomePage = () => {
 
   const handleHeroSearch = (e) => {
     e.preventDefault();
-    navigate(`/tours?destination=${encodeURIComponent(searchDestination)}&category=${encodeURIComponent(searchCategory)}`);
+    navigate(`/tours?destination=${encodeURIComponent(searchDestination)}&from=${encodeURIComponent(searchPickup)}&date=${encodeURIComponent(searchDate)}&members=${encodeURIComponent(searchMembers)}`);
   };
 
   return (
@@ -120,72 +123,96 @@ const HomePage = () => {
             </p>
           </div>
 
-          {/* Quick Search Widget */}
-          <div className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-6 shadow-2xl text-slate-800 border border-slate-100">
-            <form onSubmit={handleHeroSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
-              {/* Destination */}
+          {/* Quick Search Widget: From, To, When, Members */}
+          <div className="max-w-5xl mx-auto bg-white rounded-3xl p-4 sm:p-5 shadow-2xl text-slate-800 border border-slate-100">
+            <form onSubmit={handleHeroSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-center">
+              {/* 1. From (Pickup Location) */}
+              <div className="text-left">
+                <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center">
+                  <Navigation className="w-3.5 h-3.5 text-amber-500 mr-1" />
+                  From (Pickup)
+                </label>
+                <select
+                  value={searchPickup}
+                  onChange={(e) => setSearchPickup(e.target.value)}
+                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                >
+                  <option value="Chandigarh">🚗 Chandigarh (Airport / Rly)</option>
+                  <option value="Delhi">🚗 Delhi NCR (Airport / Rly)</option>
+                  <option value="Kalka">🚗 Kalka / Ambala</option>
+                  <option value="Amritsar">🚗 Amritsar / Jalandhar</option>
+                  <option value="Pathankot">🚗 Pathankot / Kangra</option>
+                  <option value="Shimla">🚗 Shimla Pickup</option>
+                  <option value="Manali">🚗 Manali Pickup</option>
+                  <option value="Dharamshala">🚗 Dharamshala Pickup</option>
+                  <option value="Other">🚗 Other North India City</option>
+                </select>
+              </div>
+
+              {/* 2. To (Destination) */}
               <div className="text-left">
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center">
                   <MapPin className="w-3.5 h-3.5 text-amber-500 mr-1" />
-                  Destination
+                  To (Destination)
                 </label>
                 <select
                   value={searchDestination}
                   onChange={(e) => setSearchDestination(e.target.value)}
-                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 >
                   <option value="Pilgrimage">🛕 Maa Baglamukhi & 9 Devi</option>
-                  <option value="Manali">Manali & Solang Valley</option>
-                  <option value="Shimla">Shimla & Kufri</option>
-                  <option value="Shimla & Manali">Shimla & Manali (Combined)</option>
-                  <option value="Dharamshala">Dharamshala & Kangra Devi</option>
-                  <option value="Dalhousie">Dalhousie & Khajjiar</option>
-                  <option value="Spiti Valley">Spiti Valley Adventure</option>
-                  <option value="Amritsar">Amritsar Golden Temple</option>
+                  <option value="Manali">🏔️ Manali & Solang Valley</option>
+                  <option value="Shimla">🌲 Shimla & Kufri</option>
+                  <option value="Shimla & Manali">🏔️ Shimla + Manali Combo</option>
+                  <option value="Dharamshala">🌸 Dharamshala & Dalhousie</option>
+                  <option value="Spiti Valley">🚗 Spiti Valley 4x4</option>
+                  <option value="Amritsar">🛕 Amritsar Golden Temple</option>
+                  <option value="Kinnaur">🏔️ Kinnaur & Kalpa</option>
                 </select>
               </div>
 
-              {/* Trip Category */}
-              <div className="text-left">
-                <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center">
-                  <Compass className="w-3.5 h-3.5 text-amber-500 mr-1" />
-                  Trip Type
-                </label>
-                <select
-                  value={searchCategory}
-                  onChange={(e) => setSearchCategory(e.target.value)}
-                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
-                >
-                  <option value="Pilgrimage">🛕 Devi Darshan Yatra</option>
-                  <option value="Family">👨‍👩‍👧 Family Holiday</option>
-                  <option value="Honeymoon">❤️ Honeymoon Special</option>
-                  <option value="Adventure">🏔️ Adventure / Road Trip</option>
-                  <option value="Weekend">🚗 Weekend Getaway</option>
-                  <option value="Group">🚌 Group & Corporate</option>
-                </select>
-              </div>
-
-              {/* Travel Date */}
+              {/* 3. When (Travel Date) */}
               <div className="text-left">
                 <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center">
                   <Calendar className="w-3.5 h-3.5 text-amber-500 mr-1" />
-                  Travel Date
+                  When (Date)
                 </label>
                 <input
                   type="date"
                   value={searchDate}
+                  min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setSearchDate(e.target.value)}
-                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
 
-              {/* Search Submit */}
-              <div className="pt-2 sm:pt-0">
+              {/* 4. How Many Members */}
+              <div className="text-left">
+                <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center">
+                  <Users className="w-3.5 h-3.5 text-amber-500 mr-1" />
+                  Members
+                </label>
+                <select
+                  value={searchMembers}
+                  onChange={(e) => setSearchMembers(e.target.value)}
+                  className="w-full text-xs sm:text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                >
+                  <option value="2 Members">👤 1-2 Members (Couple)</option>
+                  <option value="4 Members">👨‍👩‍👧 3-4 Members (Sedan)</option>
+                  <option value="6 Members">👨‍👩‍👧‍👦 5-7 Members (Innova)</option>
+                  <option value="12 Members">🚐 8-12 (Tempo 12S)</option>
+                  <option value="17 Members">🚐 13-17 (Tempo 17S)</option>
+                  <option value="25 Members">🚌 18-26+ Group / Bus</option>
+                </select>
+              </div>
+
+              {/* 5. Search Submit Button */}
+              <div className="pt-2 sm:pt-0 sm:col-span-2 lg:col-span-1">
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2"
+                  className="w-full py-2.5 sm:py-3 px-4 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-1.5"
                 >
-                  <Search className="w-4 h-4" />
+                  <Search className="w-4 h-4 shrink-0" />
                   <span>Find Packages</span>
                 </button>
               </div>
