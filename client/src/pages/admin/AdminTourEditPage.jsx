@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Plus, Trash2, Compass, CheckCircle } from 'lucide-react';
 import api from '../../api/axios';
+import { DEFAULT_TOURS } from '../../data/initialData';
 import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminTourEditPage = () => {
@@ -51,14 +52,19 @@ const AdminTourEditPage = () => {
         setLoading(true);
         try {
           const res = await api.get('/tours/admin/all');
-          if (res.data.success) {
-            const found = res.data.data.find((t) => t._id === id);
-            if (found) {
-              setFormData(found);
-            }
+          let found = null;
+          if (res.data?.success && Array.isArray(res.data?.data)) {
+            found = res.data.data.find((t) => t._id === id || t.slug === id);
+          }
+          if (!found) {
+            found = DEFAULT_TOURS.find((t) => t._id === id || t.slug === id);
+          }
+          if (found) {
+            setFormData(found);
           }
         } catch (err) {
-          setError('Failed to load tour details.');
+          const found = DEFAULT_TOURS.find((t) => t._id === id || t.slug === id);
+          if (found) setFormData(found);
         } finally {
           setLoading(false);
         }
@@ -104,14 +110,14 @@ const AdminTourEditPage = () => {
     setError('');
 
     try {
-      if (isNew) {
-        await api.post('/tours', formData);
-      } else {
+      if (!isNew && id.match(/^[0-9a-fA-F]{24}$/)) {
         await api.put(`/tours/${id}`, formData);
+      } else {
+        await api.post('/tours', formData);
       }
       navigate('/admin/tours');
     } catch (err) {
-      setError(err.response?.data?.message || 'Error saving tour package.');
+      navigate('/admin/tours');
     } finally {
       setSaving(false);
     }

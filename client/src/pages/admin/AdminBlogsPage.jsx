@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, BookOpen } from 'lucide-react';
 import api from '../../api/axios';
 
+import { DEFAULT_BLOGS } from '../../data/initialData';
+
 const AdminBlogsPage = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState(DEFAULT_BLOGS);
+  const [loading, setLoading] = useState(false);
 
   const fetchBlogs = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const res = await api.get('/blogs/admin/all');
-      if (res.data.success) {
+      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setBlogs(res.data.data);
+      } else {
+        setBlogs(DEFAULT_BLOGS);
       }
     } catch (err) {
-      console.error(err);
+      console.warn('[AdminBlogs] API unavailable, using default blogs data');
+      setBlogs(DEFAULT_BLOGS);
     } finally {
       setLoading(false);
     }

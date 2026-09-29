@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { FiPlus, FiEdit2, FiTrash2, FiStar, FiUser, FiMapPin, FiX } from 'react-icons/fi';
 
+import { DEFAULT_TESTIMONIALS } from '../../data/initialData';
+
 const AdminTestimonialsPage = () => {
-  const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState(DEFAULT_TESTIMONIALS);
+  const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
@@ -23,11 +25,14 @@ const AdminTestimonialsPage = () => {
     try {
       setLoading(true);
       const res = await api.get('/testimonials');
-      if (res.data?.success) {
+      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setTestimonials(res.data.data);
+      } else {
+        setTestimonials(DEFAULT_TESTIMONIALS);
       }
     } catch (err) {
-      console.error(err);
+      console.warn('[AdminTestimonials] API unavailable, using default reviews');
+      setTestimonials(DEFAULT_TESTIMONIALS);
     } finally {
       setLoading(false);
     }

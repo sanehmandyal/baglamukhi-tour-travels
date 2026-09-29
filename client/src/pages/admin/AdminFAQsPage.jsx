@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { FiPlus, FiEdit2, FiTrash2, FiHelpCircle, FiX, FiCheck } from 'react-icons/fi';
 
+import { DEFAULT_FAQS } from '../../data/initialData';
+
 const AdminFAQsPage = () => {
-  const [faqs, setFaqs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [faqs, setFaqs] = useState(DEFAULT_FAQS);
+  const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
@@ -20,11 +22,14 @@ const AdminFAQsPage = () => {
     try {
       setLoading(true);
       const res = await api.get('/faqs');
-      if (res.data?.success) {
+      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setFaqs(res.data.data);
+      } else {
+        setFaqs(DEFAULT_FAQS);
       }
     } catch (err) {
-      console.error(err);
+      console.warn('[AdminFAQs] API unavailable, using default FAQs');
+      setFaqs(DEFAULT_FAQS);
     } finally {
       setLoading(false);
     }

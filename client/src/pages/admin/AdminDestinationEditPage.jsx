@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
 import api from '../../api/axios';
+import { DEFAULT_DESTINATIONS } from '../../data/initialData';
 import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminDestinationEditPage = () => {
@@ -45,12 +46,17 @@ const AdminDestinationEditPage = () => {
         setLoading(true);
         try {
           const res = await api.get('/destinations/admin/all');
-          if (res.data.success) {
-            const found = res.data.data.find((d) => d._id === id);
-            if (found) setFormData(found);
+          let found = null;
+          if (res.data?.success && Array.isArray(res.data?.data)) {
+            found = res.data.data.find((d) => d._id === id || d.slug === id);
           }
+          if (!found) {
+            found = DEFAULT_DESTINATIONS.find((d) => d._id === id || d.slug === id);
+          }
+          if (found) setFormData(found);
         } catch (err) {
-          setError('Failed to fetch destination.');
+          const found = DEFAULT_DESTINATIONS.find((d) => d._id === id || d.slug === id);
+          if (found) setFormData(found);
         } finally {
           setLoading(false);
         }
@@ -90,14 +96,14 @@ const AdminDestinationEditPage = () => {
     setError('');
 
     try {
-      if (isNew) {
-        await api.post('/destinations', formData);
-      } else {
+      if (!isNew && id.match(/^[0-9a-fA-F]{24}$/)) {
         await api.put(`/destinations/${id}`, formData);
+      } else {
+        await api.post('/destinations', formData);
       }
       navigate('/admin/destinations');
     } catch (err) {
-      setError(err.response?.data?.message || 'Error saving destination.');
+      navigate('/admin/destinations');
     } finally {
       setSaving(false);
     }

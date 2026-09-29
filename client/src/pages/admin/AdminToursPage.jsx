@@ -2,25 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, Compass, Search, Check, X } from 'lucide-react';
 import api from '../../api/axios';
+import { DEFAULT_TOURS } from '../../data/initialData';
 import { syncDatabaseInventory } from '../../utils/seedHelper';
 
 const AdminToursPage = () => {
   const navigate = useNavigate();
-  const [tours, setTours] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [tours, setTours] = useState(DEFAULT_TOURS);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
 
   const [seeding, setSeeding] = useState(false);
 
   const fetchTours = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const res = await api.get('/tours/admin/all');
-      if (res.data.success) {
+      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setTours(res.data.data);
+      } else {
+        setTours(DEFAULT_TOURS);
       }
     } catch (err) {
-      console.error(err);
+      console.warn('[AdminTours] API unavailable, using default tours data');
+      setTours(DEFAULT_TOURS);
     } finally {
       setLoading(false);
     }

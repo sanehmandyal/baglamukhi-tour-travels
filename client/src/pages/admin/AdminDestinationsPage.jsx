@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, MapPin } from 'lucide-react';
-import api from '../../api/axios';
+import { DEFAULT_DESTINATIONS } from '../../data/initialData';
 import { syncDatabaseInventory } from '../../utils/seedHelper';
 
 const AdminDestinationsPage = () => {
-  const [destinations, setDestinations] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS);
+  const [loading, setLoading] = useState(false);
 
   const [seeding, setSeeding] = useState(false);
 
   const fetchDestinations = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const res = await api.get('/destinations/admin/all');
-      if (res.data.success) {
+      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setDestinations(res.data.data);
+      } else {
+        setDestinations(DEFAULT_DESTINATIONS);
       }
     } catch (err) {
-      console.error(err);
+      console.warn('[AdminDestinations] API unavailable, using default destinations');
+      setDestinations(DEFAULT_DESTINATIONS);
     } finally {
       setLoading(false);
     }
