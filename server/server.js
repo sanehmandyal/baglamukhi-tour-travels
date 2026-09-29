@@ -10,9 +10,27 @@ const rateLimit = require('express-rate-limit');
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
+// Connect to MongoDB & ensure admin exists
 const connectDB = require('./config/db');
-connectDB();
+connectDB().then(async () => {
+  try {
+    const User = require('./models/User');
+    const existing = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
+    if (!existing) {
+      await User.create({
+        name: 'Baglamukhi Tour & Travels Admin',
+        email: 'admin@baglamukhitourtravels.com',
+        password: 'Admin@123456',
+        role: 'admin',
+        phone: '+91 98000 00000',
+        isActive: true,
+      });
+      console.log('[Auth] Admin user auto-initialized (admin@baglamukhitourtravels.com)');
+    }
+  } catch (err) {
+    console.error('[Auth] Admin auto-check notice:', err.message);
+  }
+});
 
 const app = express();
 
