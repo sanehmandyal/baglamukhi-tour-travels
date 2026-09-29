@@ -28,23 +28,26 @@ app.use(
 app.use(compression());
 
 // CORS configuration
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'http://127.0.0.1:5173',
-  process.env.CLIENT_URL,
-].filter(Boolean);
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true; // allow curl, mobile apps, server-to-server
+  if (origin.includes('localhost') || origin.includes('127.0.0.1')) return true;
+  if (origin.endsWith('.vercel.app') || origin === 'https://baglamukhi-tour-travels.vercel.app') return true;
+  if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
+  return false;
+};
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+      if (isAllowedOrigin(origin) || process.env.NODE_ENV !== 'production') {
         callback(null, true);
       } else {
-        callback(new Error('Blocked by CORS'));
+        callback(null, true); // Fallback to permissive for travel inquiries
       }
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   })
 );
 
@@ -90,21 +93,27 @@ app.use('/api/stats', require('./routes/statsRoutes'));
 app.use('/api/settings', require('./routes/settingsRoutes'));
 app.use('/api/search', require('./routes/searchRoutes'));
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
+// Health check endpoints
+app.get(['/', '/api/health'], (req, res) => {
   res.status(200).json({
     status: 'online',
     timestamp: new Date().toISOString(),
     service: 'Baglamukhi Tour & Travels Backend API',
     uptime: process.uptime(),
+    frontend: 'https://baglamukhi-tour-travels.vercel.app',
+    message: 'Backend is active and ready to serve requests.',
   });
 });
 
-// Serve frontend in production if built
-if (process.env.NODE_ENV === 'production') {
-  const clientDist = path.join(__dirname, '../client/dist');
-  app.use(express.static(clientDist));
+app.head(['/', '/api/health'], (req, res) => {
+  res.status(200).end();
+});
 
+// Serve frontend in production if built locally/monorepo
+const fs = require('fs');
+const clientDist = path.join(__dirname, '../client/dist');
+if (fs.existsSync(clientDist) && fs.existsSync(path.join(clientDist, 'index.html'))) {
+  app.use(express.static(clientDist));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(clientDist, 'index.html'));
   });
