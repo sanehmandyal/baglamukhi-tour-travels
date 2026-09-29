@@ -1,0 +1,101 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Shield, Lock, Mail, ArrowRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import SEOHead from '../../components/common/SEOHead';
+
+const AdminLoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('admin@baglamukhitourtravels.com');
+  const [password, setPassword] = useState('Admin@123456');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      await login(email, password);
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
+      <SEOHead title="Admin Login | Baglamukhi Tour & Travels" noindex={true} />
+
+      <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-md w-full space-y-6 border-2 border-yellow-400/40">
+        <div className="text-center space-y-2">
+          <div className="w-14 h-14 rounded-2xl bg-neutral-950 text-yellow-400 flex items-center justify-center mx-auto shadow-xl border border-yellow-400/50">
+            <Shield className="w-8 h-8 text-yellow-400" />
+          </div>
+          <h1 className="text-2xl font-black text-neutral-950 font-display">Baglamukhi Admin Portal</h1>
+          <p className="text-xs text-neutral-500 font-medium">Sign in to manage tours, bookings, fleet, and SEO</p>
+        </div>
+
+        {error && (
+          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
+          <div>
+            <label className="block text-xs font-bold text-neutral-800 mb-1.5">Admin Email</label>
+            <div className="relative">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none text-xs font-medium"
+                placeholder="admin@baglamukhitourtravels.com"
+              />
+              <Mail className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-neutral-800 mb-1.5">Password</label>
+            <div className="relative">
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none text-xs"
+                placeholder="••••••••"
+              />
+              <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
+            </div>
+          </div>
+
+          <div className="p-3 bg-neutral-950 rounded-xl border border-yellow-400/30 text-[11px] text-yellow-300 font-medium">
+            <strong className="text-yellow-400 block mb-0.5">Default Admin Login:</strong>
+            <p className="font-mono text-neutral-200">Email: admin@baglamukhitourtravels.com</p>
+            <p className="font-mono text-neutral-200">Password: Admin@123456</p>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 text-sm font-black text-neutral-950 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 rounded-xl shadow-lg shadow-yellow-500/25 transition flex items-center justify-center space-x-2 disabled:opacity-75"
+          >
+            {loading ? <span>Authenticating...</span> : <span>Sign In to Dashboard</span>}
+            <ArrowRight className="w-4 h-4 text-neutral-950" />
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default AdminLoginPage;

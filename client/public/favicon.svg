@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#grad)" />
+  <!-- Mountain & Travel Compass Symbol -->
+  <path d="M 20 72 L 42 35 L 56 55 L 68 38 L 84 72 Z" fill="#ffffff" opacity="0.95" />
+  <path d="M 42 35 L 50 48 L 36 60 Z" fill="#bae6fd" opacity="0.6" />
+  <circle cx="70" cy="28" r="7" fill="#fbbf24" />
+  <path d="M 28 72 L 76 72" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+</svg>

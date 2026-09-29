@@ -1,0 +1,205 @@
+const Destination = require('../models/Destination');
+const Tour = require('../models/Tour');
+const Blog = require('../models/Blog');
+const SEO = require('../models/SEO');
+const { createSlug } = require('../utils/slugify');
+
+// @desc    Get all published destinations
+// @route   GET /api/destinations
+// @access  Public
+exports.getDestinations = async (req, res, next) => {
+  try {
+    const { state, featured, search } = req.query;
+    const query = { isPublished: true };
+
+    if (state) {
+      query.state = { $regex: state, $options: 'i' };
+    }
+    if (featured === 'true') {
+      query.isFeatured = true;
+    }
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { state: { $regex: search, $options: 'i' } },
+        { shortDescription: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const destinations = await Destination.find(query).sort({ isFeatured: -1, name: 1 });
+
+    res.status(200).json({
+      success: true,
+      count: destinations.length,
+      data: destinations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get single destination by slug with its tours and blogs
+// @route   GET /api/destinations/:slug
+// @access  Public
+exports.getDestinationBySlug = async (req, res, next) => {
+  try {
+    const destination = await Destination.findOne({ slug: req.params.slug, isPublished: true });
+
+    if (!destination) {
+      return res.status(404).json({ success: false, message: 'Destination not found' });
+    }
+
+    // Find tours matching this destination
+    const tours = await Tour.find({
+      destination: { $regex: destination.name, $options: 'i' },
+      isPublished: true,
+    }).limit(6);
+
+    // Find related blogs
+    const blogs = await Blog.find({
+      $or: [
+        { title: { $regex: destination.name, $options: 'i' } },
+        { content: { $regex: destination.name, $options: 'i' } },
+      ],
+      isPublished: true,
+    }).limit(4);
+
+    // Related other destinations
+    const relatedDestinations = await Destination.find({
+      _id: { $ne: destination._id },
+      isPublished: true,
+    }).limit(4);
+
+    // SEO Data fallback
+    const seoData = await SEO.findOne({ slug: `/destinations/${destination.slug}` });
+
+    res.status(200).json({
+      success: true,
+      data: destination,
+      tours,
+      blogs,
+      relatedDestinations,
+      seo: seoData || {
+        title: destination.seo?.metaTitle || `${destination.name} Tour Guide & Packages | Baglamukhi Tour & Travels`,
+        metaDescription: destination.seo?.metaDescription || destination.shortDescription.slice(0, 160),
+        canonicalUrl: `/destinations/${destination.slug}`,
+        focusKeyword: destination.seo?.focusKeyword || `things to do in ${destination.name}`,
+        ogImage: destination.heroImage?.url,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get all destinations for admin
+// @route   GET /api/destinations/admin/all
+// @access  Private/Admin
+exports.getAdminDestinations = async (req, res, next) => {
+  try {
+    const destinations = await Destination.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      count: destinations.length,
+      data: destinations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Create destination
+// @route   POST /api/destinations
+// @access  Private/Admin
+exports.createDestination = async (req, res, next) => {
+  try {
+    let { slug, name } = req.body;
+    if (!slug && name) {
+      slug = createSlug(name);
+    }
+
+    const destination = await Destination.create({ ...req.body, slug });
+
+    await SEO.findOneAndUpdate(
+      { slug: `/destinations/${destination.slug}` },
+      {
+        pageType: 'destination',
+        pageId: destination._id.toString(),
+        slug: `/destinations/${destination.slug}`,
+        title: destination.seo?.metaTitle || `${destination.name} Travel Guide | Baglamukhi Tour & Travels`,
+        metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
+        canonicalUrl: `http://localhost:5173/destinations/${destination.slug}`,
+        focusKeyword: `${destination.name} travel guide`,
+        ogTitle: destination.name,
+        ogImage: destination.heroImage?.url,
+        schemaType: 'TouristDestination',
+      },
+      { upsert: true, new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      data: destination,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Update destination
+// @route   PUT /api/destinations/:id
+// @access  Private/Admin
+exports.updateDestination = async (req, res, next) => {
+  try {
+    const destination = await Destination.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!destination) {
+      return res.status(404).json({ success: false, message: 'Destination not found' });
+    }
+
+    await SEO.findOneAndUpdate(
+      { slug: `/destinations/${destination.slug}` },
+      {
+        pageType: 'destination',
+        pageId: destination._id.toString(),
+        slug: `/destinations/${destination.slug}`,
+        title: destination.seo?.metaTitle || `${destination.name} Travel Guide`,
+        metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
+        ogImage: destination.heroImage?.url,
+      },
+      { upsert: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: destination,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Delete destination
+// @route   DELETE /api/destinations/:id
+// @access  Private/Admin
+exports.deleteDestination = async (req, res, next) => {
+  try {
+    const destination = await Destination.findById(req.params.id);
+    if (!destination) {
+      return res.status(404).json({ success: false, message: 'Destination not found' });
+    }
+
+    await SEO.deleteOne({ slug: `/destinations/${destination.slug}` });
+    await destination.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: 'Destination deleted successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
