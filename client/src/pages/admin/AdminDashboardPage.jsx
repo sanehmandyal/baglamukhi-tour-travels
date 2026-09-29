@@ -13,12 +13,15 @@ import {
   ArrowRight,
   RefreshCw,
   Search,
+  Database,
+  Sparkles,
 } from 'lucide-react';
 import api from '../../api/axios';
 
 const AdminDashboardPage = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [seeding, setSeeding] = useState(false);
 
   const fetchStats = async () => {
     setLoading(true);
@@ -37,6 +40,24 @@ const AdminDashboardPage = () => {
   useEffect(() => {
     fetchStats();
   }, []);
+
+  const handleSeedDatabase = async () => {
+    if (!window.confirm('Populate database with all authentic Himachal Tour Packages, Fleet Services, Destinations, Blogs, FAQs & Testimonials?')) {
+      return;
+    }
+    setSeeding(true);
+    try {
+      const res = await api.post('/seed');
+      if (res.data.success) {
+        alert('🎉 Database successfully populated with Himachal tour packages, authentic fleet, destinations, blogs, FAQs, and testimonials!');
+        fetchStats();
+      }
+    } catch (err) {
+      alert('Seeding notice: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSeeding(false);
+    }
+  };
 
   const handleUpdateStatus = async (bookingId, newStatus) => {
     try {
@@ -67,13 +88,25 @@ const AdminDashboardPage = () => {
           <p className="text-xs text-slate-500">Live booking status, inquiries, inventory and content stats</p>
         </div>
 
-        <button
-          onClick={fetchStats}
-          className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl transition flex items-center shadow-sm"
-        >
-          <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
-          Refresh Stats
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleSeedDatabase}
+            disabled={seeding}
+            className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition flex items-center shadow-sm disabled:opacity-50"
+            title="Populate complete inventory if database is fresh"
+          >
+            <Sparkles className={`w-3.5 h-3.5 mr-1.5 text-amber-700 ${seeding ? 'animate-spin' : ''}`} />
+            {seeding ? 'Populating Data...' : '⚡ Seed / Sync Inventory'}
+          </button>
+
+          <button
+            onClick={fetchStats}
+            className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl transition flex items-center shadow-sm"
+          >
+            <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+            Refresh Stats
+          </button>
+        </div>
       </div>
 
       {/* KPI Cards Grid */}

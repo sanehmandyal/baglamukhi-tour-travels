@@ -26,6 +26,8 @@ const AdminServicesPage = () => {
     isActive: true
   });
 
+  const [seeding, setSeeding] = useState(false);
+
   const fetchServices = async () => {
     try {
       setLoading(true);
@@ -37,6 +39,20 @@ const AdminServicesPage = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSeedServices = async () => {
+    setSeeding(true);
+    try {
+      const res = await api.post('/seed');
+      if (res.data?.success) {
+        await fetchServices();
+      }
+    } catch (err) {
+      alert('Error initializing fleet services: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -142,20 +158,36 @@ const AdminServicesPage = () => {
           <h1 className="text-2xl font-bold text-slate-900">Transport & Fleet Services</h1>
           <p className="text-sm text-slate-500">Manage Cabs, Airport Taxi Transfers, Tempo Travellers, and Luxury Coaches</p>
         </div>
-        <button
-          onClick={() => handleOpenModal()}
-          className="flex items-center space-x-2 bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-cyan-600/20 transition-all"
-        >
-          <FiPlus className="w-4 h-4" />
-          <span>Add New Vehicle / Service</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleSeedServices}
+            disabled={seeding}
+            className="flex items-center space-x-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-3.5 py-2.5 rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50"
+          >
+            <span>{seeding ? 'Populating...' : '⚡ Seed Himachali Fleet'}</span>
+          </button>
+          <button
+            onClick={() => handleOpenModal()}
+            className="flex items-center space-x-2 bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-cyan-600/20 transition-all"
+          >
+            <FiPlus className="w-4 h-4" />
+            <span>Add New Vehicle / Service</span>
+          </button>
+        </div>
       </div>
 
       {loading ? (
         <div className="text-center py-12 text-slate-400">Loading transport services...</div>
       ) : services.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-2xl border border-slate-200">
+        <div className="bg-white p-12 text-center rounded-2xl border border-slate-200 space-y-4">
           <p className="text-slate-500 font-medium">No transport services registered yet.</p>
+          <button
+            onClick={handleSeedServices}
+            disabled={seeding}
+            className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition shadow-sm inline-flex items-center"
+          >
+            {seeding ? 'Populating Data...' : '⚡ Auto-Populate Himachali Fleet (Cruiser, Tempo, Innova, Sumo)'}
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

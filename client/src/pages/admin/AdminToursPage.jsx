@@ -9,6 +9,8 @@ const AdminToursPage = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
+  const [seeding, setSeeding] = useState(false);
+
   const fetchTours = async () => {
     setLoading(true);
     try {
@@ -20,6 +22,20 @@ const AdminToursPage = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSeedTours = async () => {
+    setSeeding(true);
+    try {
+      const res = await api.post('/seed');
+      if (res.data.success) {
+        await fetchTours();
+      }
+    } catch (err) {
+      alert('Error initializing packages: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -40,9 +56,9 @@ const AdminToursPage = () => {
 
   const filtered = tours.filter(
     (t) =>
-      t.title.toLowerCase().includes(search.toLowerCase()) ||
-      t.destination.toLowerCase().includes(search.toLowerCase()) ||
-      t.category.toLowerCase().includes(search.toLowerCase())
+      t.title?.toLowerCase().includes(search.toLowerCase()) ||
+      t.destination?.toLowerCase().includes(search.toLowerCase()) ||
+      t.category?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -53,13 +69,23 @@ const AdminToursPage = () => {
           <p className="text-xs text-slate-500">Add, edit itineraries, customize inclusions, and manage pricing</p>
         </div>
 
-        <Link
-          to="/admin/tours/new"
-          className="px-4 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition flex items-center shadow-sm"
-        >
-          <Plus className="w-4 h-4 mr-1.5" />
-          Create New Tour Package
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleSeedTours}
+            disabled={seeding}
+            className="px-3.5 py-2.5 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition flex items-center shadow-sm disabled:opacity-50"
+          >
+            {seeding ? 'Populating...' : '⚡ Seed Default Packages'}
+          </button>
+
+          <Link
+            to="/admin/tours/new"
+            className="px-4 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition flex items-center shadow-sm"
+          >
+            <Plus className="w-4 h-4 mr-1.5" />
+            Create New Tour Package
+          </Link>
+        </div>
       </div>
 
       {/* Search Filter */}
@@ -81,7 +107,16 @@ const AdminToursPage = () => {
         {loading ? (
           <div className="p-12 text-center text-slate-500 text-xs">Loading tours inventory...</div>
         ) : filtered.length === 0 ? (
-          <div className="p-12 text-center text-slate-500 text-xs">No tour packages found.</div>
+          <div className="p-12 text-center space-y-4">
+            <p className="text-slate-500 text-xs">No tour packages found in database.</p>
+            <button
+              onClick={handleSeedTours}
+              disabled={seeding}
+              className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition shadow-sm inline-flex items-center"
+            >
+              {seeding ? 'Populating Data...' : '⚡ Auto-Populate Initial Himachal Tour Packages'}
+            </button>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">

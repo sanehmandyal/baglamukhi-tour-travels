@@ -7,6 +7,8 @@ const AdminDestinationsPage = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [seeding, setSeeding] = useState(false);
+
   const fetchDestinations = async () => {
     setLoading(true);
     try {
@@ -18,6 +20,20 @@ const AdminDestinationsPage = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSeedDestinations = async () => {
+    setSeeding(true);
+    try {
+      const res = await api.post('/seed');
+      if (res.data?.success) {
+        await fetchDestinations();
+      }
+    } catch (err) {
+      alert('Error initializing destinations: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -44,18 +60,38 @@ const AdminDestinationsPage = () => {
           <p className="text-xs text-slate-500">Manage destination guides, attractions, and SEO data</p>
         </div>
 
-        <Link
-          to="/admin/destinations/new"
-          className="px-4 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition flex items-center shadow-sm"
-        >
-          <Plus className="w-4 h-4 mr-1.5" />
-          Add New Destination
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleSeedDestinations}
+            disabled={seeding}
+            className="px-3.5 py-2.5 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition flex items-center shadow-sm disabled:opacity-50"
+          >
+            {seeding ? 'Populating...' : '⚡ Seed Destinations'}
+          </button>
+          <Link
+            to="/admin/destinations/new"
+            className="px-4 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition flex items-center shadow-sm"
+          >
+            <Plus className="w-4 h-4 mr-1.5" />
+            Add New Destination
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-soft overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-xs text-slate-500">Loading destinations...</div>
+        ) : destinations.length === 0 ? (
+          <div className="p-12 text-center space-y-4">
+            <p className="text-slate-500 text-xs">No destinations found in database.</p>
+            <button
+              onClick={handleSeedDestinations}
+              disabled={seeding}
+              className="px-4 py-2 text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl transition shadow-sm inline-flex items-center"
+            >
+              {seeding ? 'Populating Data...' : '⚡ Auto-Populate Himachal Destinations'}
+            </button>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">

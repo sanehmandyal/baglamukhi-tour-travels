@@ -18,6 +18,9 @@ connectDB().then(async () => {
   try {
     const User = require('./models/User');
     const Tour = require('./models/Tour');
+    const Service = require('./models/Service');
+    const Destination = require('./models/Destination');
+
     const existing = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
     if (!existing) {
       await User.create({
@@ -32,9 +35,12 @@ connectDB().then(async () => {
     }
 
     const tourCount = await Tour.countDocuments();
-    if (tourCount === 0) {
-      console.log('[Seed] No tours found in database. Auto-seeding full packages, destinations, and fleet...');
-      await seedDatabase(false);
+    const serviceCount = await Service.countDocuments();
+    const destinationCount = await Destination.countDocuments();
+
+    if (tourCount === 0 || serviceCount === 0 || destinationCount === 0) {
+      console.log('[Seed] Database inventory is empty or missing services/tours. Auto-seeding full Himachal packages & fleet...');
+      await seedDatabase(true);
       console.log('[Seed] Auto-seeding completed successfully!');
     }
   } catch (err) {
@@ -177,18 +183,7 @@ app.use(['/api/settings', '/settings'], require('./routes/settingsRoutes'));
 app.use(['/api/search', '/search'], require('./routes/searchRoutes'));
 
 // Database Seed / Re-sync Endpoint
-app.all(['/api/seed', '/seed'], async (req, res) => {
-  try {
-    const seedDatabase = require('./seed/seedData');
-    await seedDatabase(false);
-    res.status(200).json({
-      success: true,
-      message: 'Full tour packages, authentic Himachali fleet, and destinations seeded successfully!',
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
+app.use(['/api/seed', '/seed'], require('./routes/seedRoutes'));
 
 // Serve frontend in production if built locally/monorepo
 const fs = require('fs');

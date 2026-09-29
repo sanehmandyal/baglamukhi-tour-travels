@@ -28,22 +28,21 @@ const seedDatabase = async (dropDb = true) => {
       console.log('[Seed] Connected to MongoDB database...');
     }
 
-    if (dropDb) {
-      await Promise.allSettled([
-        Destination.deleteMany({}),
-        Tour.deleteMany({}),
-        Location.deleteMany({}),
-        Service.deleteMany({}),
-        Hotel.deleteMany({}),
-        Blog.deleteMany({}),
-        Testimonial.deleteMany({}),
-        FAQ.deleteMany({}),
-        Gallery.deleteMany({}),
-        SEO.deleteMany({}),
-        SiteSettings.deleteMany({}),
-      ]);
-      console.log('[Seed] Cleared collections for fresh seed.');
-    }
+    // Always clear collections before populating seed inventory
+    await Promise.allSettled([
+      Destination.deleteMany({}),
+      Tour.deleteMany({}),
+      Location.deleteMany({}),
+      Service.deleteMany({}),
+      Hotel.deleteMany({}),
+      Blog.deleteMany({}),
+      Testimonial.deleteMany({}),
+      FAQ.deleteMany({}),
+      Gallery.deleteMany({}),
+      SEO.deleteMany({}),
+      SiteSettings.deleteMany({}),
+    ]);
+    console.log('[Seed] Cleared collections for fresh seed.');
 
     // 1. Create or Update Admin User
     let adminUser = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
