@@ -4,14 +4,24 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const PilgrimageToursPage = () => {
-  const [tours, setTours] = useState([]);
+  const pilgrimageDefaults = DEFAULT_TOURS.filter(
+    (t) => t.category === 'Pilgrimage' || t.title.includes('Devi') || t.title.includes('Baglamukhi') || t.title.includes('Amritsar')
+  );
+  const [tours, setTours] = useState(pilgrimageDefaults);
 
   useEffect(() => {
     const fetchTours = async () => {
-      const res = await api.get('/tours?category=Pilgrimage');
-      if (res.data.success) setTours(res.data.data);
+      try {
+        const res = await api.get('/tours?category=Pilgrimage');
+        if (res.data?.success && res.data.data?.length > 0) {
+          setTours(res.data.data);
+        }
+      } catch (err) {
+        // use defaults
+      }
     };
     fetchTours();
   }, []);

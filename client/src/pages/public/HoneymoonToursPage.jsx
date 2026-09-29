@@ -4,22 +4,24 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const HoneymoonToursPage = () => {
-  const [tours, setTours] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const honeymoonDefaults = DEFAULT_TOURS.filter(
+    (t) => t.category === 'Honeymoon' || t.title.toLowerCase().includes('honeymoon')
+  );
+  const [tours, setTours] = useState(honeymoonDefaults);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchHoneymoon = async () => {
       try {
         const res = await api.get('/tours?category=Honeymoon');
-        if (res.data.success) {
+        if (res.data?.success && res.data.data?.length > 0) {
           setTours(res.data.data);
         }
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     };
     fetchHoneymoon();

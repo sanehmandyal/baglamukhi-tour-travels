@@ -25,6 +25,7 @@ import BookingForm from '../../components/forms/BookingForm';
 import TourCard from '../../components/cards/TourCard';
 import { TourPackageSchema, FAQSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const TourDetailPage = () => {
   const { slug } = useParams();
@@ -42,15 +43,24 @@ const TourDetailPage = () => {
       setError('');
       try {
         const res = await api.get(`/tours/${slug}`);
-        if (res.data.success) {
+        if (res.data?.success && res.data.data) {
           setTour(res.data.data);
           setRelatedTours(res.data.relatedTours || []);
+          return;
         }
       } catch (err) {
-        setError('Tour package not found or currently unavailable.');
-      } finally {
-        setLoading(false);
+        // Fallback to default
       }
+
+      // Check in DEFAULT_TOURS
+      const found = DEFAULT_TOURS.find((t) => t.slug === slug || t._id === slug);
+      if (found) {
+        setTour(found);
+        setRelatedTours(DEFAULT_TOURS.filter((t) => t.slug !== slug).slice(0, 3));
+      } else {
+        setError('Tour package not found or currently unavailable.');
+      }
+      setLoading(false);
     };
 
     fetchTour();

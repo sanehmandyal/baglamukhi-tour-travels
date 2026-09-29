@@ -4,14 +4,22 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const WeekendTripsPage = () => {
-  const [tours, setTours] = useState([]);
+  const weekendDefaults = DEFAULT_TOURS.filter((t) => t.category === 'Weekend' || t.duration?.days <= 3);
+  const [tours, setTours] = useState(weekendDefaults);
 
   useEffect(() => {
     const fetchTours = async () => {
-      const res = await api.get('/tours?category=Weekend');
-      if (res.data.success) setTours(res.data.data);
+      try {
+        const res = await api.get('/tours?category=Weekend');
+        if (res.data?.success && res.data.data?.length > 0) {
+          setTours(res.data.data);
+        }
+      } catch (err) {
+        // use defaults
+      }
     };
     fetchTours();
   }, []);

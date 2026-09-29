@@ -4,14 +4,22 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const FamilyToursPage = () => {
-  const [tours, setTours] = useState([]);
+  const familyDefaults = DEFAULT_TOURS.filter((t) => t.category === 'Family');
+  const [tours, setTours] = useState(familyDefaults);
 
   useEffect(() => {
     const fetchTours = async () => {
-      const res = await api.get('/tours?category=Family');
-      if (res.data.success) setTours(res.data.data);
+      try {
+        const res = await api.get('/tours?category=Family');
+        if (res.data?.success && res.data.data?.length > 0) {
+          setTours(res.data.data);
+        }
+      } catch (err) {
+        // use defaults
+      }
     };
     fetchTours();
   }, []);

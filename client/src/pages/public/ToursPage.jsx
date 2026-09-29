@@ -6,6 +6,7 @@ import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
 import TourFilterForm from '../../components/forms/TourFilterForm';
+import { DEFAULT_TOURS } from '../../data/initialData';
 
 const ToursPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,6 +27,38 @@ const ToursPage = () => {
     search: searchParams.get('search') || '',
   });
 
+  const getFilteredDefaults = () => {
+    let result = [...DEFAULT_TOURS];
+    if (filters.destination) {
+      result = result.filter(
+        (t) =>
+          t.destination?.toLowerCase().includes(filters.destination.toLowerCase()) ||
+          t.title?.toLowerCase().includes(filters.destination.toLowerCase())
+      );
+    }
+    if (filters.category) {
+      result = result.filter(
+        (t) => t.category?.toLowerCase() === filters.category.toLowerCase()
+      );
+    }
+    if (filters.duration) {
+      const days = parseInt(filters.duration, 10);
+      if (!isNaN(days)) {
+        result = result.filter((t) => t.duration?.days === days);
+      }
+    }
+    if (filters.search) {
+      const q = filters.search.toLowerCase();
+      result = result.filter(
+        (t) =>
+          t.title?.toLowerCase().includes(q) ||
+          t.destination?.toLowerCase().includes(q) ||
+          t.overview?.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  };
+
   const fetchTours = async () => {
     setLoading(true);
     try {
@@ -39,13 +72,22 @@ const ToursPage = () => {
       params.append('limit', 9);
 
       const res = await api.get(`/tours?${params.toString()}`);
-      if (res.data.success) {
+      if (res.data?.success && res.data.data?.length > 0) {
         setTours(res.data.data);
-        setTotalCount(res.data.total);
-        setTotalPages(res.data.totalPages);
+        setTotalCount(res.data.total || res.data.data.length);
+        setTotalPages(res.data.totalPages || 1);
+      } else {
+        const defaults = getFilteredDefaults();
+        setTours(defaults);
+        setTotalCount(defaults.length);
+        setTotalPages(Math.ceil(defaults.length / 9) || 1);
       }
     } catch (error) {
       console.error('Error loading tours:', error);
+      const defaults = getFilteredDefaults();
+      setTours(defaults);
+      setTotalCount(defaults.length);
+      setTotalPages(Math.ceil(defaults.length / 9) || 1);
     } finally {
       setLoading(false);
     }

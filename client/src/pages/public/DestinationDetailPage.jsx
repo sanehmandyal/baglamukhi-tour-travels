@@ -21,6 +21,7 @@ import TourCard from '../../components/cards/TourCard';
 import BlogCard from '../../components/cards/BlogCard';
 import { FAQSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
+import { DEFAULT_DESTINATIONS, DEFAULT_TOURS } from '../../data/initialData';
 
 const DestinationDetailPage = () => {
   const { slug } = useParams();
@@ -39,17 +40,32 @@ const DestinationDetailPage = () => {
       setError('');
       try {
         const res = await api.get(`/destinations/${slug}`);
-        if (res.data.success) {
+        if (res.data?.success && res.data.data) {
           setDestination(res.data.data);
           setTours(res.data.tours || []);
           setBlogs(res.data.blogs || []);
           setRelatedDestinations(res.data.relatedDestinations || []);
+          return;
         }
       } catch (err) {
-        setError('Destination guide not found.');
-      } finally {
-        setLoading(false);
+        // Fallback to defaults
       }
+
+      const found = DEFAULT_DESTINATIONS.find((d) => d.slug === slug || d._id === slug);
+      if (found) {
+        setDestination(found);
+        setTours(
+          DEFAULT_TOURS.filter(
+            (t) =>
+              t.destination?.toLowerCase().includes(found.name.toLowerCase()) ||
+              found.name.toLowerCase().includes(t.destination?.toLowerCase())
+          ).slice(0, 3)
+        );
+        setRelatedDestinations(DEFAULT_DESTINATIONS.filter((d) => d.slug !== slug).slice(0, 3));
+      } else {
+        setError('Destination guide not found.');
+      }
+      setLoading(false);
     };
 
     fetchDestination();

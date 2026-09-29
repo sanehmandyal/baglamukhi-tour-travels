@@ -27,15 +27,16 @@ import BlogCard from '../../components/cards/BlogCard';
 import TestimonialCard from '../../components/cards/TestimonialCard';
 import ServiceCard from '../../components/cards/ServiceCard';
 import { useSettings } from '../../context/SettingsContext';
+import { DEFAULT_TOURS, DEFAULT_DESTINATIONS, DEFAULT_CABS } from '../../data/initialData';
 
 const HomePage = () => {
   const { settings } = useSettings();
   const { openInquiry } = useOutletContext();
   const navigate = useNavigate();
 
-  const [featuredTours, setFeaturedTours] = useState([]);
-  const [destinations, setDestinations] = useState([]);
-  const [services, setServices] = useState([]);
+  const [featuredTours, setFeaturedTours] = useState(DEFAULT_TOURS.slice(0, 6));
+  const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS.slice(0, 4));
+  const [services, setServices] = useState(DEFAULT_CABS.slice(0, 3));
   const [blogs, setBlogs] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [faqs, setFaqs] = useState([]);
@@ -52,7 +53,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [toursRes, destRes, servRes, blogRes, testRes, faqRes] = await Promise.all([
+        const [toursRes, destRes, servRes, blogRes, testRes, faqRes] = await Promise.allSettled([
           api.get('/tours?limit=6&featured=true'),
           api.get('/destinations?featured=true'),
           api.get('/services'),
@@ -61,12 +62,27 @@ const HomePage = () => {
           api.get('/faqs?category=General'),
         ]);
 
-        if (toursRes.data.success) setFeaturedTours(toursRes.data.data);
-        if (destRes.data.success) setDestinations(destRes.data.data);
-        if (servRes.data.success) setServices(servRes.data.data);
-        if (blogRes.data.success) setBlogs(blogRes.data.data);
-        if (testRes.data.success) setTestimonials(testRes.data.data);
-        if (faqRes.data.success) setFaqs(faqRes.data.data);
+        if (toursRes.status === 'fulfilled' && toursRes.value?.data?.success && toursRes.value.data.data?.length > 0) {
+          setFeaturedTours(toursRes.value.data.data);
+        } else {
+          setFeaturedTours(DEFAULT_TOURS.slice(0, 6));
+        }
+
+        if (destRes.status === 'fulfilled' && destRes.value?.data?.success && destRes.value.data.data?.length > 0) {
+          setDestinations(destRes.value.data.data);
+        } else {
+          setDestinations(DEFAULT_DESTINATIONS.slice(0, 4));
+        }
+
+        if (servRes.status === 'fulfilled' && servRes.value?.data?.success && servRes.value.data.data?.length > 0) {
+          setServices(servRes.value.data.data);
+        } else {
+          setServices(DEFAULT_CABS.slice(0, 3));
+        }
+
+        if (blogRes.status === 'fulfilled' && blogRes.value?.data?.success) setBlogs(blogRes.value.data.data);
+        if (testRes.status === 'fulfilled' && testRes.value?.data?.success) setTestimonials(testRes.value.data.data);
+        if (faqRes.status === 'fulfilled' && faqRes.value?.data?.success) setFaqs(faqRes.value.data.data);
       } catch (error) {
         console.error('Error fetching home data:', error);
       } finally {

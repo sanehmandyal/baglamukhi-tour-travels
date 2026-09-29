@@ -5,6 +5,7 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import DestinationCard from '../../components/cards/DestinationCard';
+import { DEFAULT_DESTINATIONS } from '../../data/initialData';
 
 const DestinationsPage = () => {
   const [destinations, setDestinations] = useState([]);
@@ -17,11 +18,14 @@ const DestinationsPage = () => {
       setLoading(true);
       try {
         const res = await api.get('/destinations');
-        if (res.data.success) {
+        if (res.data?.success && res.data.data?.length > 0) {
           setDestinations(res.data.data);
+        } else {
+          setDestinations(DEFAULT_DESTINATIONS);
         }
       } catch (err) {
         console.error('Error fetching destinations:', err);
+        setDestinations(DEFAULT_DESTINATIONS);
       } finally {
         setLoading(false);
       }
