@@ -3,6 +3,8 @@ import api from '../../api/axios';
 import { FiPlus, FiEdit2, FiTrash2, FiTruck, FiUsers, FiDollarSign, FiX, FiCheck } from 'react-icons/fi';
 import ImageUploadInput from '../../components/common/ImageUploadInput';
 
+import { syncDatabaseInventory } from '../../utils/seedHelper';
+
 const AdminServicesPage = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,12 +47,10 @@ const AdminServicesPage = () => {
   const handleSeedServices = async () => {
     setSeeding(true);
     try {
-      const res = await api.post('/seed');
-      if (res.data?.success) {
-        await fetchServices();
-      }
+      await syncDatabaseInventory('services');
+      await fetchServices();
     } catch (err) {
-      alert('Error initializing fleet services: ' + (err.response?.data?.message || err.message));
+      alert('Seeding notice: ' + (err.response?.data?.message || err.message));
     } finally {
       setSeeding(false);
     }

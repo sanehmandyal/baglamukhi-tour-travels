@@ -17,6 +17,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import api from '../../api/axios';
+import { syncDatabaseInventory } from '../../utils/seedHelper';
 
 const AdminDashboardPage = () => {
   const [stats, setStats] = useState(null);
@@ -47,11 +48,9 @@ const AdminDashboardPage = () => {
     }
     setSeeding(true);
     try {
-      const res = await api.post('/seed');
-      if (res.data.success) {
-        alert('🎉 Database successfully populated with Himachal tour packages, authentic fleet, destinations, blogs, FAQs, and testimonials!');
-        fetchStats();
-      }
+      const res = await syncDatabaseInventory('all');
+      alert('🎉 Database successfully synced with Himachal tour packages, authentic fleet, destinations, blogs, FAQs, and testimonials!');
+      await fetchStats();
     } catch (err) {
       alert('Seeding notice: ' + (err.response?.data?.message || err.message));
     } finally {

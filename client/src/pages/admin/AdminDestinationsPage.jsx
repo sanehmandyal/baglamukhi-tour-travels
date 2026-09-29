@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, MapPin } from 'lucide-react';
 import api from '../../api/axios';
+import { syncDatabaseInventory } from '../../utils/seedHelper';
 
 const AdminDestinationsPage = () => {
   const [destinations, setDestinations] = useState([]);
@@ -26,12 +27,10 @@ const AdminDestinationsPage = () => {
   const handleSeedDestinations = async () => {
     setSeeding(true);
     try {
-      const res = await api.post('/seed');
-      if (res.data?.success) {
-        await fetchDestinations();
-      }
+      await syncDatabaseInventory('destinations');
+      await fetchDestinations();
     } catch (err) {
-      alert('Error initializing destinations: ' + (err.response?.data?.message || err.message));
+      alert('Seeding notice: ' + (err.response?.data?.message || err.message));
     } finally {
       setSeeding(false);
     }

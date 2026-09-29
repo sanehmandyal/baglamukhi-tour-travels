@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, Compass, Search, Check, X } from 'lucide-react';
 import api from '../../api/axios';
+import { syncDatabaseInventory } from '../../utils/seedHelper';
 
 const AdminToursPage = () => {
   const navigate = useNavigate();
@@ -28,12 +29,10 @@ const AdminToursPage = () => {
   const handleSeedTours = async () => {
     setSeeding(true);
     try {
-      const res = await api.post('/seed');
-      if (res.data.success) {
-        await fetchTours();
-      }
+      await syncDatabaseInventory('tours');
+      await fetchTours();
     } catch (err) {
-      alert('Error initializing packages: ' + (err.response?.data?.message || err.message));
+      alert('Seeding notice: ' + (err.response?.data?.message || err.message));
     } finally {
       setSeeding(false);
     }
