@@ -954,7 +954,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Cab & Taxi',
         icon: 'Car',
         featuredImage: {
-          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Toyota_Innova_Crysta.jpg/1280px-Toyota_Innova_Crysta.jpg',
+          url: '/images/cabs/toyota-innova-crysta.jpg',
           alt: 'Toyota Innova Crysta and Himachali tourist cab booking',
         },
         shortDescription: 'Professional 24/7 cab booking in Chandigarh, Mohali, and Himachal Pradesh. Clean Dzire, Etios, Ertiga, and Innova Crysta with trained mountain drivers.',
@@ -965,10 +965,10 @@ const seedDatabase = async (dropDb = true) => {
           { vehicleName: 'Toyota Innova Crysta (Luxury SUV)', seatingCapacity: '6-7 Passengers + 1 Driver', luggageCapacity: '4 Large Bags + Roof Rack', ratePerKm: 18, fullDayRate: 4800, features: ['Dual AC', 'Captain Seats', 'Extra Legroom', 'Superior Hill Comfort'] },
         ],
         popularRoutes: [
-          { route: 'Chandigarh to Manali', distance: '270 km', sedanPrice: 4499, suvPrice: 6499, tempoPrice: 10500 },
-          { route: 'Chandigarh to Shimla', distance: '115 km', sedanPrice: 2499, suvPrice: 3799, tempoPrice: 6200 },
-          { route: 'Chandigarh to Dharamshala', distance: '245 km', sedanPrice: 4199, suvPrice: 5999, tempoPrice: 9500 },
-          { route: 'Chandigarh to Delhi Airport', distance: '250 km', sedanPrice: 3299, suvPrice: 4799, tempoPrice: 8000 },
+          { route: 'Chandigarh to Manali', distance: '270 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
+          { route: 'Chandigarh to Shimla', distance: '115 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
+          { route: 'Chandigarh to Dharamshala', distance: '245 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
+          { route: 'Chandigarh to Delhi Airport', distance: '250 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
         ],
         features: ['No Hidden Surcharges', 'Verified Local Chauffeurs', 'GPS Enabled Fleet', '24/7 Customer Hotline'],
         faqs: [
@@ -988,7 +988,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Airport Transfer',
         icon: 'Plane',
         featuredImage: {
-          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Suzuki_Dzire_2024_ZXI%2B.jpg/1280px-Suzuki_Dzire_2024_ZXI%2B.jpg',
+          url: '/images/cabs/swift-dzire.jpg',
           alt: 'Airport transfer cab service Chandigarh and Delhi with Dzire sedan',
         },
         shortDescription: 'Punctual, stress-free airport pickup and drop service for Chandigarh International Airport (IXC) and New Delhi IGI Airport (DEL).',
@@ -997,9 +997,9 @@ const seedDatabase = async (dropDb = true) => {
           { vehicleName: 'Executive Sedan Airport Cab', seatingCapacity: '4 Persons', luggageCapacity: '3 Suitcases', ratePerKm: 12, fullDayRate: 2800, features: ['Flight Tracking', 'Meet & Greet', 'Punctual Guarantee'] },
         ],
         popularRoutes: [
-          { route: 'Chandigarh Airport to Shimla', distance: '125 km', sedanPrice: 2799, suvPrice: 4299, tempoPrice: 6999 },
-          { route: 'Chandigarh Airport to Manali', distance: '280 km', sedanPrice: 4699, suvPrice: 6899, tempoPrice: 11000 },
-          { route: 'Chandigarh to Delhi IGI Airport', distance: '260 km', sedanPrice: 3499, suvPrice: 4999, tempoPrice: 8499 },
+          { route: 'Chandigarh Airport to Shimla', distance: '125 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
+          { route: 'Chandigarh Airport to Manali', distance: '280 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
+          { route: 'Chandigarh to Delhi IGI Airport', distance: '260 km', sedanPrice: 0, suvPrice: 0, tempoPrice: 0 },
         ],
         features: ['Flight Tracking', 'Zero Cancellation Fee for Rescheduled Flights', 'Clean & Odor-free Cars'],
         faqs: [],
@@ -1017,7 +1017,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Mountain Cruiser 4x4',
         icon: 'Shield',
         featuredImage: {
-          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg/1280px-Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg',
+          url: '/images/cabs/force-cruiser-4x4.jpg',
           alt: 'Force Cruiser and Trax Toofan 4x4 Mountain Fleet',
         },
         shortDescription: 'Rugged 9 to 13 seater Force Mountain Cruisers with 4x4 power, high ground clearance, and heavy-duty suspension for tough Himachal valleys and remote Shaktipeeths.',
@@ -1046,7 +1046,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Tempo Traveller',
         icon: 'Users',
         featuredImage: {
-          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Force_Traveller_Luxury.jpg/1280px-Force_Traveller_Luxury.jpg',
+          url: '/images/cabs/force-tempo-traveller-12.jpg',
           alt: 'Luxury Force Urbania and Tempo Traveller rental for group tours',
         },
         shortDescription: 'Hire ultra-luxury Force Urbania and Maharaja Tempo Travellers (12, 17, 20 & 26 Seater) with 2x1 Maharaja pushback seats, individual AC vents, and LED entertainment for group tours.',
@@ -1076,7 +1076,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Mountain SUV 4x4',
         icon: 'Compass',
         featuredImage: {
-          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg/1280px-Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg',
+          url: '/images/cabs/mahindra-thar-4x4.jpg',
           alt: 'Mahindra Thar and Scorpio Mountain 4x4 Fleet',
         },
         shortDescription: 'High-performance Mahindra Scorpio-N and Bolero 4x4 SUVs built to navigate steep Himalayan passes, fresh snowfall, and unpaved mountain roads.',

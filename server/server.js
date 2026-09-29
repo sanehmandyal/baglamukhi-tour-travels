@@ -98,6 +98,62 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+// Health check and root endpoints (serves Render health check and root URL visits)
+app.head(['/', '/api/health', '/health'], (req, res) => {
+  res.status(200).end();
+});
+
+app.get(['/', '/api/health', '/health'], (req, res) => {
+  if (req.accepts('html') && !req.xhr && !req.path.startsWith('/api/')) {
+    return res.status(200).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Baglamukhi Tour & Travels API Server</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+          .card { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 40px; max-width: 600px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; }
+          .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700; font-size: 13px; padding: 6px 14px; border-radius: 9999px; margin-bottom: 20px; border: 1px solid rgba(16, 185, 129, 0.3); }
+          .dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
+          @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+          h1 { margin: 0 0 10px; font-size: 24px; color: #ffffff; }
+          p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin: 0 0 25px; }
+          .btn { display: inline-block; background: #f59e0b; color: #000; font-weight: 700; padding: 12px 24px; border-radius: 12px; text-decoration: none; transition: background 0.2s; font-size: 14px; }
+          .btn:hover { background: #d97706; }
+          .endpoints { text-align: left; background: #0f172a; border-radius: 12px; padding: 16px; margin-top: 25px; font-size: 12px; font-family: monospace; color: #cbd5e1; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="badge"><div class="dot"></div> Server Online & Operational</div>
+          <h1>Baglamukhi Tour & Travels API</h1>
+          <p>The backend production API service is connected to MongoDB and ready to serve travel inquiries, tour packages, Himachal taxi reservations, and content.</p>
+          <a href="https://baglamukhi-tour-travels.vercel.app" class="btn" target="_blank">Open Main Website →</a>
+          <div class="endpoints">
+            <div><strong>Status:</strong> HTTP 200 OK</div>
+            <div><strong>Environment:</strong> ${process.env.NODE_ENV || 'production'}</div>
+            <div><strong>Uptime:</strong> ${Math.floor(process.uptime())}s</div>
+            <div><strong>Tours API:</strong> /api/tours</div>
+            <div><strong>Destinations API:</strong> /api/destinations</div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+  }
+  res.status(200).json({
+    status: 'online',
+    service: 'Baglamukhi Tour & Travels Backend API',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    database: 'connected',
+    frontend: 'https://baglamukhi-tour-travels.vercel.app',
+    message: 'Backend is active and ready to serve requests.',
+  });
+});
+
 // SEO direct root endpoints: robots.txt and sitemap.xml
 const { generateSitemapXml, getRobotsTxt } = require('./controllers/seoController');
 app.get('/sitemap.xml', generateSitemapXml);
@@ -132,22 +188,6 @@ app.all(['/api/seed', '/seed'], async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-});
-
-// Health check endpoints
-app.get(['/', '/api/health'], (req, res) => {
-  res.status(200).json({
-    status: 'online',
-    timestamp: new Date().toISOString(),
-    service: 'Baglamukhi Tour & Travels Backend API',
-    uptime: process.uptime(),
-    frontend: 'https://baglamukhi-tour-travels.vercel.app',
-    message: 'Backend is active and ready to serve requests.',
-  });
-});
-
-app.head(['/', '/api/health'], (req, res) => {
-  res.status(200).end();
 });
 
 // Serve frontend in production if built locally/monorepo
