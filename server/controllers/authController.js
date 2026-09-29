@@ -49,46 +49,63 @@ exports.login = async (req, res, next) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    let user = await User.findOne({ email: cleanEmail }).select('+password');
 
-    // Auto-seed default admin if database is new or admin user does not exist yet
-    if (!user && cleanEmail === 'admin@baglamukhitourtravels.com') {
-      if (password === 'Admin@123456') {
-        user = await User.create({
-          name: 'Baglamukhi Tour & Travels Admin',
-          email: 'admin@baglamukhitourtravels.com',
-          password: 'Admin@123456',
-          role: 'admin',
-          phone: '+91 98000 00000',
-          isActive: true,
-        });
-      } else {
-        return res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-    } else if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    } else {
-      const isMatch = await user.matchPassword(password);
-      if (!isMatch) {
-        // Fallback for default master password if altered
-        if (cleanEmail === 'admin@baglamukhitourtravels.com' && password === 'Admin@123456') {
-          user.password = 'Admin@123456';
-          user.isActive = true;
-          await user.save();
-        } else {
-          return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    // 1. Direct Master Admin bypass & auto-sync
+    if (cleanEmail === 'admin@baglamukhitourtravels.com' && password === 'Admin@123456') {
+      let adminUser = await User.findOne({ email: cleanEmail });
+      if (!adminUser) {
+        try {
+          adminUser = await User.create({
+            name: 'Baglamukhi Tour & Travels Admin',
+            email: 'admin@baglamukhitourtravels.com',
+            password: 'Admin@123456',
+            role: 'admin',
+            phone: '+91 98000 00000',
+            isActive: true,
+          });
+        } catch (createErr) {
+          // If already created in race condition
+          adminUser = await User.findOne({ email: cleanEmail });
         }
+      }
+
+      if (adminUser) {
+        if (!adminUser.isActive) {
+          adminUser.isActive = true;
+          await adminUser.save();
+        }
+        const token = adminUser.getSignedJwtToken();
+        return res.status(200).json({
+          success: true,
+          token,
+          user: {
+            id: adminUser._id,
+            name: adminUser.name,
+            email: adminUser.email,
+            role: adminUser.role,
+          },
+        });
       }
     }
 
+    // 2. Standard lookup for custom updated passwords
+    const user = await User.findOne({ email: cleanEmail }).select('+password');
+    if (!user) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+
     if (!user.isActive) {
-      user.isActive = true;
-      await user.save();
+      return res.status(401).json({ success: false, message: 'Your account is deactivated' });
     }
 
     const token = user.getSignedJwtToken();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       token,
       user: {
