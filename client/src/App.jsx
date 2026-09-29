@@ -25,8 +25,6 @@ import CustomizedToursPage from './pages/public/CustomizedToursPage';
 import GroupToursPage from './pages/public/GroupToursPage';
 import CorporateTravelPage from './pages/public/CorporateTravelPage';
 import BusRentalsPage from './pages/public/BusRentalsPage';
-import HotelsPage from './pages/public/HotelsPage';
-import HotelDetailPage from './pages/public/HotelDetailPage';
 import BlogPage from './pages/public/BlogPage';
 import BlogDetailPage from './pages/public/BlogDetailPage';
 import FAQsPage from './pages/public/FAQsPage';
@@ -55,7 +53,6 @@ import AdminLocationEditPage from './pages/admin/AdminLocationEditPage';
 import AdminBookingsPage from './pages/admin/AdminBookingsPage';
 import AdminBlogsPage from './pages/admin/AdminBlogsPage';
 import AdminBlogEditPage from './pages/admin/AdminBlogEditPage';
-import AdminHotelsPage from './pages/admin/AdminHotelsPage';
 import AdminServicesPage from './pages/admin/AdminServicesPage';
 import AdminTestimonialsPage from './pages/admin/AdminTestimonialsPage';
 import AdminFAQsPage from './pages/admin/AdminFAQsPage';
@@ -98,7 +95,6 @@ const App = () => {
           <Route path="blogs" element={<AdminBlogsPage />} />
           <Route path="blogs/new" element={<AdminBlogEditPage />} />
           <Route path="blogs/edit/:id" element={<AdminBlogEditPage />} />
-          <Route path="hotels" element={<AdminHotelsPage />} />
           <Route path="services" element={<AdminServicesPage />} />
           <Route path="testimonials" element={<AdminTestimonialsPage />} />
           <Route path="faqs" element={<AdminFAQsPage />} />
@@ -129,8 +125,6 @@ const App = () => {
           <Route path="/group-tours" element={<GroupToursPage />} />
           <Route path="/corporate-travel" element={<CorporateTravelPage />} />
           <Route path="/bus-rentals" element={<BusRentalsPage />} />
-          <Route path="/hotels" element={<HotelsPage />} />
-          <Route path="/hotels/:slug" element={<HotelDetailPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogDetailPage />} />
           <Route path="/faqs" element={<FAQsPage />} />

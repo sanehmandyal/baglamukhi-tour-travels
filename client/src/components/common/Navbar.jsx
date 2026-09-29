@@ -225,10 +225,6 @@ const Navbar = ({ onOpenInquiry }) => {
               Cab & Taxi
             </NavLink>
 
-            <NavLink to="/hotels" className={navLinkClass}>
-              Hotels
-            </NavLink>
-
             <NavLink to="/blog" className={navLinkClass}>
               Blog
             </NavLink>
@@ -379,13 +375,6 @@ const Navbar = ({ onOpenInquiry }) => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Cab & Taxi Services
-            </Link>
-            <Link
-              to="/hotels"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Hotels & Resorts
             </Link>
             <Link
               to="/blog"

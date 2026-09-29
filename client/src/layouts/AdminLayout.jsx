@@ -40,7 +40,6 @@ const AdminLayout = () => {
     { label: 'Destinations', icon: MapPin, to: '/admin/destinations' },
     { label: 'Local City SEO', icon: Map, to: '/admin/locations' },
     { label: 'Cabs & Services', icon: Car, to: '/admin/services' },
-    { label: 'Hotels & Resorts', icon: Hotel, to: '/admin/hotels' },
     { label: 'Bookings / Inquiries', icon: CalendarCheck, to: '/admin/bookings' },
     { label: 'Travel Blogs CMS', icon: BookOpen, to: '/admin/blogs' },
     { label: 'SEO Master Engine', icon: Search, to: '/admin/seo' },

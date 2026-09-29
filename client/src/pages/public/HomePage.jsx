@@ -396,9 +396,9 @@ const HomePage = () => {
             </div>
 
             <div className="text-center lg:text-right">
-              <span className="text-xs text-slate-600 block">Package starts from</span>
-              <span className="text-3xl font-black text-amber-700 font-display block">₹14,499</span>
-              <span className="text-xs text-slate-500 block mb-4">per person for 6 Days Yatra</span>
+              <span className="text-xs text-amber-700 font-bold uppercase tracking-wider block">Special Yatra Offer</span>
+              <span className="text-2xl font-black text-slate-900 font-display block">Price on Request</span>
+              <span className="text-xs text-slate-500 block mb-4">Customized 6 Days Yatra Package</span>
               <Link
                 to="/pilgrimage-tours"
                 className="inline-flex items-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md transition"
