@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
+import Logo from './Logo';
 
 const Footer = () => {
   const { settings } = useSettings();
@@ -68,13 +69,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 py-12">
           {/* Brand & About */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-yellow-400 text-neutral-950 flex items-center justify-center font-bold shadow-md shadow-yellow-500/20">
-                <Compass className="w-6 h-6 text-neutral-950" />
-              </div>
-              <span className="text-xl font-black tracking-tight text-white font-display">
-                BAGLAMUKHI <span className="text-yellow-400">TOUR & TRAVELS</span>
-              </span>
+            <Link to="/" className="inline-block">
+              <Logo variant="light" size="lg" />
             </Link>
             <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-sm">
               Premier Himachal and North India pilgrimage and holiday tour operator. We specialize in Maa Baglamukhi Darshan, 9 Devi Yatra, Manali holidays, Shimla packages, Chandigarh airport cabs, and luxury tempo traveller rentals.

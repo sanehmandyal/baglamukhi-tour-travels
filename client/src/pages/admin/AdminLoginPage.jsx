@@ -33,9 +33,16 @@ const AdminLoginPage = () => {
       <SEOHead title="Admin Login | Baglamukhi Tour & Travels" noindex={true} />
 
       <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-md w-full space-y-6 border-2 border-yellow-400/40">
-        <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-neutral-950 text-yellow-400 flex items-center justify-center mx-auto shadow-xl border border-yellow-400/50">
-            <Shield className="w-8 h-8 text-yellow-400" />
+        <div className="text-center space-y-3">
+          <div className="relative w-20 h-20 mx-auto">
+            <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 opacity-70 blur-md animate-pulse"></div>
+            <div className="relative w-20 h-20 rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shadow-xl">
+              <img
+                src="/baglamukhi-temple-logo.jpg"
+                alt="Maa Baglamukhi Temple"
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
           </div>
           <h1 className="text-2xl font-black text-neutral-950 font-display">Baglamukhi Admin Portal</h1>
           <p className="text-xs text-neutral-500 font-medium">Sign in to manage tours, bookings, fleet, and SEO</p>

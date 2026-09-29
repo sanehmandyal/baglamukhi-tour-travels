@@ -71,10 +71,16 @@ const AdminLayout = () => {
       >
         <div>
           {/* Logo & Header */}
-          <div className="p-5 border-b border-neutral-800 flex items-center justify-between">
-            <Link to="/admin/dashboard" className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-xl bg-yellow-400 text-neutral-950 flex items-center justify-center font-bold shadow-md shadow-yellow-500/20">
-                <Shield className="w-5 h-5 text-neutral-950" />
+          <div className="p-4 border-b border-neutral-800 flex items-center justify-between">
+            <Link to="/admin/dashboard" className="flex items-center space-x-2.5 group">
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 rounded-full overflow-hidden p-[1.5px] bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 shadow-md shadow-amber-500/20">
+                  <img
+                    src="/baglamukhi-temple-logo.jpg"
+                    alt="Baglamukhi Maa Temple"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
               </div>
               <div>
                 <span className="text-sm font-black text-white block leading-none font-display">BAGLAMUKHI</span>
