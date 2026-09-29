@@ -719,3 +719,73 @@ Driving on the steep ghats, sharp curves, and high mountain passes of Himachal P
     isPublished: true,
   },
 ];
+
+export const DEFAULT_TESTIMONIALS = [
+  {
+    _id: 'test_1',
+    name: 'Suresh & Sunita Sharma',
+    location: 'Delhi NCR',
+    rating: 5,
+    tourTaken: '9 Devi Darshan & Maa Baglamukhi Dham',
+    comment:
+      'We booked a 6-day 9 Devi Darshan yatra with Baglamukhi Tour & Travels. Our Innova Crysta driver Anil ji was exceptionally courteous and guided our elderly parents at every temple including Bankhandi Baglamukhi havan and Chintpurni. The hotels provided pure vegetarian food with hot water.',
+    travelerType: 'Family Pilgrimage',
+    date: 'February 2026',
+    verified: true,
+  },
+  {
+    _id: 'test_2',
+    name: 'Vikramjit Singh Sandhu',
+    location: 'Ludhiana, Punjab',
+    rating: 5,
+    tourTaken: 'Manali & Solang Valley Snow Holiday',
+    comment:
+      'Booked a 5-day Manali holiday from Chandigarh airport. Clean Innova, comfortable deluxe resort with scenic Beas river view, and smooth crossing through Atal Tunnel to Sissu. Zero hidden costs, everything was clear from day one.',
+    travelerType: 'Family Vacation',
+    date: 'January 2026',
+    verified: true,
+  },
+  {
+    _id: 'test_3',
+    name: 'Dr. Meenakshi Iyer & Family',
+    location: 'Bengaluru / Mumbai',
+    rating: 5,
+    tourTaken: 'Shimla Manali Combined Tour',
+    comment:
+      'Coming from South India, we were anxious about mountain roads. Baglamukhi Travels assigned a senior hill chauffeur who drove with utmost safety. VIP darshan at Maa Baglamukhi and unforgettable snow activities at Kufri & Solang.',
+    travelerType: 'Couple & Family',
+    date: 'March 2026',
+    verified: true,
+  },
+];
+
+export const DEFAULT_FAQS = [
+  {
+    _id: 'faq_1',
+    category: 'General',
+    question: 'How do I book a tour package or cab with Baglamukhi Tour & Travels?',
+    answer:
+      'You can easily submit an inquiry on our website, call our 24/7 direct numbers, or click the WhatsApp button. Our mountain trip coordinators will provide a personalized itinerary and custom quote within 15 minutes.',
+  },
+  {
+    _id: 'faq_2',
+    category: 'Cabs',
+    question: 'Are toll taxes, parking charges, and driver allowances included in the cab quotes?',
+    answer:
+      'Yes! All our customized holiday packages and multi-day cab bookings are 100% transparent and inclusive of all state border taxes, green cess, hill permits, highway tolls, parking charges, and driver night allowances.',
+  },
+  {
+    _id: 'faq_3',
+    category: 'Pilgrimage',
+    question: 'Can special yellow havan rituals and VIP darshan be arranged at Maa Baglamukhi Temple?',
+    answer:
+      'Yes. Being headquartered near Maa Baglamukhi Temple in Bankhandi (Kangra), we assist devotees with havan priest bookings, yellow samagri arrangements, and seamless darshan guidance.',
+  },
+  {
+    _id: 'faq_4',
+    category: 'General',
+    question: 'Can you pick up our family directly from Chandigarh Airport, Kalka, or Delhi NCR?',
+    answer:
+      'Yes, we provide 24/7 doorstep pickup and return drop from Chandigarh International Airport (IXC), Chandigarh Railway Station, Kalka Railway Station (for toy train connections), Una Himachal (Vande Bharat), and Delhi NCR.',
+  },
+];

@@ -27,7 +27,7 @@ import BlogCard from '../../components/cards/BlogCard';
 import TestimonialCard from '../../components/cards/TestimonialCard';
 import ServiceCard from '../../components/cards/ServiceCard';
 import { useSettings } from '../../context/SettingsContext';
-import { DEFAULT_TOURS, DEFAULT_DESTINATIONS, DEFAULT_CABS, DEFAULT_BLOGS } from '../../data/initialData';
+import { DEFAULT_TOURS, DEFAULT_DESTINATIONS, DEFAULT_CABS, DEFAULT_BLOGS, DEFAULT_TESTIMONIALS, DEFAULT_FAQS } from '../../data/initialData';
 
 const HomePage = () => {
   const { settings } = useSettings();
@@ -38,8 +38,8 @@ const HomePage = () => {
   const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS.slice(0, 4));
   const [services, setServices] = useState(DEFAULT_CABS.slice(0, 6));
   const [blogs, setBlogs] = useState(DEFAULT_BLOGS.slice(0, 3));
-  const [testimonials, setTestimonials] = useState([]);
-  const [faqs, setFaqs] = useState([]);
+  const [testimonials, setTestimonials] = useState(DEFAULT_TESTIMONIALS);
+  const [faqs, setFaqs] = useState(DEFAULT_FAQS);
   const [loading, setLoading] = useState(true);
 
   // Hero search state: "When to go", "From where", "To where", "How many members"
@@ -89,9 +89,23 @@ const HomePage = () => {
           setServices(DEFAULT_CABS.slice(0, 6));
         }
 
-        if (blogRes.status === 'fulfilled' && blogRes.value?.data?.success) setBlogs(blogRes.value.data.data);
-        if (testRes.status === 'fulfilled' && testRes.value?.data?.success) setTestimonials(testRes.value.data.data);
-        if (faqRes.status === 'fulfilled' && faqRes.value?.data?.success) setFaqs(faqRes.value.data.data);
+        if (blogRes.status === 'fulfilled' && blogRes.value?.data?.success && blogRes.value.data.data?.length > 0) {
+          setBlogs(blogRes.value.data.data);
+        } else {
+          setBlogs(DEFAULT_BLOGS.slice(0, 3));
+        }
+
+        if (testRes.status === 'fulfilled' && testRes.value?.data?.success && testRes.value.data.data?.length > 0) {
+          setTestimonials(testRes.value.data.data);
+        } else {
+          setTestimonials(DEFAULT_TESTIMONIALS);
+        }
+
+        if (faqRes.status === 'fulfilled' && faqRes.value?.data?.success && faqRes.value.data.data?.length > 0) {
+          setFaqs(faqRes.value.data.data);
+        } else {
+          setFaqs(DEFAULT_FAQS);
+        }
       } catch (error) {
         console.error('Error fetching home data:', error);
       } finally {
