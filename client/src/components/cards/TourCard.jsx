@@ -80,14 +80,11 @@ const TourCard = ({ tour, onBookNow }) => {
         {/* Pricing and Action Buttons */}
         <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
           <div>
-            <span className="text-[11px] text-slate-400 block font-medium">Starting from</span>
-            <div className="flex items-baseline space-x-1.5">
-              <span className="text-lg font-extrabold text-slate-900">₹{startingPrice.toLocaleString('en-IN')}</span>
-              {originalPrice && originalPrice > startingPrice && (
-                <span className="text-xs text-slate-400 line-through">₹{originalPrice.toLocaleString('en-IN')}</span>
-              )}
-              <span className="text-[10px] text-slate-500">/ person</span>
+            <span className="text-[11px] font-bold text-amber-600 block uppercase tracking-wider">Direct Local Rates</span>
+            <div className="flex items-center space-x-1">
+              <span className="text-sm sm:text-base font-extrabold text-slate-900">Price on Request</span>
             </div>
+            <span className="text-[10px] text-slate-500 font-medium">Customizable Itinerary</span>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -102,7 +99,7 @@ const TourCard = ({ tour, onBookNow }) => {
               onClick={() => (onBookNow ? onBookNow(tour) : navigate(`/booking?package=${encodeURIComponent(tour.title)}`))}
               className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition flex items-center"
             >
-              <span>Book</span>
+              <span>Inquire</span>
               <ArrowRight className="w-3 h-3 ml-1" />
             </button>
           </div>

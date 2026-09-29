@@ -33,15 +33,15 @@ const ServiceCard = ({ service, onBookCab }) => {
           {/* Fleet models preview */}
           {service.fleetOptions && service.fleetOptions.length > 0 && (
             <div className="space-y-2 mb-4">
-              {service.fleetOptions.slice(0, 2).map((fleet, idx) => (
-                <div key={idx} className="bg-neutral-50 p-2.5 rounded-xl border border-neutral-100 text-xs flex justify-between items-center">
+              {service.fleetOptions.slice(0, 3).map((fleet, idx) => (
+                <div key={idx} className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs flex justify-between items-center">
                   <div>
-                    <span className="font-bold text-neutral-900 block">{fleet.vehicleName}</span>
-                    <span className="text-[11px] text-neutral-500">{fleet.seatingCapacity}</span>
+                    <span className="font-bold text-slate-900 block">{fleet.vehicleName}</span>
+                    <span className="text-[11px] text-slate-500 font-medium">{fleet.seatingCapacity} • Hill Certified</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-black text-yellow-600 block">₹{fleet.ratePerKm}/km</span>
-                    <span className="text-[10px] text-neutral-400">or ₹{fleet.fullDayRate}/day</span>
+                    <span className="text-xs font-bold text-amber-600 block">Best Fare</span>
+                    <span className="text-[10px] text-slate-400">On Request</span>
                   </div>
                 </div>
               ))}
@@ -49,10 +49,10 @@ const ServiceCard = ({ service, onBookCab }) => {
           )}
 
           {/* Features check list */}
-          <div className="space-y-1.5 text-xs text-neutral-600">
+          <div className="space-y-1.5 text-xs text-slate-600">
             {service.features && service.features.slice(0, 3).map((feat, idx) => (
               <div key={idx} className="flex items-center text-[11px]">
-                <ShieldCheck className="w-3.5 h-3.5 text-yellow-500 mr-1.5 flex-shrink-0" />
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-500 mr-1.5 flex-shrink-0" />
                 <span>{feat}</span>
               </div>
             ))}

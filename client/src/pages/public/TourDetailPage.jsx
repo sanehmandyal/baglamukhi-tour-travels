@@ -141,14 +141,14 @@ const TourDetailPage = () => {
 
             <div className="flex items-center space-x-3">
               <a
-                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919816012345'}`}
-                className="px-4 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center"
+                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+                className="px-4 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-amber-50 hover:text-amber-700 rounded-xl transition flex items-center"
               >
-                <PhoneCall className="w-3.5 h-3.5 mr-1.5 text-brand-600" />
+                <PhoneCall className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
                 Call Agent
               </a>
               <a
-                href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919816012345'}?text=Hi%20Thakur%20Travels,%20I%20am%20interested%20in%20${encodeURIComponent(tour.title)}`}
+                href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20am%20interested%20in%20${encodeURIComponent(tour.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow-sm"
@@ -381,14 +381,14 @@ const TourDetailPage = () => {
             />
 
             {/* Quick Assistance Box */}
-            <div className="bg-gradient-to-br from-brand-900 to-slate-900 text-white p-6 rounded-3xl space-y-3 text-center">
-              <h4 className="text-sm font-bold font-display">Need Customization or Group Discount?</h4>
+            <div className="bg-gradient-to-br from-slate-900 to-amber-950 text-white p-6 rounded-3xl space-y-3 text-center border border-slate-800 shadow-lg">
+              <h4 className="text-sm font-bold font-display text-amber-400">Need Customization or Group Rate?</h4>
               <p className="text-xs text-slate-300 font-light leading-relaxed">
-                Talk directly with our Himachal tour expert to customize hotels, add nights, or request Tempo Travellers.
+                Talk directly with our Himachal tour expert to customize hotels, add nights, or request Force Cruiser / Tempo Travellers.
               </p>
               <a
-                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919816012345'}`}
-                className="block py-2.5 text-xs font-bold text-slate-900 bg-cyan-300 hover:bg-cyan-200 rounded-xl transition"
+                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+                className="block py-2.5 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl shadow-md transition"
               >
                 Call {settings.primaryPhone || '+91 98000 00000'}
               </a>

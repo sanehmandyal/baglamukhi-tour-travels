@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import React from 'react';
+import { useOutletContext, Link } from 'react-router-dom';
 import {
   Car,
   ShieldCheck,
@@ -8,153 +8,364 @@ import {
   Clock,
   MapPin,
   Sparkles,
-  ArrowRight,
+  Users,
+  Briefcase,
+  Mountain,
+  Zap,
+  MessageCircle,
+  Compass,
 } from 'lucide-react';
-import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
-import ServiceCard from '../../components/cards/ServiceCard';
 import { useSettings } from '../../context/SettingsContext';
 
 const CabsPage = () => {
   const { settings } = useSettings();
   const { openInquiry } = useOutletContext();
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const res = await api.get('/services');
-        if (res.data.success) {
-          setServices(res.data.data);
-        }
-      } catch (err) {
-        console.error('Error fetching cabs:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchServices();
-  }, []);
+  const himachaliFleet = [
+    {
+      name: 'Toyota Innova Crysta',
+      category: 'Luxury Hill Cruiser (6+1 / 7+1 Seater)',
+      tagline: 'The undisputed King of Himachal mountain roads and long family tours.',
+      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
+      passengers: '6 to 7 Passengers',
+      luggage: '4 Large Bags + 2 Hand Bags',
+      transmission: 'High-Power Diesel / Mountain Tuned',
+      terrain: 'Himachal Ghats, Rohtang, Kinnaur, Spiti Highway',
+      features: [
+        'Dual Automatic AC with rear roof vents',
+        'Plush Captain reclining seats with armrests',
+        'Top safety with 7 airbags & hill-hold assist',
+        'Smooth suspension on uneven hill curves',
+        'Experienced Himachali mountain chauffeur',
+      ],
+      idealFor: 'Family Vacations, Luxury Pilgrimage, Honeymoon Trips, Corporate Transfers',
+    },
+    {
+      name: 'Force Cruiser / Trax Toofan 4x4',
+      category: 'Rugged Himachal Mountain Cruiser (9 to 13 Seater)',
+      tagline: 'High-capacity rugged mountain warrior built for tough hill terrain and large groups.',
+      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
+      passengers: '9 to 13 Passengers',
+      luggage: 'Heavy Rooftop Carrier + Boot Space',
+      transmission: 'Heavy Duty 4x4 / Low Range Hill Gear',
+      terrain: 'Spiti Valley, Sach Pass, Pangi, Sangla, Remote Temples',
+      features: [
+        'High ground clearance (210mm) for rocky roads',
+        'Sturdy metal body with roof luggage rack',
+        'Powerful low-end torque for steep hill climbs',
+        'Comfortable cushioned bench & front-facing options',
+        'Local driver with 10+ years rough terrain experience',
+      ],
+      idealFor: 'Pilgrimage Groups, Village Tours, Offbeat Trekking Teams, Remote Valleys',
+    },
+    {
+      name: 'Force Urbania & Luxury Tempo Traveller',
+      category: 'Maharaja Luxury Van (12, 17, 20 & 26 Seater)',
+      tagline: 'First-class luxury travel for large families, wedding groups, and Devi Darshan yatras.',
+      image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
+      passengers: '12 / 17 / 20 / 26 Seater Options',
+      luggage: 'Dedicated Rear Luggage Boot + Roof Carrier',
+      transmission: 'High Torque Common Rail Diesel',
+      terrain: 'Chandigarh to Manali, Shimla, Dharamshala, Amritsar',
+      features: [
+        '2x1 Luxury Maharaja Pushback Recliner Seats',
+        'Individual AC blowers and LED reading lamps',
+        'USB fast charging ports on every seat row',
+        'HD LED TV, Bluetooth sound system for Bhajans/Music',
+        'Air suspension / Parabolic leaf for jerk-free ride',
+      ],
+      idealFor: '9 Devi Darshan Yatra, Joint Families, Corporate Offsites, Group Tours',
+    },
+    {
+      name: 'Mahindra Scorpio-N / Bolero 4x4',
+      category: 'Mountain SUV & High Clearance Fleet (6+1 Seater)',
+      tagline: 'Dominant Himalayan SUV designed to conquer high altitude passes effortlessly.',
+      image: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80',
+      passengers: '6 to 7 Passengers',
+      luggage: '3 Large Suitcases + Roof Space',
+      transmission: 'mStallion / mHawk 4x4 Shift-on-Fly',
+      terrain: 'Atal Tunnel, Kaza, Chandratal, Kunzum Pass, Jalori Pass',
+      features: [
+        'High mountain torque with 4Xplor terrain modes',
+        'High ground clearance for water crossings & snow',
+        'Comfortable ventilated seating & climate control',
+        'GPS live tracking with SOS button',
+        'Certified high-altitude mountain driver',
+      ],
+      idealFor: 'Adventure Lovers, Snow Trips, Off-road Expeditions, Spiti Safaris',
+    },
+    {
+      name: 'Maruti Suzuki Ertiga Smart Hybrid',
+      category: 'Spacious Family MPV (5+1 Seater)',
+      tagline: 'The most popular budget-friendly family cab for smooth Himachal highway rides.',
+      image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=800&q=80',
+      passengers: '4 to 6 Passengers',
+      luggage: '2 Large Bags + 2 Small Bags',
+      transmission: 'Smooth Petrol Hybrid',
+      terrain: 'Chandigarh, Shimla, Kalka, Kangra, Dharamshala',
+      features: [
+        'Flexible 3-row seating with reclining backrests',
+        'Smooth air conditioning throughout the cabin',
+        'Excellent ride economy with no compromise on comfort',
+        'Clean, sanitized, non-smoking fleet guarantee',
+        'Friendly Pahadi driver with local city guidance',
+      ],
+      idealFor: 'Small Families, Senior Citizens, Weekend Getaways, Airport Transfers',
+    },
+    {
+      name: 'Maruti Suzuki Swift Dzire',
+      category: 'Comfortable Hill Sedan (3+1 Seater)',
+      tagline: 'Quick, agile, and comfortable sedan for couples and small family sightseeing.',
+      image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80',
+      passengers: '3 to 4 Passengers',
+      luggage: '2 Large Suitcases + Handbags',
+      transmission: 'Smooth Fuel Efficient Engine',
+      terrain: 'Shimla, Kasauli, Chandigarh Airport, Devi Temples',
+      features: [
+        'Chilled AC and comfortable cushioned rear seats',
+        'Large boot space for luggage',
+        'Quick navigation through narrow hill station curves',
+        'Punctual airport & railway station transfers',
+        'Affordable direct rates without surge pricing',
+      ],
+      idealFor: 'Couples, Solo Travellers, Airport Pickups, Kalka Toy Train Transfers',
+    },
+  ];
 
-  const routeRates = [
-    { route: 'Chandigarh to Manali (One Way / Round Trip)', sedan: '₹4,499', ertiga: '₹5,499', innova: '₹6,999', tempo: '₹10,500' },
-    { route: 'Chandigarh to Shimla (One Way / Round Trip)', sedan: '₹2,499', ertiga: '₹3,299', innova: '₹3,999', tempo: '₹6,200' },
-    { route: 'Chandigarh to Dharamshala / McLeodganj', sedan: '₹4,199', ertiga: '₹5,199', innova: '₹6,499', tempo: '₹9,500' },
-    { route: 'Chandigarh to Amritsar Golden Temple', sedan: '₹3,799', ertiga: '₹4,799', innova: '₹5,799', tempo: '₹8,999' },
-    { route: 'Chandigarh to Dalhousie & Khajjiar', sedan: '₹4,799', ertiga: '₹5,999', innova: '₹7,499', tempo: '₹11,500' },
-    { route: 'Chandigarh to Delhi IGI Airport', sedan: '₹3,299', ertiga: '₹4,299', innova: '₹4,999', tempo: '₹8,000' },
+  const popularRoutes = [
+    { from: 'Chandigarh Airport (IXC)', to: 'Maa Baglamukhi Temple & Kangra', duration: '4.5 Hours', road: 'Smooth 4-Lane NH' },
+    { from: 'Chandigarh', to: 'Manali (via Atal Tunnel & Solang)', duration: '6.5 Hours', road: 'Expressway Tunnels' },
+    { from: 'Chandigarh', to: 'Shimla & Kufri', duration: '3.5 Hours', road: 'Himalayan Expressway' },
+    { from: 'Chandigarh / Una', to: 'Dharamshala & McLeodganj', duration: '5.0 Hours', road: 'Scenic Kangra Valley' },
+    { from: 'Kalka Railway Station', to: 'Shimla / Chail / Kasauli', duration: '2.5 Hours', road: 'Mountain Highway' },
+    { from: 'Delhi IGI Airport', to: 'Chandigarh & Himachal Pradesh', duration: '4.0 Hours', road: 'Grand Trunk Road NH-44' },
+    { from: 'Chandigarh', to: 'Spiti Valley (Kaza / Tabo / Chandratal)', duration: 'Multi-Day', road: '4x4 Mountain Route' },
+    { from: 'Chandigarh', to: 'Amritsar Golden Temple & Wagah', duration: '4.0 Hours', road: 'Smooth 6-Lane Highway' },
   ];
 
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title="Cab Booking & Taxi Service in Chandigarh & Himachal | Thakur Travels"
-        description="Book 24/7 reliable taxi service in Chandigarh for Shimla, Manali, Dharamshala, and Delhi airport. Lowest per km rates, clean cars, mountain-certified drivers."
+        title="Himachal Cabs, Cruisers & Tempo Traveller Rental | Baglamukhi Tour & Travels"
+        description="Hire Toyota Innova Crysta, Force Cruiser 4x4, Luxury Tempo Travellers, and Ertiga cabs in Chandigarh & Himachal with verified Pahadi drivers. Best direct rates on request."
         canonical="/cabs"
-        keywords={['cab booking Chandigarh', 'taxi service Chandigarh to Manali', 'Innova Crysta rental', 'Shimla taxi service']}
+        keywords={['Innova Crysta Himachal', 'Force Cruiser 4x4 rental', 'Tempo Traveller Chandigarh to Manali', 'Baglamukhi temple taxi service']}
       />
 
-      <Breadcrumbs items={[{ name: 'Cab & Taxi Services', url: '/cabs' }]} />
+      <Breadcrumbs items={[{ name: 'Cabs & Mountain Fleet', url: '/cabs' }]} />
 
-      {/* Hero Banner */}
-      <section className="bg-gradient-to-br from-brand-900 via-brand-800 to-slate-900 py-14 text-white text-center px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto space-y-3">
-          <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 mr-1 text-amberGold-400" />
-            24/7 Instant Dispatch Fleet
+      {/* Hero Banner with Gold Accents */}
+      <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/80 py-16 text-white text-center px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,158,11,0.15),transparent_50%)]"></div>
+        <div className="max-w-4xl mx-auto space-y-4 relative z-10">
+          <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-amber-400/20 text-amber-400 border border-amber-400/30 uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+            24/7 Verified Mountain Fleet & Expert Pahadi Drivers
           </span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold font-display">
-            Chandigarh & Himachal Cab Booking
+          <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight">
+            Himachal Cabs, Cruisers & <span className="text-amber-400">Tempo Travellers</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto font-light leading-relaxed">
-            Travel across North India safely in clean, sanitized, and GPS-enabled Sedan, Ertiga, Innova Crysta, and Tempo Travellers with polite local chauffeurs.
+          <p className="text-xs sm:text-base text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+            Travel across Himachal Pradesh, Punjab, and North India safely. Choose from our luxury Innova Crystas, rugged 4x4 Cruisers, and Maharaja Tempo Travellers with zero hidden charges.
           </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => openInquiry('Cab Booking Inquiry')}
+              className="px-6 py-3 text-xs sm:text-sm font-black text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-xl shadow-lg shadow-amber-500/25 transition transform hover:-translate-y-0.5"
+            >
+              Inquire Best Cab Rate
+            </button>
+            <a
+              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20need%20a%20cab%20quote`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center space-x-2"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>WhatsApp Direct</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Fleet Services Grid */}
+      {/* Fleet Showcase Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 font-display mb-6">Our Verified Vehicle Fleet</h2>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
+            <div>
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Premium Mountain Fleet</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+                Choose Your Himachali Ride
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 max-w-sm">
+              All vehicles are commercially licensed with full tourist permits, state tax clearance, and expert hill chauffeurs.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((srv) => (
-              <ServiceCard key={srv._id} service={srv} onBookCab={() => openInquiry(srv.title)} />
+            {himachaliFleet.map((cab, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 hover:border-amber-400/80 shadow-soft hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  {/* Vehicle Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img
+                      src={cab.image}
+                      alt={cab.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-3 py-1 text-[11px] font-bold text-slate-900 bg-amber-400 backdrop-blur-md rounded-full shadow-sm">
+                        {cab.category.split('(')[0].trim()}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <h3 className="text-lg font-black text-slate-900 group-hover:text-amber-600 transition">
+                        {cab.name}
+                      </h3>
+                      <p className="text-xs text-slate-500 font-medium">{cab.category}</p>
+                      <p className="text-xs text-slate-600 mt-2 leading-relaxed font-light">{cab.tagline}</p>
+                    </div>
+
+                    {/* Quick Specs Badges */}
+                    <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 text-xs">
+                      <div className="flex items-center space-x-1.5 text-slate-700">
+                        <Users className="w-4 h-4 text-amber-600 shrink-0" />
+                        <span className="font-semibold truncate">{cab.passengers}</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5 text-slate-700">
+                        <Briefcase className="w-4 h-4 text-amber-600 shrink-0" />
+                        <span className="font-semibold truncate">{cab.luggage}</span>
+                      </div>
+                      <div className="col-span-2 flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
+                        <Mountain className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span className="text-[11px] text-slate-600 truncate">Terrain: {cab.terrain}</span>
+                      </div>
+                    </div>
+
+                    {/* Key Features */}
+                    <div className="space-y-1.5">
+                      <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider block">
+                        Included Features:
+                      </span>
+                      {cab.features.map((f, fIdx) => (
+                        <div key={fIdx} className="flex items-start text-xs text-slate-600">
+                          <CheckCircle className="w-3.5 h-3.5 text-emerald-500 mr-2 shrink-0 mt-0.5" />
+                          <span>{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Action Card */}
+                <div className="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[10.5px] font-bold text-amber-600 uppercase block">Local Direct Rate</span>
+                    <span className="text-xs font-black text-slate-900">Price on Request</span>
+                  </div>
+                  <button
+                    onClick={() => openInquiry(`Cab Booking: ${cab.name}`)}
+                    className="px-4 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition"
+                  >
+                    Inquire Fleet
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Popular Route Fare Table */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-soft space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        {/* Popular Travel Routes */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-soft space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 font-display">Popular Taxi Route Fixed Fares</h3>
-              <p className="text-xs text-slate-500">Transparent pricing with zero hidden surcharges.</p>
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Direct Pickups & Transfers</span>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-display">
+                Popular Himachal & Punjab Taxi Routes
+              </h3>
+              <p className="text-xs text-slate-500">
+                Doorstep pickup from Chandigarh Airport, Kalka Railway Station, Una (Vande Bharat), and Delhi NCR.
+              </p>
             </div>
             <button
-              onClick={() => openInquiry('Custom Taxi Route Quote')}
-              className="px-4 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition self-start"
+              onClick={() => openInquiry('Custom Route Cab Quote')}
+              className="px-5 py-2.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition self-start"
             >
-              Get Custom Quote
+              Get Custom Route Fare
             </button>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-slate-200 bg-slate-50 text-slate-700 font-bold">
-                  <th className="py-3 px-4">Route & Destination</th>
-                  <th className="py-3 px-3">Sedan (Dzire/Etios)</th>
-                  <th className="py-3 px-3">Ertiga (6-Seater)</th>
-                  <th className="py-3 px-3">Innova Crysta</th>
-                  <th className="py-3 px-3">Tempo Traveller</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-700">
-                {routeRates.map((r, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/80 transition">
-                    <td className="py-3 px-4 font-semibold text-slate-900">{r.route}</td>
-                    <td className="py-3 px-3 text-brand-700 font-bold">{r.sedan}</td>
-                    <td className="py-3 px-3 text-brand-700 font-bold">{r.ertiga}</td>
-                    <td className="py-3 px-3 text-brand-700 font-bold">{r.innova}</td>
-                    <td className="py-3 px-3 text-brand-700 font-bold">{r.tempo}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {popularRoutes.map((route, rIdx) => (
+              <div
+                key={rIdx}
+                className="bg-slate-50 p-4 rounded-2xl border border-slate-200/70 hover:border-amber-400 hover:bg-amber-50/30 transition flex flex-col justify-between space-y-3"
+              >
+                <div>
+                  <div className="flex items-center space-x-1.5 text-xs font-bold text-amber-700 mb-1">
+                    <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span className="truncate">{route.from}</span>
+                  </div>
+                  <div className="text-slate-400 text-xs pl-2">↓</div>
+                  <div className="font-extrabold text-slate-900 text-sm">{route.to}</div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                  <span className="flex items-center">
+                    <Clock className="w-3 h-3 text-slate-400 mr-1" />
+                    {route.duration}
+                  </span>
+                  <button
+                    onClick={() => openInquiry(`Route Taxi: ${route.from} to ${route.to}`)}
+                    className="text-amber-600 font-bold hover:underline"
+                  >
+                    Inquire →
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Why Book Cabs with Baglamukhi Tour & Travels */}
+        {/* Why Choose Baglamukhi Tour & Travels Fleet */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 space-y-2">
-            <h4 className="font-bold text-slate-900 flex items-center">
-              <ShieldCheck className="w-5 h-5 text-emerald-500 mr-2" />
-              Verified Mountain Drivers
-            </h4>
-            <p className="text-xs text-slate-600 font-light leading-relaxed">
-              Every driver in our roster holds commercial tourist permits and has 5+ years of verified hill driving experience on narrow ghat roads.
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <h4 className="font-bold text-slate-900">Verified Pahadi Hill Chauffeurs</h4>
+            <p className="text-xs text-slate-600 leading-relaxed font-light">
+              Every driver holds commercial hill driving authorization and has 5+ years navigating snow, narrow ghats, and high altitude terrain safely.
             </p>
           </div>
 
-          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 space-y-2">
-            <h4 className="font-bold text-slate-900 flex items-center">
-              <Clock className="w-5 h-5 text-brand-600 mr-2" />
-              100% Punctual Pickups
-            </h4>
-            <p className="text-xs text-slate-600 font-light leading-relaxed">
-              We guarantee on-time cab arrivals at your residence, hotel, or airport terminal with flight tracking included.
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3">
+              <Clock className="w-6 h-6" />
+            </div>
+            <h4 className="font-bold text-slate-900">100% Punctual Doorstep Pickup</h4>
+            <p className="text-xs text-slate-600 leading-relaxed font-light">
+              We monitor incoming flights and train arrivals at Chandigarh and Delhi so your cab is waiting at the exit gate with zero delay.
             </p>
           </div>
 
-          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 space-y-2">
-            <h4 className="font-bold text-slate-900 flex items-center">
-              <Phone className="w-5 h-5 text-rose-500 mr-2" />
-              24/7 Road Assistance
-            </h4>
-            <p className="text-xs text-slate-600 font-light leading-relaxed">
-              In the rare event of mechanical issues, our backup vehicle network across Himachal guarantees rapid replacement.
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 space-y-2">
+            <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-3">
+              <Zap className="w-6 h-6" />
+            </div>
+            <h4 className="font-bold text-slate-900">Himachal Wide Backup Network</h4>
+            <p className="text-xs text-slate-600 leading-relaxed font-light">
+              With partner stations in Kangra, Shimla, Manali, Kullu, and Chandigarh, replacement cabs are always available for seamless safety.
             </p>
           </div>
         </div>
