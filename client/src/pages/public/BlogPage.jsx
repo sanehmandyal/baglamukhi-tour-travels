@@ -4,27 +4,30 @@ import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import BlogCard from '../../components/cards/BlogCard';
+import { DEFAULT_BLOGS } from '../../data/initialData';
 
 const BlogPage = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState(DEFAULT_BLOGS);
+  const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState('');
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      setLoading(true);
       try {
         const params = new URLSearchParams();
         if (category) params.append('category', category);
         if (search) params.append('search', search);
 
         const res = await api.get(`/blogs?${params.toString()}`);
-        if (res.data.success) {
+        if (res.data.success && res.data.data?.length > 0) {
           setBlogs(res.data.data);
+        } else if (!category && !search) {
+          setBlogs(DEFAULT_BLOGS);
         }
       } catch (err) {
         console.error(err);
+        if (!category && !search) setBlogs(DEFAULT_BLOGS);
       } finally {
         setLoading(false);
       }

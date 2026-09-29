@@ -604,3 +604,118 @@ export const DEFAULT_CABS = [
     isActive: true,
   },
 ];
+
+export const DEFAULT_BLOGS = [
+  {
+    _id: 'blog_1',
+    title: 'Maa Baglamukhi Temple Bankhandi Kangra: Significance, Rituals & Yellow Havan Guide',
+    slug: 'maa-baglamukhi-temple-bankhandi-kangra-guide',
+    category: 'Pilgrimage Guides',
+    author: 'Baglamukhi Travel Team',
+    publishedAt: '2026-03-15T00:00:00.000Z',
+    readTime: '6 min read',
+    featuredImage: {
+      url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Maa Baglamukhi Temple Bankhandi Kangra',
+    },
+    excerpt: 'Everything you need to know before visiting the sacred 8th Mahavidya Pitambara Dham at Bankhandi in Kangra, Himachal Pradesh, including auspicious timings, yellow havan significance, and nearest rail/airport routes.',
+    content: `## The Sacred Power of Maa Baglamukhi Temple Bankhandi
+
+Located amidst the tranquil pine and deodar forests of Bankhandi in the Kangra district of Himachal Pradesh, the **Maa Baglamukhi Temple** is one of the most revered Shakti shrines in North India. Dedicated to Goddess Baglamukhi—the 8th Mahavidya, also worshipped as *Maa Pitambara* (the golden-hued goddess)—this sacred dham attracts hundreds of thousands of devotees, statesmen, and spiritual seekers seeking victory over obstacles, legal triumphs, and divine protection.
+
+### Why Perform the Yellow Havan (Pitambara Anushthan)?
+In Vedic traditions, Goddess Baglamukhi is closely associated with the color yellow (*Pitambara*). Devotees offer:
+- **Yellow flowers (Marigold / Genda)**
+- **Turmeric sticks (Haldi Ganth)**
+- **Yellow mustard seeds (Peeli Sarson)**
+- **Yellow sweets (Besan Ladoo / Peda)**
+- **Pure Cow Ghee and sacred Havan Samagri**
+
+Performing the special yellow havan at the Bankhandi havan mandap is believed to dissolve negative energies, grant success in rightful pursuits, and bestow long-lasting family peace.
+
+### How to Reach Maa Baglamukhi Temple
+- **By Air:** Gaggal Airport Kangra (DHM) is just 35 km away. Chandigarh International Airport (IXC) is 215 km (approx. 4.5 hours by private cab).
+- **By Train:** The nearest major railway station with Vande Bharat Express connectivity is **Una Himachal (70 km)**. Pathankot Cantt (PTKC) is 85 km.
+- **By Road:** Excellent all-weather four-lane highway connectivity from Chandigarh, Delhi, Una, and Hoshiarpur.
+
+### Combine with 9 Devi Darshan Circuit
+Most pilgrims visit Maa Baglamukhi Dham as part of the holy Shaktipeeth circuit:
+1. Mata Mansa Devi (Panchkula)
+2. Mata Naina Devi (Bilaspur)
+3. Mata Chintpurni (Una)
+4. Mata Jwala Ji (Eternal Flame)
+5. Mata Brajeshwari Kangra Devi
+6. Maa Baglamukhi Temple (Bankhandi)
+7. Mata Chamunda Devi
+8. Sri Harmandir Sahib (Amritsar)`,
+    tags: ['Maa Baglamukhi', 'Kangra Temples', 'Himachal Pilgrimage', '9 Devi Yatra'],
+    isFeatured: true,
+    isPublished: true,
+  },
+  {
+    _id: 'blog_2',
+    title: 'Manali to Atal Tunnel & Sissu: Ultimate Road Trip & Snow Adventure Guide',
+    slug: 'manali-to-atal-tunnel-sissu-travel-guide',
+    category: 'Travel Guides',
+    author: 'Himachal Road Experts',
+    publishedAt: '2026-03-20T00:00:00.000Z',
+    readTime: '8 min read',
+    featuredImage: {
+      url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Snow peaks and valleys in Manali Solang Atal Tunnel',
+    },
+    excerpt: 'A comprehensive travel guide to crossing the world’s longest highway tunnel above 10,000 feet from Manali into the magical snow landscapes of Sissu in Lahaul Valley.',
+    content: `## Crossing the Marvel: Atal Tunnel Rohtang
+
+The **Atal Tunnel (9.02 km)** has revolutionized Himalayan travel. Connecting Solang Valley in Manali to Sissu in Lahaul Valley, this engineering marvel allows travelers to enter a completely different snow-covered alpine world within just 15 minutes.
+
+### Key Highlights of the Manali - Sissu Circuit
+1. **Solang Valley:** Adventure hub for cable car ropeway, paragliding, snow scooter rides, and zorbing.
+2. **South Portal to North Portal:** Drive through the 9.02 km tunnel equipped with emergency telephone booths, air monitoring sensors, and CCTV every 60 meters.
+3. **Sissu Waterfall & Lake:** Marvel at the frozen waterfall cascading down towering mountain cliffs and the serene Chandra riverbed.
+4. **Keylong & Jispa Extension:** Extend your trip to experience genuine high-altitude Himalayan culture and river camps.
+
+### Best Vehicles for the Manali - Atal Tunnel Route
+- **Toyota Innova Crysta / Ertiga:** Ideal for family comfort and luggage capacity.
+- **Force Tempo Traveller (12S / 17S):** Best for group tours and corporate outings.
+- **4×4 Force Cruiser / Mahindra Thar:** Essential during heavy winter snowfall days when chains and four-wheel traction are needed.`,
+    tags: ['Manali', 'Atal Tunnel', 'Sissu', 'Snow Holiday', 'Himachal Cab'],
+    isFeatured: true,
+    isPublished: true,
+  },
+  {
+    _id: 'blog_3',
+    title: 'Choosing the Right Cab for Himachal Mountain Roads: Innova vs Ertiga vs Tempo Traveller vs 4x4 Cruiser',
+    slug: 'choosing-right-cab-himachal-mountain-roads',
+    category: 'Travel Tips',
+    author: 'Fleet Management Team',
+    publishedAt: '2026-03-25T00:00:00.000Z',
+    readTime: '5 min read',
+    featuredImage: {
+      url: 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Himachal mountain road with private tourist cabs',
+    },
+    excerpt: 'Confused about which cab to hire for your upcoming Shimla, Manali, Spiti, or 9 Devi tour? Here is a breakdown of passenger capacity, luggage room, and mountain performance.',
+    content: `## Selecting the Best Vehicle for Your Mountain Tour
+
+Driving on the steep ghats, sharp curves, and high mountain passes of Himachal Pradesh requires the right balance of engine torque, ground clearance, and passenger comfort.
+
+### 1. Toyota Innova Crysta (Luxury Mountain SUV)
+- **Best For:** Families of 4 to 6 people seeking first-class legroom, quiet cabin, and effortless climbing power on steep slopes.
+- **Luggage:** 4 large suitcases + rooftop rack.
+
+### 2. Force Tempo Traveller 12 / 17 Seater Maharaja
+- **Best For:** Joint families, pilgrimage groups, and wedding parties traveling together for 9 Devi Yatra or Manali.
+- **Highlights:** 2x1 pushback Maharaja seats, individual AC vents, luggage boot + heavy top carrier.
+
+### 3. Force Cruiser & Trax Toofan 4x4
+- **Best For:** High passenger groups (9-13 persons) traveling on rugged pilgrimage ghats, Spiti Valley, and offbeat Himachal valleys.
+- **Highlights:** High 210mm ground clearance, metal body, 4WD climbing torque.
+
+### 4. Maruti Suzuki Ertiga & Dzire
+- **Best For:** Couples and small families (2 to 5 members) looking for economical hill sightseeing with AC comfort.`,
+    tags: ['Himachal Taxi', 'Cab Booking', 'Innova Crysta', 'Tempo Traveller', 'Travel Tips'],
+    isFeatured: true,
+    isPublished: true,
+  },
+];

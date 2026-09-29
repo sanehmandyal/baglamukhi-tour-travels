@@ -27,7 +27,7 @@ import BlogCard from '../../components/cards/BlogCard';
 import TestimonialCard from '../../components/cards/TestimonialCard';
 import ServiceCard from '../../components/cards/ServiceCard';
 import { useSettings } from '../../context/SettingsContext';
-import { DEFAULT_TOURS, DEFAULT_DESTINATIONS, DEFAULT_CABS } from '../../data/initialData';
+import { DEFAULT_TOURS, DEFAULT_DESTINATIONS, DEFAULT_CABS, DEFAULT_BLOGS } from '../../data/initialData';
 
 const HomePage = () => {
   const { settings } = useSettings();
@@ -36,8 +36,8 @@ const HomePage = () => {
 
   const [featuredTours, setFeaturedTours] = useState(DEFAULT_TOURS.slice(0, 6));
   const [destinations, setDestinations] = useState(DEFAULT_DESTINATIONS.slice(0, 4));
-  const [services, setServices] = useState(DEFAULT_CABS.slice(0, 3));
-  const [blogs, setBlogs] = useState([]);
+  const [services, setServices] = useState(DEFAULT_CABS.slice(0, 6));
+  const [blogs, setBlogs] = useState(DEFAULT_BLOGS.slice(0, 3));
   const [testimonials, setTestimonials] = useState([]);
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);

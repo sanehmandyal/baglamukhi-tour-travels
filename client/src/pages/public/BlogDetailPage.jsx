@@ -7,24 +7,29 @@ import Breadcrumbs from '../../components/common/Breadcrumbs';
 import TourCard from '../../components/cards/TourCard';
 import BlogCard from '../../components/cards/BlogCard';
 import { ArticleSchema, FAQSchema } from '../../components/common/SchemaMarkup';
+import { DEFAULT_BLOGS } from '../../data/initialData';
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
-  const [blog, setBlog] = useState(null);
-  const [recentBlogs, setRecentBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState(() => DEFAULT_BLOGS.find((b) => b.slug === slug) || null);
+  const [recentBlogs, setRecentBlogs] = useState(() => DEFAULT_BLOGS.filter((b) => b.slug !== slug).slice(0, 3));
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBlog = async () => {
-      setLoading(true);
       try {
         const res = await api.get(`/blogs/${slug}`);
-        if (res.data.success) {
+        if (res.data.success && res.data.data) {
           setBlog(res.data.data);
           setRecentBlogs(res.data.recentBlogs || []);
+        } else {
+          const fallback = DEFAULT_BLOGS.find((b) => b.slug === slug);
+          if (fallback) setBlog(fallback);
         }
       } catch (err) {
         console.error(err);
+        const fallback = DEFAULT_BLOGS.find((b) => b.slug === slug);
+        if (fallback) setBlog(fallback);
       } finally {
         setLoading(false);
       }
