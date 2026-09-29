@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { useSettings } from '../../context/SettingsContext';
-import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle } from 'react-icons/fi';
+import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle, FiLock } from 'react-icons/fi';
 
 const AdminSettingsPage = () => {
   const { refreshSettings } = useSettings();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState('');
+  const [passwordNotice, setPasswordNotice] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
 
   const [formData, setFormData] = useState({
     siteName: 'Baglamukhi Tour & Travels',
@@ -99,6 +107,51 @@ const AdminSettingsPage = () => {
       alert(err.response?.data?.message || 'Failed to save settings');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    setPasswordError('');
+    setPasswordNotice('');
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError('New password and confirm password do not match');
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      setPasswordError('New password must be at least 6 characters long');
+      return;
+    }
+
+    try {
+      setUpdatingPassword(true);
+      const res = await api.put('/auth/updatepassword', {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword
+      });
+
+      if (res.data?.success) {
+        setPasswordNotice('Admin password changed successfully! Please keep it secure.');
+        setPasswordData({
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+      }
+    } catch (err) {
+      setPasswordError(err.response?.data?.message || 'Failed to update password');
+    } finally {
+      setUpdatingPassword(false);
     }
   };
 
@@ -371,6 +424,85 @@ const AdminSettingsPage = () => {
           </button>
         </div>
       </form>
+
+      {/* Admin Security & Password Change */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div className="border-b border-slate-100 pb-3">
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <FiLock className="text-cyan-600" /> Admin Access & Security Credentials
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Update your administrator password securely. Use a combination of uppercase letters, numbers, and symbols.
+          </p>
+        </div>
+
+        {passwordNotice && (
+          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold flex items-center gap-2">
+            <FiCheckCircle className="text-emerald-600 shrink-0" />
+            <span>{passwordNotice}</span>
+          </div>
+        )}
+
+        {passwordError && (
+          <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-semibold">
+            <span>{passwordError}</span>
+          </div>
+        )}
+
+        <form onSubmit={handlePasswordSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">Current Password *</label>
+              <input
+                type="password"
+                name="currentPassword"
+                value={passwordData.currentPassword}
+                onChange={handlePasswordChange}
+                required
+                placeholder="••••••••"
+                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">New Password *</label>
+              <input
+                type="password"
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={handlePasswordChange}
+                required
+                placeholder="Min 6 characters (e.g. Admin@2025#)"
+                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">Confirm New Password *</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={passwordData.confirmPassword}
+                onChange={handlePasswordChange}
+                required
+                placeholder="Confirm new password"
+                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              disabled={updatingPassword}
+              className="flex items-center space-x-2 px-6 py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-sm font-semibold shadow-md transition-all disabled:opacity-50"
+            >
+              <FiLock className="w-4 h-4" />
+              <span>{updatingPassword ? 'Updating Password...' : 'Update Admin Password'}</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

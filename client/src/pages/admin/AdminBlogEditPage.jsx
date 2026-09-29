@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import { FiSave, FiArrowLeft, FiImage, FiFileText, FiTag, FiSearch } from 'react-icons/fi';
+import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminBlogEditPage = () => {
   const { id } = useParams();
@@ -214,23 +215,11 @@ const AdminBlogEditPage = () => {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Featured Image URL *</label>
-              <div className="flex gap-3">
-                <input
-                  type="url"
-                  name="featuredImage"
-                  value={formData.featuredImage}
-                  onChange={handleChange}
-                  required
-                  placeholder="https://images.unsplash.com/..."
-                  className="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none"
-                />
-              </div>
-              {formData.featuredImage && (
-                <div className="mt-3 w-40 h-24 rounded-lg overflow-hidden border border-slate-200">
-                  <img src={formData.featuredImage} alt="Preview" className="w-full h-full object-cover" />
-                </div>
-              )}
+              <ImageUploadInput
+                label="Featured Image (Upload from device or enter URL) *"
+                value={formData.featuredImage}
+                onChange={(img) => setFormData(prev => ({ ...prev, featuredImage: img }))}
+              />
             </div>
 
             <div className="md:col-span-2">

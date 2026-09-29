@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Plus, Trash2, Compass, CheckCircle } from 'lucide-react';
 import api from '../../api/axios';
+import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminTourEditPage = () => {
   const { id } = useParams();
@@ -253,22 +254,23 @@ const AdminTourEditPage = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Featured Image URL *</label>
-            <input
-              type="text"
-              required
-              value={formData.featuredImage?.url || ''}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  featuredImage: { ...formData.featuredImage, url: e.target.value, alt: formData.title },
-                })
-              }
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl"
-              placeholder="https://images.unsplash.com/..."
-            />
-          </div>
+          <ImageUploadInput
+            label="Featured Image (Upload from phone/device or URL) *"
+            value={formData.featuredImage?.url || ''}
+            onChange={(val) =>
+              setFormData({
+                ...formData,
+                featuredImage: { ...formData.featuredImage, url: val, alt: formData.title },
+              })
+            }
+            altValue={formData.featuredImage?.alt || ''}
+            onAltChange={(alt) =>
+              setFormData({
+                ...formData,
+                featuredImage: { ...formData.featuredImage, alt },
+              })
+            }
+          />
 
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">Detailed Tour Overview *</label>

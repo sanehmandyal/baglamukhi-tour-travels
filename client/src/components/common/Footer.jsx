@@ -245,10 +245,6 @@ const Footer = () => {
         <div className="pt-8 border-t border-neutral-800 text-xs text-neutral-400 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>© {currentYear} Baglamukhi Tour & Travels. All Rights Reserved. Built with SEO-First Architecture.</p>
           <div className="flex items-center space-x-4">
-            <Link to="/admin/login" className="text-neutral-500 hover:text-yellow-400 transition">
-              Staff / Admin Portal
-            </Link>
-            <span className="text-neutral-700">|</span>
             <a href="/sitemap.xml" target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-yellow-400 transition">
               XML Sitemap
             </a>

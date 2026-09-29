@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CalendarCheck, Search, Filter, Trash2, Eye, CheckCircle, Clock, XCircle, Phone, Mail, User } from 'lucide-react';
+import { CalendarCheck, Search, Filter, Trash2, Eye, CheckCircle, Clock, XCircle, Phone, PhoneCall, Mail, User, MessageCircle } from 'lucide-react';
 import api from '../../api/axios';
 
 const AdminBookingsPage = () => {
@@ -159,9 +159,29 @@ const AdminBookingsPage = () => {
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end space-x-1.5">
+                        <a
+                          href={`tel:${b.phone?.replace(/[^0-9+]/g, '')}`}
+                          className="p-1.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition"
+                          title={`Call ${b.name} (${b.phone})`}
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                        </a>
+                        <a
+                          href={`https://wa.me/${b.phone?.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                            `Hi ${b.name}, Greetings from Baglamukhi Tour & Travels! Regarding your inquiry for ${
+                              b.tourPackage || b.destination
+                            } on ${new Date(b.travelDate).toLocaleDateString()}, how can I assist you with the custom quote and itinerary?`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition"
+                          title="Chat on WhatsApp"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5" />
+                        </a>
                         <button
                           onClick={() => handleOpenModal(b)}
-                          className="p-1.5 text-slate-500 hover:text-brand-600 hover:bg-slate-100 rounded-lg transition"
+                          className="p-1.5 text-slate-500 hover:text-amber-600 hover:bg-slate-100 rounded-lg transition"
                           title="View & Update Notes"
                         >
                           <Eye className="w-4 h-4" />
@@ -216,8 +236,32 @@ const AdminBookingsPage = () => {
                 </div>
               </div>
 
+              {/* 1-Click Action Bar */}
+              <div className="flex items-center gap-2 pt-1">
+                <a
+                  href={`tel:${selectedBooking.phone?.replace(/[^0-9+]/g, '')}`}
+                  className="flex-1 py-2 text-center text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center justify-center space-x-1.5"
+                >
+                  <Phone className="w-3.5 h-3.5 text-slate-700" />
+                  <span>Call {selectedBooking.phone}</span>
+                </a>
+                <a
+                  href={`https://wa.me/${selectedBooking.phone?.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                    `Hi ${selectedBooking.name}, Greetings from Baglamukhi Tour & Travels! Regarding your inquiry for ${
+                      selectedBooking.tourPackage || selectedBooking.destination
+                    } on ${new Date(selectedBooking.travelDate).toLocaleDateString()}, how can I assist you with the custom quote and itinerary?`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2 text-center text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center justify-center space-x-1.5 shadow-sm"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>WhatsApp Client</span>
+                </a>
+              </div>
+
               {selectedBooking.customMessage && (
-                <div className="p-3 bg-brand-50/60 rounded-xl border border-brand-100 text-xs text-brand-900">
+                <div className="p-3 bg-amber-50/70 rounded-xl border border-amber-200/60 text-xs text-amber-950">
                   <strong>Customer Special Request:</strong>
                   <p className="mt-0.5">{selectedBooking.customMessage}</p>
                 </div>

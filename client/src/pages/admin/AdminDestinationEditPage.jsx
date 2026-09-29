@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
 import api from '../../api/axios';
+import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminDestinationEditPage = () => {
   const { id } = useParams();
@@ -155,15 +156,23 @@ const AdminDestinationEditPage = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Hero Image URL</label>
-            <input
-              type="text"
-              value={formData.heroImage?.url || ''}
-              onChange={(e) => setFormData({ ...formData, heroImage: { ...formData.heroImage, url: e.target.value, alt: formData.name } })}
-              className="w-full px-3 py-2 border border-slate-200 rounded-xl"
-            />
-          </div>
+          <ImageUploadInput
+            label="Destination Hero Image (Upload from phone/device or URL) *"
+            value={formData.heroImage?.url || ''}
+            onChange={(val) =>
+              setFormData({
+                ...formData,
+                heroImage: { ...formData.heroImage, url: val, alt: formData.name },
+              })
+            }
+            altValue={formData.heroImage?.alt || ''}
+            onAltChange={(alt) =>
+              setFormData({
+                ...formData,
+                heroImage: { ...formData.heroImage, alt },
+              })
+            }
+          />
 
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">Short Description *</label>

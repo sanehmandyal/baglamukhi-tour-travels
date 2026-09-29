@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { FiPlus, FiEdit2, FiTrash2, FiTruck, FiUsers, FiDollarSign, FiX, FiCheck } from 'react-icons/fi';
+import ImageUploadInput from '../../components/common/ImageUploadInput';
 
 const AdminServicesPage = () => {
   const [services, setServices] = useState([]);
@@ -321,13 +322,10 @@ const AdminServicesPage = () => {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">Vehicle Image URL</label>
-                  <input
-                    type="url"
-                    name="image"
+                  <ImageUploadInput
+                    label="Vehicle Image (Upload from device or enter URL)"
                     value={formData.image}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
+                    onChange={(img) => setFormData(prev => ({ ...prev, image: img }))}
                   />
                 </div>
 
