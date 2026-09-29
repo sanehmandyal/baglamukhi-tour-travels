@@ -949,13 +949,13 @@ const seedDatabase = async (dropDb = true) => {
     // 6. Create Services (Cabs, Tempo, Airport Transfers, Bus)
     const servicesData = [
       {
-        title: 'Cab & Taxi Booking Service',
+        title: 'Cab & Taxi Booking Service (Dzire, Ertiga & Innova Crysta)',
         slug: 'cab-booking',
         serviceType: 'Cab & Taxi',
         icon: 'Car',
         featuredImage: {
-          url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
-          alt: 'Comfortable sedan and SUV taxi cab booking',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Toyota_Innova_Crysta.jpg/1280px-Toyota_Innova_Crysta.jpg',
+          alt: 'Toyota Innova Crysta and Himachali tourist cab booking',
         },
         shortDescription: 'Professional 24/7 cab booking in Chandigarh, Mohali, and Himachal Pradesh. Clean Dzire, Etios, Ertiga, and Innova Crysta with trained mountain drivers.',
         detailedContent: 'Baglamukhi Tour & Travels operates a modern fleet of well-maintained commercial vehicles. Every car undergoes daily sanitization, brake inspections, and is driven by courteous chauffeurs with deep mountain driving experience on Himachal ghat roads.',
@@ -988,8 +988,8 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Airport Transfer',
         icon: 'Plane',
         featuredImage: {
-          url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
-          alt: 'Airport transfer cab service Chandigarh and Delhi',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Suzuki_Dzire_2024_ZXI%2B.jpg/1280px-Suzuki_Dzire_2024_ZXI%2B.jpg',
+          alt: 'Airport transfer cab service Chandigarh and Delhi with Dzire sedan',
         },
         shortDescription: 'Punctual, stress-free airport pickup and drop service for Chandigarh International Airport (IXC) and New Delhi IGI Airport (DEL).',
         detailedContent: 'Never miss a flight or wait for stranded cabs. We track live flight statuses so our driver is ready at the arrival terminal with a personalized name-board to assist you with luggage.',
@@ -1017,7 +1017,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Mountain Cruiser 4x4',
         icon: 'Shield',
         featuredImage: {
-          url: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg/1280px-Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg',
           alt: 'Force Cruiser and Trax Toofan 4x4 Mountain Fleet',
         },
         shortDescription: 'Rugged 9 to 13 seater Force Mountain Cruisers with 4x4 power, high ground clearance, and heavy-duty suspension for tough Himachal valleys and remote Shaktipeeths.',
@@ -1046,7 +1046,7 @@ const seedDatabase = async (dropDb = true) => {
         serviceType: 'Tempo Traveller',
         icon: 'Users',
         featuredImage: {
-          url: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Force_Traveller_Luxury.jpg/1280px-Force_Traveller_Luxury.jpg',
           alt: 'Luxury Force Urbania and Tempo Traveller rental for group tours',
         },
         shortDescription: 'Hire ultra-luxury Force Urbania and Maharaja Tempo Travellers (12, 17, 20 & 26 Seater) with 2x1 Maharaja pushback seats, individual AC vents, and LED entertainment for group tours.',
@@ -1071,13 +1071,13 @@ const seedDatabase = async (dropDb = true) => {
         },
       },
       {
-        title: 'Mahindra Scorpio-N & Mountain SUV 4x4 Fleet',
+        title: 'Mahindra Thar & Scorpio Mountain 4x4 Fleet',
         slug: 'mahindra-scorpio-rental',
         serviceType: 'Mountain SUV 4x4',
         icon: 'Compass',
         featuredImage: {
-          url: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80',
-          alt: 'Mahindra Scorpio-N Mountain SUV 4x4 Fleet',
+          url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg/1280px-Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg',
+          alt: 'Mahindra Thar and Scorpio Mountain 4x4 Fleet',
         },
         shortDescription: 'High-performance Mahindra Scorpio-N and Bolero 4x4 SUVs built to navigate steep Himalayan passes, fresh snowfall, and unpaved mountain roads.',
         detailedContent: 'Engineered for mountain dominance. Equipped with high-torque diesel engines, shift-on-fly 4x4, and high ground clearance for Atal Tunnel, Rohtang, Kinnaur, and Lahaul Valley.',
