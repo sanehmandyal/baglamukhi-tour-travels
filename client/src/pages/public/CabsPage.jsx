@@ -34,30 +34,76 @@ const CabsPage = () => {
 
   const himachaliFleet = [
     {
-      id: 'force-cruiser',
-      name: 'Force Cruiser & Trax Toofan 4×4',
-      type: '4x4',
-      category: 'Rugged Mountain Cruiser (9 to 13 Seater)',
-      badge: 'Shaktipeeth & Spiti Specialist',
-      colorName: 'Forest Olive Green / Mountain White',
-      colorDot: 'bg-emerald-700',
-      tagline: 'High-capacity rugged mountain 4WD built for steep hill climbs, unpaved village roads, and group pilgrimage yatras.',
-      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=80',
-      passengers: '9 to 13 Passengers',
-      luggage: 'Heavy Rooftop Carrier + Boot',
-      transmission: 'High Torque 4x4 / Low Range Hill Gear',
-      fuelType: 'Heavy Duty Diesel',
-      ratePerKm: '₹18 / km',
-      baseFare: '₹4,800/day',
-      terrain: 'Maa Baglamukhi Shrines, Spiti Valley, Sach Pass, Pangi, Sangla, Remote Temples',
+      id: 'innova-crysta',
+      name: 'Toyota Innova Crysta',
+      type: 'suv',
+      category: 'Luxury Mountain SUV (6+1 / 7+1 Seater)',
+      badge: '#1 Rated Family Hill SUV',
+      colorName: 'Pearl White & Bronze Metallic',
+      colorDot: 'bg-amber-600',
+      tagline: 'The undisputed gold standard for family holidays, long hill journeys, smooth highway cruising, and steep mountain passes in Himachal Pradesh.',
+      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80',
+      passengers: '6 to 7 Passengers',
+      luggage: '4 Large Bags + Heavy Roof Carrier',
+      transmission: 'High-Power 2.4L Diesel / Hill Tuned',
+      climateControl: 'Dual AC with Individual Rear Roof Vents',
+      terrain: 'Himachal Ghats, Rohtang, Kinnaur, Spiti Highway, All Weather',
       features: [
-        'High ground clearance (210mm) for rocky roads & streams',
-        'Sturdy metal body with heavy-duty roof luggage rack',
-        'High low-end torque for steep hill hairpin bends',
-        'Comfortable cushioned bench & front-facing seating',
-        'Local Pahadi driver with 10+ years rough terrain experience',
+        'Dual Automatic Climate AC with individual rear roof louvers',
+        'Plush Captain reclining seats with armrests & ample legroom',
+        'Top safety rating with multiple airbags & hill-hold assist',
+        'Whisper quiet cabin with smooth mountain suspension',
+        'Experienced Himachali mountain chauffeur with polite hospitality',
       ],
-      idealFor: 'Pilgrimage Groups, Village Tours, Offbeat Spiti Treks, Remote Valleys',
+      idealFor: 'Family Vacations, Luxury Pilgrimage, Honeymoon Trips, Corporate Transfers',
+    },
+    {
+      id: 'ertiga',
+      name: 'Maruti Suzuki Ertiga Smart Hybrid',
+      type: 'suv',
+      category: 'Spacious Family MUV (6+1 Seater)',
+      badge: 'Best Value for Families',
+      colorName: 'Pearl Magma Grey Metallic',
+      colorDot: 'bg-zinc-600',
+      tagline: 'The most popular budget-friendly 6-seater family cab for smooth Himachal highway rides and economical family holidays.',
+      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80',
+      passengers: '5 to 6 Passengers',
+      luggage: '3 Large Bags + Heavy Roof Carrier',
+      transmission: 'Smooth 1.5L Smart Hybrid',
+      climateControl: 'Dual AC with Roof Mounted Blower',
+      terrain: 'Chandigarh, Shimla, Kalka, Kangra, Dharamshala, Dalhousie',
+      features: [
+        'Flexible 3-row seating with reclining backrests',
+        'Dual air conditioning system with roof-mounted rear blower',
+        'Excellent fuel economy with zero compromise on passenger comfort',
+        'Clean, sanitized, non-smoking fleet guarantee',
+        'Friendly Pahadi driver with deep local guidance & sightseeing tips',
+      ],
+      idealFor: 'Small Families, Senior Citizens, Weekend Getaways, Airport Transfers',
+    },
+    {
+      id: 'dzire',
+      name: 'Maruti Suzuki Swift Dzire ZXI+',
+      type: 'sedan',
+      category: 'Economy Hill Sedan (4+1 Seater)',
+      badge: 'Couple & Solo Favorite',
+      colorName: 'Deep Oxford Blue / Arctic White',
+      colorDot: 'bg-blue-900',
+      tagline: 'Quick, agile, and economical sedan for couples and small family sightseeing across Himachal Pradesh, Chandigarh, and Punjab.',
+      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80',
+      passengers: '3 to 4 Passengers',
+      luggage: '2 Large Suitcases + Boot Space',
+      transmission: 'Agile Hill Engine with Hill Assist',
+      climateControl: 'Chilling AC & Heater',
+      terrain: 'Shimla, Kasauli, Chandigarh Airport, Devi Temples, Delhi Transfers',
+      features: [
+        'Chilled AC and comfortable cushioned ergonomic rear seats',
+        'Generous boot space for suitcases and travel bags',
+        'Quick navigation through narrow hill station curves and market roads',
+        'Punctual airport & railway station transfers with flight tracking',
+        'Affordable direct rates with zero surge pricing',
+      ],
+      idealFor: 'Couples, Solo Travellers, Airport Pickups, Kalka Toy Train Transfers',
     },
     {
       id: 'tempo-12s',
@@ -72,9 +118,7 @@ const CabsPage = () => {
       passengers: '12 Passengers + 1 Driver',
       luggage: 'Dedicated Rear Boot + Heavy Roof Carrier',
       transmission: 'High Torque Common Rail Diesel',
-      fuelType: 'BS6 Diesel',
-      ratePerKm: '₹24 / km',
-      baseFare: '₹6,000/day',
+      climateControl: 'Individual AC Blowers on Every Seat',
       terrain: 'Chandigarh to Manali, Shimla, Dharamshala, 9 Devi Circuit',
       features: [
         '2x1 Luxury Maharaja Pushback Recliner Seats with armrests',
@@ -98,9 +142,7 @@ const CabsPage = () => {
       passengers: '17 Passengers + 1 Driver',
       luggage: 'Extra Heavy Rooftop Waterproof Carrier',
       transmission: 'High Torque Mountain Diesel',
-      fuelType: 'BS6 Diesel',
-      ratePerKm: '₹26 / km',
-      baseFare: '₹6,800/day',
+      climateControl: 'Individual AC Outlets',
       terrain: 'Himachal Pilgrimage Circuit, Amritsar, Delhi to Manali Highway',
       features: [
         '2x2 Reclining Pushback Seats with Wide Center Aisle',
@@ -112,108 +154,28 @@ const CabsPage = () => {
       idealFor: 'Large Group Pilgrimages, Wedding Guest Transfers, College Trips',
     },
     {
-      id: 'urbania',
-      name: 'Force Urbania (Ultra Luxury Executive Van 12/16S)',
-      type: 'tempo',
-      category: 'Ultra Luxury Executive Van (12 / 16 Seater)',
-      badge: 'VIP Executive Choice',
-      colorName: 'Silver Metallic Executive',
-      colorDot: 'bg-slate-400',
-      tagline: 'Next-generation European luxury with independent suspension, sealed acoustic cabin, and panoramic mountain glass.',
-      image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1000&q=80',
-      passengers: '12 to 16 Passengers',
-      luggage: 'Integrated Rear Boot + Carrier',
-      transmission: 'Mercedes-Derived CRDI Engine',
-      fuelType: 'Euro-6 CRDI Diesel',
-      ratePerKm: '₹28 / km',
-      baseFare: '₹7,500/day',
-      terrain: 'VIP Himachal Tours, Expressway Travel, Devi Darshan Luxury Yatra',
+      id: 'force-cruiser',
+      name: 'Force Cruiser & Trax Toofan 4×4',
+      type: '4x4',
+      category: 'Rugged Mountain Cruiser (9 to 13 Seater)',
+      badge: 'Shaktipeeth & Spiti Specialist',
+      colorName: 'Forest Olive Green / Mountain White',
+      colorDot: 'bg-emerald-700',
+      tagline: 'High-capacity rugged mountain 4WD built for steep hill climbs, unpaved village roads, and group pilgrimage yatras.',
+      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=80',
+      passengers: '9 to 13 Passengers',
+      luggage: 'Heavy Rooftop Carrier + Boot',
+      transmission: 'High Torque 4x4 / Low Range Hill Gear',
+      climateControl: 'High-Power Mountain Heater & AC',
+      terrain: 'Maa Baglamukhi Shrines, Spiti Valley, Sach Pass, Pangi, Sangla, Remote Temples',
       features: [
-        'Monocoque European Safety Body with Dual Airbags & ESP',
-        'Independent Front Suspension for ultra smooth ride quality',
-        'Panoramic Tinted Glass Windows for breathtaking mountain views',
-        'Dual Climate Control AC with Individual Louvers',
-        'Reclining Ergonomic Seats with Premium Fabric Upholstery',
+        'High ground clearance (210mm) for rocky roads & streams',
+        'Sturdy metal body with heavy-duty roof luggage rack',
+        'High low-end torque for steep hill hairpin bends',
+        'Comfortable cushioned bench & front-facing seating',
+        'Local Pahadi driver with 10+ years rough terrain experience',
       ],
-      idealFor: 'VIP Tours, Luxury Corporate Retreats, High-End Pilgrimages',
-    },
-    {
-      id: 'innova-crysta',
-      name: 'Toyota Innova Crysta',
-      type: 'suv',
-      category: 'Luxury Mountain SUV (6+1 / 7+1 Seater)',
-      badge: '#1 Rated Family Hill SUV',
-      colorName: 'Garnet Red / Bronze Metallic',
-      colorDot: 'bg-red-800',
-      tagline: 'The undisputed gold standard for family vacations, long hill journeys, smooth highway cruising, and steep mountain passes.',
-      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80',
-      passengers: '6 to 7 Passengers',
-      luggage: '4 Large Bags + Heavy Roof Carrier',
-      transmission: 'High-Power 2.4L Diesel / Hill Tuned',
-      fuelType: 'Diesel',
-      ratePerKm: '₹18 / km',
-      baseFare: '₹4,800/day',
-      terrain: 'Himachal Ghats, Rohtang, Kinnaur, Spiti Highway, All Weather',
-      features: [
-        'Dual Automatic Climate AC with individual rear roof vents',
-        'Plush Captain reclining seats with armrests & ample legroom',
-        'Top safety rating with multiple airbags & hill-hold assist',
-        'Whisper quiet cabin with smooth mountain suspension',
-        'Experienced Himachali mountain chauffeur with polite hospitality',
-      ],
-      idealFor: 'Family Vacations, Luxury Pilgrimage, Honeymoon Trips, Corporate Transfers',
-    },
-    {
-      id: 'ertiga',
-      name: 'Maruti Suzuki Ertiga Smart Hybrid',
-      type: 'suv',
-      category: 'Spacious Family MUV (6+1 Seater)',
-      badge: 'Best Value for Families',
-      colorName: 'Pearl Magma Grey Metallic',
-      colorDot: 'bg-zinc-600',
-      tagline: 'The most popular budget-friendly 6-seater family cab for smooth Himachal highway rides and economical family holidays.',
-      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80',
-      passengers: '5 to 6 Passengers',
-      luggage: '3 Large Bags + Heavy Roof Carrier',
-      transmission: 'Smooth 1.5L Smart Hybrid',
-      fuelType: 'Petrol / Hybrid',
-      ratePerKm: '₹14 / km',
-      baseFare: '₹3,500/day',
-      terrain: 'Chandigarh, Shimla, Kalka, Kangra, Dharamshala, Dalhousie',
-      features: [
-        'Flexible 3-row seating with reclining backrests',
-        'Dual air conditioning system with roof-mounted rear blower',
-        'Excellent fuel economy with zero compromise on passenger comfort',
-        'Clean, sanitized, non-smoking fleet guarantee',
-        'Friendly Pahadi driver with deep local guidance & sightseeing tips',
-      ],
-      idealFor: 'Small Families, Senior Citizens, Weekend Getaways, Airport Transfers',
-    },
-    {
-      id: 'dzire',
-      name: 'Maruti Suzuki Swift Dzire ZXI+',
-      type: 'sedan',
-      category: 'Economy Hill Sedan (4+1 Seater)',
-      badge: 'Couple & Solo Favorite',
-      colorName: 'Deep Oxford Blue Metallic',
-      colorDot: 'bg-blue-900',
-      tagline: 'Quick, agile, and economical sedan for couples and small family sightseeing across Himachal and Punjab.',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80',
-      passengers: '3 to 4 Passengers',
-      luggage: '2 Large Suitcases + Boot Space',
-      transmission: 'Agile Hill Engine with Hill Assist',
-      fuelType: 'Petrol / CNG Dual',
-      ratePerKm: '₹11 / km',
-      baseFare: '₹2,500/day',
-      terrain: 'Shimla, Kasauli, Chandigarh Airport, Devi Temples, Delhi Transfers',
-      features: [
-        'Chilled AC and comfortable cushioned ergonomic rear seats',
-        'Generous boot space for suitcases and travel bags',
-        'Quick navigation through narrow hill station curves and market roads',
-        'Punctual airport & railway station transfers with flight tracking',
-        'Affordable direct rates with zero surge pricing',
-      ],
-      idealFor: 'Couples, Solo Travellers, Airport Pickups, Kalka Toy Train Transfers',
+      idealFor: 'Pilgrimage Groups, Village Tours, Offbeat Spiti Treks, Remote Valleys',
     },
     {
       id: 'thar-4x4',
@@ -221,16 +183,14 @@ const CabsPage = () => {
       type: '4x4',
       category: 'Mountain SUV & Snow Explorer (4 Seater 4WD)',
       badge: 'Snow & Offroad Beast',
-      colorName: 'Red Rage 4WD',
+      colorName: 'Red Rage 4WD / Napoli Black',
       colorDot: 'bg-red-600',
       tagline: 'Dominant Himalayan 4x4 SUV engineered to conquer live snow, high altitude passes, river crossings, and rugged Spiti circuits.',
       image: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1000&q=80',
       passengers: '4 Passengers',
       luggage: '3 Large Bags + Rear Space',
       transmission: 'mHawk 4x4 Shift-on-Fly / Low Range',
-      fuelType: 'Turbo Diesel',
-      ratePerKm: '₹20 / km',
-      baseFare: '₹5,000/day',
+      climateControl: 'Extreme Cold Tested Climate Control',
       terrain: 'Atal Tunnel Snow, Sissu, Kaza, Chandratal, Kunzum Pass, Sach Pass',
       features: [
         'High mountain torque with 4WD Shift-on-Fly & mechanical locking diff',
@@ -254,9 +214,7 @@ const CabsPage = () => {
       passengers: '6 to 7 Passengers',
       luggage: '3 Large Bags + Heavy Roof Carrier',
       transmission: 'mHawk High-Torque Diesel Engine',
-      fuelType: 'Diesel',
-      ratePerKm: '₹19 / km',
-      baseFare: '₹4,900/day',
+      climateControl: 'Powerful Dual AC & Cabin Heating',
       terrain: 'Chandigarh to Shimla Kinnaur, Dharamshala to Dalhousie, Manali Ghats',
       features: [
         'High seating command position with superior mountain road visibility',
@@ -270,14 +228,14 @@ const CabsPage = () => {
   ];
 
   const popularRoutes = [
-    { from: 'Chandigarh Airport (IXC)', to: 'Maa Baglamukhi Temple & Kangra', duration: '4.5 Hours', distance: '190 km', sedan: '₹3,499', suv: '₹4,999', tempo: '₹7,499' },
-    { from: 'Chandigarh', to: 'Manali (via Atal Tunnel & Solang)', duration: '6.5 Hours', distance: '270 km', sedan: '₹4,499', suv: '₹6,499', tempo: '₹10,500' },
-    { from: 'Chandigarh', to: 'Shimla & Kufri', duration: '3.5 Hours', distance: '115 km', sedan: '₹2,499', suv: '₹3,799', tempo: '₹6,200' },
-    { from: 'Chandigarh / Una', to: 'Dharamshala & McLeodganj', duration: '5.0 Hours', distance: '245 km', sedan: '₹4,199', suv: '₹5,999', tempo: '₹9,500' },
-    { from: 'Kalka Railway Station', to: 'Shimla / Chail / Kasauli', duration: '2.5 Hours', distance: '85 km', sedan: '₹2,199', suv: '₹3,299', tempo: '₹5,499' },
-    { from: 'Delhi IGI Airport', to: 'Chandigarh & Himachal Pradesh', duration: '4.0 Hours', distance: '250 km', sedan: '₹3,299', suv: '₹4,799', tempo: '₹8,000' },
-    { from: 'Chandigarh', to: 'Spiti Valley (Kaza / Chandratal)', duration: 'Multi-Day', distance: '1,200 km circuit', sedan: 'N/A', suv: '₹5,500/day', tempo: '₹8,500/day' },
-    { from: 'Chandigarh', to: 'Amritsar Golden Temple & Wagah', duration: '4.0 Hours', distance: '225 km', sedan: '₹3,799', suv: '₹5,299', tempo: '₹8,499' },
+    { from: 'Chandigarh Airport (IXC)', to: 'Maa Baglamukhi Temple & Kangra', duration: '4.5 Hours', distance: '190 km', fleets: 'Sedan • SUV • Tempo Traveller' },
+    { from: 'Chandigarh', to: 'Manali (via Atal Tunnel & Solang)', duration: '6.5 Hours', distance: '270 km', fleets: 'Innova Crysta • Ertiga • Tempo' },
+    { from: 'Chandigarh', to: 'Shimla & Kufri', duration: '3.5 Hours', distance: '115 km', fleets: 'Dzire • Ertiga • Innova' },
+    { from: 'Chandigarh / Una', to: 'Dharamshala & McLeodganj', duration: '5.0 Hours', distance: '245 km', fleets: 'Sedan • SUV • Cruiser 4x4' },
+    { from: 'Kalka Railway Station', to: 'Shimla / Chail / Kasauli', duration: '2.5 Hours', distance: '85 km', fleets: 'Dzire • Innova Crysta' },
+    { from: 'Delhi IGI Airport', to: 'Chandigarh & Himachal Pradesh', duration: '4.0 Hours', distance: '250 km', fleets: 'Dzire • Innova • Tempo 12S/17S' },
+    { from: 'Chandigarh', to: 'Spiti Valley (Kaza / Chandratal)', duration: 'Multi-Day Circuit', distance: '1,200 km circuit', fleets: 'Thar 4x4 • Cruiser 4x4 • Innova' },
+    { from: 'Chandigarh', to: 'Amritsar Golden Temple & Wagah', duration: '4.0 Hours', distance: '225 km', fleets: 'Dzire • Innova Crysta • Tempo' },
   ];
 
   const cabFaqs = [
@@ -309,9 +267,9 @@ const CabsPage = () => {
 
   const categories = [
     { id: 'all', label: 'All Fleet Models', count: himachaliFleet.length },
-    { id: '4x4', label: '4x4 & Mountain Cruisers', count: himachaliFleet.filter(c => c.type === '4x4').length },
-    { id: 'tempo', label: 'Tempo Travellers & Urbania', count: himachaliFleet.filter(c => c.type === 'tempo').length },
-    { id: 'suv', label: 'Family SUVs & MUVs (Innova/Ertiga)', count: himachaliFleet.filter(c => c.type === 'suv').length },
+    { id: 'suv', label: 'Family SUVs & MUVs (Innova / Ertiga)', count: himachaliFleet.filter(c => c.type === 'suv').length },
+    { id: 'tempo', label: 'Tempo Travellers (12S / 17S)', count: himachaliFleet.filter(c => c.type === 'tempo').length },
+    { id: '4x4', label: '4x4 & Mountain Cruisers (Thar / Trax)', count: himachaliFleet.filter(c => c.type === '4x4').length },
     { id: 'sedan', label: 'Economy Sedans (Dzire)', count: himachaliFleet.filter(c => c.type === 'sedan').length },
   ];
 
@@ -319,14 +277,13 @@ const CabsPage = () => {
     <div className="space-y-14 pb-20 bg-slate-50/50">
       <SEOHead
         title="Himachal Cabs, Cruisers & Tempo Traveller Rental | Baglamukhi Tour & Travels"
-        description="Book verified Himachal cabs: Toyota Innova Crysta, Force Cruiser 4x4, Luxury Tempo Travellers (12S/17S), Force Urbania, and Ertiga. Expert mountain drivers, zero hidden costs, 24/7 doorstep pickup."
+        description="Book verified Himachal cabs: Toyota Innova Crysta, Force Cruiser 4x4, Luxury Tempo Travellers (12S/17S), and Ertiga. Expert mountain drivers, zero hidden costs, 24/7 doorstep pickup."
         canonical="/cabs"
         keywords={[
           'Himachal cab booking',
           'Innova Crysta taxi Chandigarh to Manali',
           'Force Cruiser 4x4 rental Himachal',
           'Tempo Traveller rental Chandigarh',
-          'Force Urbania rental Himachal',
           'Baglamukhi temple taxi service',
           'Chandigarh airport taxi to Shimla',
         ]}
@@ -371,7 +328,7 @@ const CabsPage = () => {
             Himachal Cabs, Cruisers & <span className="text-amber-400">Tempo Travellers</span>
           </h1>
           <p className="text-xs sm:text-base text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            Travel across Himachal Pradesh, Punjab, and North India safely. Choose from our luxury Innova Crystas, rugged 4x4 Cruisers, Force Urbania, and Maharaja Tempo Travellers with guaranteed transparent pricing.
+            Travel across Himachal Pradesh, Punjab, and North India safely. Choose from our luxury Innova Crystas, rugged 4x4 Cruisers, and Maharaja Tempo Travellers with guaranteed transparent direct pricing.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3.5 pt-3">
@@ -484,10 +441,10 @@ const CabsPage = () => {
                       </span>
                     </div>
 
-                    {/* Rate pill bottom right */}
+                    {/* Quality pill bottom right */}
                     <div className="absolute bottom-3 right-3 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl text-right border border-white/10">
-                      <span className="text-[10px] text-amber-400 font-bold block">Starting At</span>
-                      <span className="text-xs font-black text-white">{cab.ratePerKm}</span>
+                      <span className="text-[10px] text-amber-400 font-bold block">Chauffeur</span>
+                      <span className="text-xs font-black text-white">Hill Certified</span>
                     </div>
                   </div>
 
@@ -512,11 +469,11 @@ const CabsPage = () => {
                       </div>
                       <div className="flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
                         <Fuel className="w-4 h-4 text-sky-600 shrink-0" />
-                        <span className="text-[11px] text-slate-600 truncate">{cab.fuelType}</span>
+                        <span className="text-[11px] text-slate-600 truncate">{cab.climateControl}</span>
                       </div>
                       <div className="flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
-                        <Gauge className="w-4 h-4 text-amber-600 shrink-0" />
-                        <span className="text-[11px] text-slate-600 truncate">{cab.baseFare}</span>
+                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span className="text-[11px] text-slate-600 truncate">GPS Tracked</span>
                       </div>
                       <div className="col-span-2 flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
                         <Mountain className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -540,46 +497,53 @@ const CabsPage = () => {
                 </div>
 
                 {/* Footer Action Card */}
-                <div className="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between gap-2.5">
-                  <a
-                    href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi,%20I%20want%20to%20book%20the%20${encodeURIComponent(cab.name)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition flex items-center justify-center border border-emerald-200"
-                    title="WhatsApp Direct"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                  </a>
+                <div className="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[10.5px] font-bold text-amber-600 uppercase block">Fare Estimate</span>
+                    <span className="text-xs font-black text-slate-900">Price on Request</span>
+                  </div>
 
-                  <button
-                    onClick={() => openInquiry(`Cab Booking: ${cab.name}`)}
-                    className="flex-1 py-2.5 px-4 text-xs font-extrabold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition text-center"
-                  >
-                    Inquire Best Fare
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi,%20I%20want%20to%20inquire%20about%20booking%20the%20${encodeURIComponent(cab.name)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition flex items-center justify-center border border-emerald-200"
+                      title="WhatsApp Direct"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                    </a>
+
+                    <button
+                      onClick={() => openInquiry(`Cab Booking: ${cab.name}`)}
+                      className="py-2.5 px-4 text-xs font-extrabold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition text-center"
+                    >
+                      Inquire Fleet
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Popular Travel Routes & Transparent Fare Table */}
+        {/* Popular Travel Routes & Doorstep Transfers */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-soft space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
             <div>
-              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Transparent Mountain Rates</span>
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">Direct Pickups & Transfers</span>
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-display">
-                Popular Himachal & Punjab Taxi Routes & Estimated Fares
+                Popular Himachal & Punjab Taxi Routes & Doorstep Transfers
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Fixed transparent pricing with door-to-door pickup from Chandigarh Airport, Kalka, Una (Vande Bharat), and Delhi NCR.
+                Direct door-to-door private cab service from Chandigarh Airport, Kalka Railway Station, Una (Vande Bharat), and Delhi NCR with verified Pahadi drivers.
               </p>
             </div>
             <button
               onClick={() => openInquiry('Custom Route Cab Quote')}
               className="px-5 py-2.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition self-start shrink-0"
             >
-              Get Custom Route Fare
+              Get Custom Route Quote
             </button>
           </div>
 
@@ -600,18 +564,14 @@ const CabsPage = () => {
                   <div className="text-[11px] text-slate-500 mt-1">{route.distance} • {route.duration}</div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-200 flex flex-col space-y-1 text-xs">
-                  <div className="flex justify-between text-slate-600">
-                    <span>Sedan (Dzire):</span>
-                    <span className="font-bold text-slate-900">{route.sedan}</span>
+                <div className="pt-2 border-t border-slate-200 flex flex-col space-y-1.5 text-xs text-slate-600">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-slate-700">Available Fleets:</span>
+                    <span className="font-bold text-slate-900 truncate max-w-[150px]">{route.fleets}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
-                    <span>SUV (Innova/Ertiga):</span>
-                    <span className="font-bold text-amber-600">{route.suv}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-600">
-                    <span>Tempo 12S/17S:</span>
-                    <span className="font-bold text-slate-900">{route.tempo}</span>
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-slate-700">Fare Type:</span>
+                    <span className="font-bold text-emerald-600">Custom Quote on Call</span>
                   </div>
                 </div>
 
@@ -619,7 +579,7 @@ const CabsPage = () => {
                   onClick={() => openInquiry(`Route Taxi: ${route.from} to ${route.to}`)}
                   className="w-full py-2 text-center text-xs font-bold text-amber-700 bg-amber-100/70 hover:bg-amber-200 rounded-xl transition"
                 >
-                  Book This Route →
+                  Inquire Route Fare →
                 </button>
               </div>
             ))}
