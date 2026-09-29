@@ -10,11 +10,14 @@ const rateLimit = require('express-rate-limit');
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB & ensure admin exists
+// Connect to MongoDB & ensure admin and tour data exists
 const connectDB = require('./config/db');
+const seedDatabase = require('./seed/seedData');
+
 connectDB().then(async () => {
   try {
     const User = require('./models/User');
+    const Tour = require('./models/Tour');
     const existing = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
     if (!existing) {
       await User.create({
@@ -27,8 +30,15 @@ connectDB().then(async () => {
       });
       console.log('[Auth] Admin user auto-initialized (admin@baglamukhitourtravels.com)');
     }
+
+    const tourCount = await Tour.countDocuments();
+    if (tourCount === 0) {
+      console.log('[Seed] No tours found in database. Auto-seeding full packages, destinations, and fleet...');
+      await seedDatabase(false);
+      console.log('[Seed] Auto-seeding completed successfully!');
+    }
   } catch (err) {
-    console.error('[Auth] Admin auto-check notice:', err.message);
+    console.error('[Auth/Seed] Auto-init notice:', err.message);
   }
 });
 
@@ -109,6 +119,20 @@ app.use(['/api/seo', '/seo'], require('./routes/seoRoutes'));
 app.use(['/api/stats', '/stats'], require('./routes/statsRoutes'));
 app.use(['/api/settings', '/settings'], require('./routes/settingsRoutes'));
 app.use(['/api/search', '/search'], require('./routes/searchRoutes'));
+
+// Database Seed / Re-sync Endpoint
+app.all(['/api/seed', '/seed'], async (req, res) => {
+  try {
+    const seedDatabase = require('./seed/seedData');
+    await seedDatabase(false);
+    res.status(200).json({
+      success: true,
+      message: 'Full tour packages, authentic Himachali fleet, and destinations seeded successfully!',
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // Health check endpoints
 app.get(['/', '/api/health'], (req, res) => {

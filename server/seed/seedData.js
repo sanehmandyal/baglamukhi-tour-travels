@@ -20,26 +20,49 @@ const Booking = require('../models/Booking');
 const ContactMessage = require('../models/ContactMessage');
 const SEO = require('../models/SEO');
 
-const seedDatabase = async () => {
+const seedDatabase = async (dropDb = true) => {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/baglamukhi_tour_travels';
-    await mongoose.connect(mongoUri);
-    console.log('[Seed] Connected to MongoDB database...');
+    if (mongoose.connection.readyState !== 1) {
+      const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/baglamukhi_tour_travels';
+      await mongoose.connect(mongoUri);
+      console.log('[Seed] Connected to MongoDB database...');
+    }
 
-    // Drop database to reset indexes cleanly
-    await mongoose.connection.db.dropDatabase();
-    console.log('[Seed] Dropped existing database and indexes.');
+    if (dropDb) {
+      await Promise.allSettled([
+        Destination.deleteMany({}),
+        Tour.deleteMany({}),
+        Location.deleteMany({}),
+        Service.deleteMany({}),
+        Hotel.deleteMany({}),
+        Blog.deleteMany({}),
+        Testimonial.deleteMany({}),
+        FAQ.deleteMany({}),
+        Gallery.deleteMany({}),
+        SEO.deleteMany({}),
+        SiteSettings.deleteMany({}),
+      ]);
+      console.log('[Seed] Cleared collections for fresh seed.');
+    }
 
-    // 1. Create Admin User
-    const adminUser = await User.create({
-      name: 'Baglamukhi Tour & Travels Admin',
-      email: 'admin@baglamukhitourtravels.com',
-      password: 'Admin@123456',
-      role: 'admin',
-      phone: '+91 98000 00000',
-      isActive: true,
-    });
-    console.log('[Seed] Admin user created (admin@baglamukhitourtravels.com / Admin@123456)');
+    // 1. Create or Update Admin User
+    let adminUser = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
+    if (!adminUser) {
+      adminUser = await User.create({
+        name: 'Baglamukhi Tour & Travels Admin',
+        email: 'admin@baglamukhitourtravels.com',
+        password: 'Admin@123456',
+        role: 'admin',
+        phone: '+91 98000 00000',
+        isActive: true,
+      });
+      console.log('[Seed] Admin user created (admin@baglamukhitourtravels.com / Admin@123456)');
+    } else {
+      adminUser.password = 'Admin@123456';
+      adminUser.isActive = true;
+      await adminUser.save();
+      console.log('[Seed] Admin user verified & refreshed.');
+    }
 
     // 2. Create Site Settings
     const settings = await SiteSettings.create({
@@ -1692,12 +1715,17 @@ Starting your Himachal journey from Chandigarh is the smartest decision for any 
     console.log(' DATABASE SEEDING COMPLETED SUCCESSFULLY!');
     console.log(' Admin Login: admin@baglamukhitourtravels.com / Admin@123456');
     console.log('======================================================\n');
-
-    process.exit(0);
+    return true;
   } catch (error) {
     console.error('[Seed Error]:', error);
-    process.exit(1);
+    throw error;
   }
 };
 
-seedDatabase();
+if (require.main === module) {
+  seedDatabase()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
+
+module.exports = seedDatabase;
