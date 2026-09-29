@@ -342,12 +342,12 @@ const seedDatabase = async (dropDb = true) => {
         tagline: 'The Spiritual Golden Heart of Punjab',
         state: 'Punjab',
         heroImage: {
-          url: 'https://images.unsplash.com/photo-1609946850478-f7b7642e88a0?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80',
           alt: 'Harmandir Sahib Golden Temple Amritsar illuminated at night',
         },
         galleryImages: [
-          { url: 'https://images.unsplash.com/photo-1588096344356-9b552382cf4f?auto=format&fit=crop&w=800&q=80', alt: 'Sri Harmandir Sahib Sanctum' },
-          { url: 'https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=800&q=80', alt: 'Wagah Border Beating Retreat Ceremony' },
+          { url: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', alt: 'Sri Harmandir Sahib Sanctum' },
+          { url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', alt: 'Devotional pilgrims' },
         ],
         shortDescription: 'Holy city of Sri Harmandir Sahib (The Golden Temple), vibrant Punjabi culinary culture, Jallianwala Bagh memorial, and patriotic Wagah Border ceremony.',
         detailedOverview: 'Amritsar is the spiritual and cultural capital of Punjab, world renowned for the Golden Temple where thousands partake in the 24-hour community kitchen (Langar). It is also known for authentic Amritsari Kulcha, lassi, and the electrifying Wagah Border lowering of flags.',

@@ -15,6 +15,10 @@ const DestinationCard = ({ destination }) => {
           src={destination.heroImage?.url || 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=600&q=80'}
           alt={destination.heroImage?.alt || `${destination.name} Himachal destination`}
           loading="lazy"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80';
+          }}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
         />
       </div>

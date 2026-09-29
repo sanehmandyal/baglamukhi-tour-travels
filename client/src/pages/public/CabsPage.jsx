@@ -42,7 +42,7 @@ const CabsPage = () => {
       colorName: 'Forest Olive Green / Mountain White',
       colorDot: 'bg-emerald-700',
       tagline: 'High-capacity rugged mountain 4WD built for steep hill climbs, unpaved village roads, and group pilgrimage yatras.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg/1280px-Bajaj_Tempo_Tempo_Trax_Judo_4x4_frontleft_2008-05-11_U.jpg',
+      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=80',
       passengers: '9 to 13 Passengers',
       luggage: 'Heavy Rooftop Carrier + Boot',
       transmission: 'High Torque 4x4 / Low Range Hill Gear',
@@ -68,7 +68,7 @@ const CabsPage = () => {
       colorName: 'Pearl White & Royal Navy Striping',
       colorDot: 'bg-blue-600',
       tagline: 'First-class luxury group travel with 2x1 Maharaja pushback recliner seats for joint families and devotional yatris.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Force_Traveller_Luxury.jpg/1280px-Force_Traveller_Luxury.jpg',
+      image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1000&q=80',
       passengers: '12 Passengers + 1 Driver',
       luggage: 'Dedicated Rear Boot + Heavy Roof Carrier',
       transmission: 'High Torque Common Rail Diesel',
@@ -94,7 +94,7 @@ const CabsPage = () => {
       colorName: 'Touring Yellow & Metallic Silver',
       colorDot: 'bg-amber-500',
       tagline: 'Spacious 17-seater designed for large group pilgrimages, extended family tours, and corporate Himalayan getaways.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Force_Traveller%2C_Leh-Manali_Highway.jpg/1280px-Force_Traveller%2C_Leh-Manali_Highway.jpg',
+      image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1000&q=80',
       passengers: '17 Passengers + 1 Driver',
       luggage: 'Extra Heavy Rooftop Waterproof Carrier',
       transmission: 'High Torque Mountain Diesel',
@@ -120,7 +120,7 @@ const CabsPage = () => {
       colorName: 'Silver Metallic Executive',
       colorDot: 'bg-slate-400',
       tagline: 'Next-generation European luxury with independent suspension, sealed acoustic cabin, and panoramic mountain glass.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/MakeInIndia-Force-Motors-Minivan.jpg/1280px-MakeInIndia-Force-Motors-Minivan.jpg',
+      image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1000&q=80',
       passengers: '12 to 16 Passengers',
       luggage: 'Integrated Rear Boot + Carrier',
       transmission: 'Mercedes-Derived CRDI Engine',
@@ -146,7 +146,7 @@ const CabsPage = () => {
       colorName: 'Garnet Red / Bronze Metallic',
       colorDot: 'bg-red-800',
       tagline: 'The undisputed gold standard for family vacations, long hill journeys, smooth highway cruising, and steep mountain passes.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Toyota_Innova_Crysta.jpg/1280px-Toyota_Innova_Crysta.jpg',
+      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80',
       passengers: '6 to 7 Passengers',
       luggage: '4 Large Bags + Heavy Roof Carrier',
       transmission: 'High-Power 2.4L Diesel / Hill Tuned',
@@ -172,7 +172,7 @@ const CabsPage = () => {
       colorName: 'Pearl Magma Grey Metallic',
       colorDot: 'bg-zinc-600',
       tagline: 'The most popular budget-friendly 6-seater family cab for smooth Himachal highway rides and economical family holidays.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Suzuki_Ertiga_1.5_GL_Hybrid_2024_%281%29.jpg/1280px-Suzuki_Ertiga_1.5_GL_Hybrid_2024_%281%29.jpg',
+      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80',
       passengers: '5 to 6 Passengers',
       luggage: '3 Large Bags + Heavy Roof Carrier',
       transmission: 'Smooth 1.5L Smart Hybrid',
@@ -198,7 +198,7 @@ const CabsPage = () => {
       colorName: 'Deep Oxford Blue Metallic',
       colorDot: 'bg-blue-900',
       tagline: 'Quick, agile, and economical sedan for couples and small family sightseeing across Himachal and Punjab.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Suzuki_Dzire_2024_ZXI%2B.jpg/1280px-Suzuki_Dzire_2024_ZXI%2B.jpg',
+      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80',
       passengers: '3 to 4 Passengers',
       luggage: '2 Large Suitcases + Boot Space',
       transmission: 'Agile Hill Engine with Hill Assist',
@@ -224,7 +224,7 @@ const CabsPage = () => {
       colorName: 'Red Rage 4WD',
       colorDot: 'bg-red-600',
       tagline: 'Dominant Himalayan 4x4 SUV engineered to conquer live snow, high altitude passes, river crossings, and rugged Spiti circuits.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg/1280px-Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg',
+      image: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1000&q=80',
       passengers: '4 Passengers',
       luggage: '3 Large Bags + Rear Space',
       transmission: 'mHawk 4x4 Shift-on-Fly / Low Range',
@@ -250,7 +250,7 @@ const CabsPage = () => {
       colorName: 'Diamond Arctic White',
       colorDot: 'bg-slate-200 border border-slate-400',
       tagline: 'Legendary Indian mountain SUV with superior hill-climbing power, high ground clearance, and rugged suspension for family expeditions.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mahindra_Scorpio_front_20080128.jpg/1280px-Mahindra_Scorpio_front_20080128.jpg',
+      image: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1000&q=80',
       passengers: '6 to 7 Passengers',
       luggage: '3 Large Bags + Heavy Roof Carrier',
       transmission: 'mHawk High-Torque Diesel Engine',
@@ -462,6 +462,10 @@ const CabsPage = () => {
                     <img
                       src={cab.image}
                       alt={cab.name}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80';
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     

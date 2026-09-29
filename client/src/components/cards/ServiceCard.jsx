@@ -13,6 +13,10 @@ const ServiceCard = ({ service, onBookCab }) => {
           <img
             src={service.featuredImage?.url || service.image || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80'}
             alt={service.featuredImage?.alt || service.title}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80';
+            }}
             className="w-full h-full object-cover"
           />
           <div className="absolute top-3 left-3">
