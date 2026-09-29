@@ -8,8 +8,8 @@ const AdminLoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('admin@baglamukhitourtravels.com');
-  const [password, setPassword] = useState('Admin@123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -83,12 +83,6 @@ const AdminLoginPage = () => {
               />
               <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3" />
             </div>
-          </div>
-
-          <div className="p-3 bg-neutral-950 rounded-xl border border-yellow-400/30 text-[11px] text-yellow-300 font-medium">
-            <strong className="text-yellow-400 block mb-0.5">Default Admin Login:</strong>
-            <p className="font-mono text-neutral-200">Email: admin@baglamukhitourtravels.com</p>
-            <p className="font-mono text-neutral-200">Password: Admin@123456</p>
           </div>
 
           <button

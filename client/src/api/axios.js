@@ -1,13 +1,20 @@
 import axios from 'axios';
 
-// Smart dynamic API base URL resolver
+// Smart dynamic API base URL resolver (ensures /api suffix)
 const getBaseURL = () => {
-  if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
-  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return 'https://baglamukhi-tour-travels-api.onrender.com/api';
+  let url = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL;
+  if (!url) {
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      url = 'https://baglamukhi-tour-travels-api.onrender.com/api';
+    } else {
+      url = 'http://localhost:5000/api';
+    }
   }
-  return 'http://localhost:5000/api';
+  url = url.trim().replace(/\/+$/, '');
+  if (!url.endsWith('/api')) {
+    url += '/api';
+  }
+  return url;
 };
 
 const api = axios.create({

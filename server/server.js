@@ -76,22 +76,21 @@ app.get('/sitemap.xml', generateSitemapXml);
 app.get('/robots.txt', getRobotsTxt);
 
 // API Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/tours', require('./routes/tourRoutes'));
-app.use('/api/destinations', require('./routes/destinationRoutes'));
-app.use('/api/locations', require('./routes/locationRoutes'));
-app.use('/api/hotels', require('./routes/hotelRoutes'));
-app.use('/api/services', require('./routes/serviceRoutes'));
-app.use('/api/bookings', require('./routes/bookingRoutes'));
-app.use('/api/blogs', require('./routes/blogRoutes'));
-app.use('/api/testimonials', require('./routes/testimonialRoutes'));
-app.use('/api/faqs', require('./routes/faqRoutes'));
-app.use('/api/gallery', require('./routes/galleryRoutes'));
-app.use('/api/contact', require('./routes/contactRoutes'));
-app.use('/api/seo', require('./routes/seoRoutes'));
-app.use('/api/stats', require('./routes/statsRoutes'));
-app.use('/api/settings', require('./routes/settingsRoutes'));
-app.use('/api/search', require('./routes/searchRoutes'));
+app.use(['/api/auth', '/auth'], require('./routes/authRoutes'));
+app.use(['/api/tours', '/tours'], require('./routes/tourRoutes'));
+app.use(['/api/destinations', '/destinations'], require('./routes/destinationRoutes'));
+app.use(['/api/locations', '/locations'], require('./routes/locationRoutes'));
+app.use(['/api/services', '/services'], require('./routes/serviceRoutes'));
+app.use(['/api/bookings', '/bookings'], require('./routes/bookingRoutes'));
+app.use(['/api/blogs', '/blogs'], require('./routes/blogRoutes'));
+app.use(['/api/testimonials', '/testimonials'], require('./routes/testimonialRoutes'));
+app.use(['/api/faqs', '/faqs'], require('./routes/faqRoutes'));
+app.use(['/api/gallery', '/gallery'], require('./routes/galleryRoutes'));
+app.use(['/api/contact', '/contact'], require('./routes/contactRoutes'));
+app.use(['/api/seo', '/seo'], require('./routes/seoRoutes'));
+app.use(['/api/stats', '/stats'], require('./routes/statsRoutes'));
+app.use(['/api/settings', '/settings'], require('./routes/settingsRoutes'));
+app.use(['/api/search', '/search'], require('./routes/searchRoutes'));
 
 // Health check endpoints
 app.get(['/', '/api/health'], (req, res) => {
