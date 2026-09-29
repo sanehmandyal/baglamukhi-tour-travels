@@ -11,11 +11,11 @@ const ServiceCard = ({ service, onBookCab }) => {
       <div>
         <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
           <img
-            src={service.featuredImage?.url || service.image || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80'}
+            src={service.image || service.featuredImage?.url || '/images/cabs/force-cruiser-4x4.jpg'}
             alt={service.featuredImage?.alt || service.title}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80';
+              e.target.src = '/images/cabs/force-cruiser-4x4.jpg';
             }}
             className="w-full h-full object-cover"
           />

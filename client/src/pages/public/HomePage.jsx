@@ -75,9 +75,18 @@ const HomePage = () => {
         }
 
         if (servRes.status === 'fulfilled' && servRes.value?.data?.success && servRes.value.data.data?.length > 0) {
-          setServices(servRes.value.data.data);
+          // Merge API data with verified local image assets
+          const mapped = servRes.value.data.data.map((s, idx) => ({
+            ...s,
+            image: DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg',
+            featuredImage: {
+              url: DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg',
+              alt: s.title,
+            },
+          }));
+          setServices(mapped);
         } else {
-          setServices(DEFAULT_CABS.slice(0, 3));
+          setServices(DEFAULT_CABS.slice(0, 6));
         }
 
         if (blogRes.status === 'fulfilled' && blogRes.value?.data?.success) setBlogs(blogRes.value.data.data);
@@ -411,7 +420,7 @@ const HomePage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.slice(0, 3).map((srv) => (
+          {services.slice(0, 6).map((srv) => (
             <ServiceCard key={srv._id} service={srv} onBookCab={() => openInquiry(srv.title)} />
           ))}
         </div>
