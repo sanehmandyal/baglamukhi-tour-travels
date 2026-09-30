@@ -92,18 +92,42 @@ const AdminDestinationEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name) {
+      setError('Destination name is required.');
+      return;
+    }
     setSaving(true);
     setError('');
 
     try {
-      if (!isNew && id.match(/^[0-9a-fA-F]{24}$/)) {
-        await api.put(`/destinations/${id}`, formData);
+      const cleanPlaces = (formData.placesToVisit || []).filter(p => p && (p.name || p.description)).map(p => ({
+        name: p.name || 'Sightseeing Spot',
+        description: p.description || 'Scenic mountain view',
+        timing: p.timing || '9:00 AM - 6:00 PM',
+        entryFee: p.entryFee || 'Free / Nominal'
+      }));
+
+      const payload = {
+        ...formData,
+        placesToVisit: cleanPlaces,
+        heroImage: typeof formData.heroImage === 'string' ? { url: formData.heroImage, alt: formData.name } : {
+          url: formData.heroImage?.url || 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=80',
+          alt: formData.heroImage?.alt || formData.name || 'Destination'
+        },
+        shortDescription: formData.shortDescription || `${formData.name} is a premier destination in Himachal Pradesh.`,
+        detailedOverview: formData.detailedOverview || formData.shortDescription || `Explore ${formData.name} with Baglamukhi Tour & Travels.`,
+        isPublished: formData.isPublished !== undefined ? formData.isPublished : true,
+      };
+
+      if (!isNew && id && id.match(/^[0-9a-fA-F]{24}$/)) {
+        await api.put(`/destinations/${id}`, payload);
       } else {
-        await api.post('/destinations', formData);
+        await api.post('/destinations', payload);
       }
       navigate('/admin/destinations');
     } catch (err) {
-      navigate('/admin/destinations');
+      console.error('Error saving destination:', err);
+      setError(err.response?.data?.message || err.message || 'Failed to save destination. Please check the fields and try again.');
     } finally {
       setSaving(false);
     }

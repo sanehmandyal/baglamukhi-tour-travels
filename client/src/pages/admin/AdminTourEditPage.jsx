@@ -110,14 +110,46 @@ const AdminTourEditPage = () => {
     setError('');
 
     try {
-      if (!isNew && id.match(/^[0-9a-fA-F]{24}$/)) {
-        await api.put(`/tours/${id}`, formData);
+      const cleanItinerary = (formData.itinerary || []).filter(item => item && (item.title || item.description)).map((item, idx) => ({
+        day: Number(item.day) || idx + 1,
+        title: item.title || `Day ${idx + 1} Sightseeing`,
+        description: item.description || 'Scenic sightseeing and transfers.',
+        meals: item.meals || 'Breakfast, Dinner',
+        hotel: item.hotel || 'Deluxe Hotel',
+        activities: Array.isArray(item.activities) ? item.activities : [],
+      }));
+
+      const payload = {
+        ...formData,
+        itinerary: cleanItinerary,
+        featuredImage: typeof formData.featuredImage === 'string' ? { url: formData.featuredImage, alt: formData.title } : {
+          url: formData.featuredImage?.url || 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80',
+          alt: formData.featuredImage?.alt || formData.title || 'Tour Package',
+        },
+        overview: formData.overview || `Exclusive ${formData.title} package covering ${formData.destination} with private cab and hotel stay.`,
+        price: {
+          startingPrice: Number(formData.price?.startingPrice) || 9999,
+          discountedPrice: Number(formData.price?.discountedPrice) || Number(formData.price?.startingPrice) || 9999,
+          perPerson: formData.price?.perPerson !== undefined ? formData.price.perPerson : true,
+          currency: 'INR',
+        },
+        duration: {
+          days: Number(formData.duration?.days) || 5,
+          nights: Number(formData.duration?.nights) || 4,
+          label: formData.duration?.label || `${formData.duration?.days || 5} Days / ${formData.duration?.nights || 4} Nights`,
+        },
+        isPublished: formData.isPublished !== undefined ? formData.isPublished : true,
+      };
+
+      if (!isNew && id && id.match(/^[0-9a-fA-F]{24}$/)) {
+        await api.put(`/tours/${id}`, payload);
       } else {
-        await api.post('/tours', formData);
+        await api.post('/tours', payload);
       }
       navigate('/admin/tours');
     } catch (err) {
-      navigate('/admin/tours');
+      console.error('Error saving tour:', err);
+      setError(err.response?.data?.message || err.message || 'Failed to save tour package. Please check all fields.');
     } finally {
       setSaving(false);
     }

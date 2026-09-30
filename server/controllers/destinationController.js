@@ -10,23 +10,32 @@ const { createSlug } = require('../utils/slugify');
 exports.getDestinations = async (req, res, next) => {
   try {
     const { state, featured, search } = req.query;
-    const query = { isPublished: true };
+    const query = {
+      $or: [
+        { isPublished: true },
+        { isPublished: { $exists: false } }
+      ]
+    };
 
-    if (state) {
+    if (state && state !== 'All') {
       query.state = { $regex: state, $options: 'i' };
     }
     if (featured === 'true') {
       query.isFeatured = true;
     }
     if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { state: { $regex: search, $options: 'i' } },
-        { shortDescription: { $regex: search, $options: 'i' } },
+      query.$and = [
+        {
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { state: { $regex: search, $options: 'i' } },
+            { shortDescription: { $regex: search, $options: 'i' } },
+          ]
+        }
       ];
     }
 
-    const destinations = await Destination.find(query).sort({ isFeatured: -1, name: 1 });
+    const destinations = await Destination.find(query).sort({ isFeatured: -1, createdAt: -1, name: 1 });
 
     res.status(200).json({
       success: true,
@@ -38,12 +47,17 @@ exports.getDestinations = async (req, res, next) => {
   }
 };
 
-// @desc    Get single destination by slug with its tours and blogs
+// @desc    Get single destination by slug or ID with its tours and blogs
 // @route   GET /api/destinations/:slug
 // @access  Public
 exports.getDestinationBySlug = async (req, res, next) => {
   try {
-    const destination = await Destination.findOne({ slug: req.params.slug, isPublished: true });
+    const slugOrId = req.params.slug;
+    let destination = await Destination.findOne({ slug: slugOrId });
+
+    if (!destination && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+      destination = await Destination.findById(slugOrId);
+    }
 
     if (!destination) {
       return res.status(404).json({ success: false, message: 'Destination not found' });
@@ -81,7 +95,7 @@ exports.getDestinationBySlug = async (req, res, next) => {
       relatedDestinations,
       seo: seoData || {
         title: destination.seo?.metaTitle || `${destination.name} Tour Guide & Packages | Baglamukhi Tour & Travels`,
-        metaDescription: destination.seo?.metaDescription || destination.shortDescription.slice(0, 160),
+        metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
         canonicalUrl: `/destinations/${destination.slug}`,
         focusKeyword: destination.seo?.focusKeyword || `things to do in ${destination.name}`,
         ogImage: destination.heroImage?.url,
@@ -113,29 +127,62 @@ exports.getAdminDestinations = async (req, res, next) => {
 // @access  Private/Admin
 exports.createDestination = async (req, res, next) => {
   try {
-    let { slug, name } = req.body;
+    let { slug, name, heroImage, placesToVisit, shortDescription, detailedOverview } = req.body;
     if (!slug && name) {
       slug = createSlug(name);
     }
 
-    const destination = await Destination.create({ ...req.body, slug });
+    // Check slug uniqueness
+    const existing = await Destination.findOne({ slug });
+    if (existing) {
+      slug = `${slug}-${Date.now().toString().slice(-4)}`;
+    }
 
-    await SEO.findOneAndUpdate(
-      { slug: `/destinations/${destination.slug}` },
-      {
-        pageType: 'destination',
-        pageId: destination._id.toString(),
-        slug: `/destinations/${destination.slug}`,
-        title: destination.seo?.metaTitle || `${destination.name} Travel Guide | Baglamukhi Tour & Travels`,
-        metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
-        canonicalUrl: `http://localhost:5173/destinations/${destination.slug}`,
-        focusKeyword: `${destination.name} travel guide`,
-        ogTitle: destination.name,
-        ogImage: destination.heroImage?.url,
-        schemaType: 'TouristDestination',
-      },
-      { upsert: true, new: true }
-    );
+    const payload = {
+      ...req.body,
+      slug,
+      shortDescription: shortDescription || `${name} travel destination in Himachal Pradesh.`,
+      detailedOverview: detailedOverview || shortDescription || `Explore beautiful sights and attractions in ${name}.`,
+      isPublished: req.body.isPublished !== undefined ? req.body.isPublished : true,
+    };
+
+    if (typeof heroImage === 'string') {
+      payload.heroImage = { url: heroImage, alt: name || 'Destination' };
+    } else if (payload.heroImage && !payload.heroImage.alt) {
+      payload.heroImage.alt = name || 'Destination';
+    }
+
+    if (Array.isArray(placesToVisit)) {
+      payload.placesToVisit = placesToVisit.filter((p) => p && (p.name || p.description)).map((p) => ({
+        name: p.name || 'Sightseeing Point',
+        description: p.description || 'Scenic location and viewpoints.',
+        timing: p.timing || '9:00 AM - 6:00 PM',
+        entryFee: p.entryFee || 'Free / Nominal',
+      }));
+    }
+
+    const destination = await Destination.create(payload);
+
+    try {
+      await SEO.findOneAndUpdate(
+        { slug: `/destinations/${destination.slug}` },
+        {
+          pageType: 'destination',
+          pageId: destination._id.toString(),
+          slug: `/destinations/${destination.slug}`,
+          title: destination.seo?.metaTitle || `${destination.name} Travel Guide | Baglamukhi Tour & Travels`,
+          metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
+          canonicalUrl: `http://localhost:5173/destinations/${destination.slug}`,
+          focusKeyword: `${destination.name} travel guide`,
+          ogTitle: destination.name,
+          ogImage: destination.heroImage?.url,
+          schemaType: 'TouristDestination',
+        },
+        { upsert: true, new: true }
+      );
+    } catch (e) {
+      console.warn('[SEO Upsert Notice]:', e.message);
+    }
 
     res.status(201).json({
       success: true,
@@ -151,7 +198,21 @@ exports.createDestination = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateDestination = async (req, res, next) => {
   try {
-    const destination = await Destination.findByIdAndUpdate(req.params.id, req.body, {
+    const payload = { ...req.body };
+    if (typeof payload.heroImage === 'string') {
+      payload.heroImage = { url: payload.heroImage, alt: payload.name || 'Destination' };
+    }
+
+    if (Array.isArray(payload.placesToVisit)) {
+      payload.placesToVisit = payload.placesToVisit.filter((p) => p && (p.name || p.description)).map((p) => ({
+        name: p.name || 'Sightseeing Point',
+        description: p.description || 'Scenic location and viewpoints.',
+        timing: p.timing || '9:00 AM - 6:00 PM',
+        entryFee: p.entryFee || 'Free / Nominal',
+      }));
+    }
+
+    const destination = await Destination.findByIdAndUpdate(req.params.id, payload, {
       new: true,
       runValidators: true,
     });
@@ -160,18 +221,22 @@ exports.updateDestination = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Destination not found' });
     }
 
-    await SEO.findOneAndUpdate(
-      { slug: `/destinations/${destination.slug}` },
-      {
-        pageType: 'destination',
-        pageId: destination._id.toString(),
-        slug: `/destinations/${destination.slug}`,
-        title: destination.seo?.metaTitle || `${destination.name} Travel Guide`,
-        metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
-        ogImage: destination.heroImage?.url,
-      },
-      { upsert: true }
-    );
+    try {
+      await SEO.findOneAndUpdate(
+        { slug: `/destinations/${destination.slug}` },
+        {
+          pageType: 'destination',
+          pageId: destination._id.toString(),
+          slug: `/destinations/${destination.slug}`,
+          title: destination.seo?.metaTitle || `${destination.name} Travel Guide`,
+          metaDescription: destination.seo?.metaDescription || destination.shortDescription?.slice(0, 160),
+          ogImage: destination.heroImage?.url,
+        },
+        { upsert: true }
+      );
+    } catch (e) {
+      console.warn('[SEO Upsert Notice]:', e.message);
+    }
 
     res.status(200).json({
       success: true,

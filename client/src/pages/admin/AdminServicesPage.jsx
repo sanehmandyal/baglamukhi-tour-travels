@@ -140,14 +140,25 @@ const AdminServicesPage = () => {
   const fetchServices = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/services');
+      const res = await api.get('/services/admin/all');
       if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
         setServices(res.data.data);
       } else {
-        setServices(DEFAULT_CABS);
+        const publicRes = await api.get('/services');
+        if (publicRes.data?.success && Array.isArray(publicRes.data?.data) && publicRes.data.data.length > 0) {
+          setServices(publicRes.data.data);
+        } else {
+          setServices(DEFAULT_CABS);
+        }
       }
     } catch (err) {
-      console.warn('[AdminServices] API unavailable, using default cabs data');
+      try {
+        const fallbackRes = await api.get('/services');
+        if (fallbackRes.data?.success && Array.isArray(fallbackRes.data?.data) && fallbackRes.data.data.length > 0) {
+          setServices(fallbackRes.data.data);
+          return;
+        }
+      } catch (e) {}
       setServices(DEFAULT_CABS);
     } finally {
       setLoading(false);
@@ -255,10 +266,17 @@ const AdminServicesPage = () => {
     try {
       const payload = {
         ...formData,
-        pricePerKm: Number(formData.pricePerKm),
-        baseFare: Number(formData.baseFare),
+        pricePerKm: Number(formData.pricePerKm) || 14,
+        baseFare: Number(formData.baseFare) || 2500,
+        image: formData.image || '/images/cabs/force-cruiser-4x4.jpg',
+        featuredImage: {
+          url: formData.image || '/images/cabs/force-cruiser-4x4.jpg',
+          alt: formData.title || 'Cab',
+        },
         features: typeof formData.features === 'string' ? formData.features.split(',').map(f => f.trim()).filter(Boolean) : formData.features,
-        popularRoutes: typeof formData.popularRoutes === 'string' ? formData.popularRoutes.split(',').map(r => r.trim()).filter(Boolean) : formData.popularRoutes
+        popularRoutes: typeof formData.popularRoutes === 'string' ? formData.popularRoutes.split(',').map(r => r.trim()).filter(Boolean) : formData.popularRoutes,
+        isActive: formData.isActive !== undefined ? formData.isActive : true,
+        isPublished: formData.isActive !== undefined ? formData.isActive : true,
       };
 
       if (editingId && editingId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -270,6 +288,8 @@ const AdminServicesPage = () => {
       setModalOpen(false);
       fetchServices();
     } catch (err) {
+      console.error('Error saving cab:', err);
+      alert(err.response?.data?.message || err.message || 'Error saving cab service.');
       setModalOpen(false);
       fetchServices();
     }

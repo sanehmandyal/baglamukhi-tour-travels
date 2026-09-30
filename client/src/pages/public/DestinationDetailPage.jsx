@@ -45,6 +45,7 @@ const DestinationDetailPage = () => {
           setTours(res.data.tours || []);
           setBlogs(res.data.blogs || []);
           setRelatedDestinations(res.data.relatedDestinations || []);
+          setLoading(false);
           return;
         }
       } catch (err) {

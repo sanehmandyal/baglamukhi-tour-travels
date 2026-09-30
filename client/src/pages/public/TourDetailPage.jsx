@@ -46,6 +46,7 @@ const TourDetailPage = () => {
         if (res.data?.success && res.data.data) {
           setTour(res.data.data);
           setRelatedTours(res.data.relatedTours || []);
+          setLoading(false);
           return;
         }
       } catch (err) {

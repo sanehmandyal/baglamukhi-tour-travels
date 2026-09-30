@@ -75,15 +75,17 @@ const HomePage = () => {
         }
 
         if (servRes.status === 'fulfilled' && servRes.value?.data?.success && servRes.value.data.data?.length > 0) {
-          // Merge API data with verified local image assets
-          const mapped = servRes.value.data.data.map((s, idx) => ({
-            ...s,
-            image: DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg',
-            featuredImage: {
-              url: DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg',
-              alt: s.title,
-            },
-          }));
+          const mapped = servRes.value.data.data.map((s, idx) => {
+            const img = s.image || s.featuredImage?.url || DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg';
+            return {
+              ...s,
+              image: img,
+              featuredImage: {
+                url: img,
+                alt: s.title || s.name || 'Himachal Cab',
+              },
+            };
+          });
           setServices(mapped);
         } else {
           setServices(DEFAULT_CABS.slice(0, 6));

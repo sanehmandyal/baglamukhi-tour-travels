@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye, MapPin } from 'lucide-react';
+import api from '../../api/axios';
 import { DEFAULT_DESTINATIONS } from '../../data/initialData';
 import { syncDatabaseInventory } from '../../utils/seedHelper';
 

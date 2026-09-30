@@ -9,7 +9,12 @@ exports.getTours = async (req, res, next) => {
   try {
     const { destination, category, minPrice, maxPrice, duration, sort, search, page = 1, limit = 12, featured } = req.query;
 
-    const query = { isPublished: true };
+    const query = {
+      $or: [
+        { isPublished: true },
+        { isPublished: { $exists: false } }
+      ]
+    };
 
     if (destination) {
       query.destination = { $regex: destination, $options: 'i' };
@@ -34,11 +39,15 @@ exports.getTours = async (req, res, next) => {
     }
 
     if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { destination: { $regex: search, $options: 'i' } },
-        { overview: { $regex: search, $options: 'i' } },
-        { highlights: { $regex: search, $options: 'i' } },
+      query.$and = [
+        {
+          $or: [
+            { title: { $regex: search, $options: 'i' } },
+            { destination: { $regex: search, $options: 'i' } },
+            { overview: { $regex: search, $options: 'i' } },
+            { highlights: { $regex: search, $options: 'i' } },
+          ]
+        }
       ];
     }
 
@@ -59,7 +68,7 @@ exports.getTours = async (req, res, next) => {
       success: true,
       count: tours.length,
       total,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / limit) || 1,
       currentPage: Number(page),
       data: tours,
     });
@@ -84,12 +93,17 @@ exports.getAdminTours = async (req, res, next) => {
   }
 };
 
-// @desc    Get single tour by slug
+// @desc    Get single tour by slug or ID
 // @route   GET /api/tours/:slug
 // @access  Public
 exports.getTourBySlug = async (req, res, next) => {
   try {
-    const tour = await Tour.findOne({ slug: req.params.slug, isPublished: true });
+    const slugOrId = req.params.slug;
+    let tour = await Tour.findOne({ slug: slugOrId });
+
+    if (!tour && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+      tour = await Tour.findById(slugOrId);
+    }
 
     if (!tour) {
       return res.status(404).json({ success: false, message: 'Tour package not found' });
@@ -98,7 +112,6 @@ exports.getTourBySlug = async (req, res, next) => {
     // Related tours
     const relatedTours = await Tour.find({
       _id: { $ne: tour._id },
-      isPublished: true,
       $or: [{ destination: tour.destination }, { category: tour.category }],
     })
       .limit(3)
@@ -113,7 +126,7 @@ exports.getTourBySlug = async (req, res, next) => {
       relatedTours,
       seo: seoData || {
         title: tour.seo?.metaTitle || `${tour.title} | Baglamukhi Tour & Travels`,
-        metaDescription: tour.seo?.metaDescription || tour.overview.slice(0, 160),
+        metaDescription: tour.seo?.metaDescription || tour.overview?.slice(0, 160),
         canonicalUrl: `/tours/${tour.slug}`,
         focusKeyword: tour.seo?.focusKeyword || `${tour.destination} tour package`,
         ogImage: tour.featuredImage?.url,
@@ -129,7 +142,7 @@ exports.getTourBySlug = async (req, res, next) => {
 // @access  Private/Admin
 exports.createTour = async (req, res, next) => {
   try {
-    let { slug, title } = req.body;
+    let { slug, title, featuredImage, duration, price, itinerary } = req.body;
     if (!slug && title) {
       slug = createSlug(title);
     }
@@ -140,26 +153,64 @@ exports.createTour = async (req, res, next) => {
       slug = `${slug}-${Date.now().toString().slice(-4)}`;
     }
 
-    const tour = await Tour.create({ ...req.body, slug });
+    const payload = {
+      ...req.body,
+      slug,
+      isPublished: req.body.isPublished !== undefined ? req.body.isPublished : true,
+    };
+
+    // Sanitize featuredImage
+    if (typeof payload.featuredImage === 'string') {
+      payload.featuredImage = { url: payload.featuredImage, alt: title || 'Tour Package' };
+    } else if (payload.featuredImage && !payload.featuredImage.alt) {
+      payload.featuredImage.alt = title || 'Tour Package';
+    }
+
+    // Sanitize duration
+    if (duration && !duration.label) {
+      payload.duration = {
+        days: Number(duration.days) || 5,
+        nights: Number(duration.nights) || 4,
+        label: `${duration.days || 5} Days / ${duration.nights || 4} Nights`,
+      };
+    }
+
+    // Sanitize itinerary
+    if (Array.isArray(itinerary)) {
+      payload.itinerary = itinerary.filter((item) => item && (item.title || item.description)).map((item, idx) => ({
+        day: item.day || idx + 1,
+        title: item.title || `Day ${idx + 1}`,
+        description: item.description || 'Sightseeing and travel.',
+        meals: item.meals || 'Breakfast, Dinner',
+        hotel: item.hotel || 'Deluxe Hotel',
+        activities: item.activities || [],
+      }));
+    }
+
+    const tour = await Tour.create(payload);
 
     // Automatically register SEO entry
-    await SEO.findOneAndUpdate(
-      { slug: `/tours/${tour.slug}` },
-      {
-        pageType: 'tour',
-        pageId: tour._id.toString(),
-        slug: `/tours/${tour.slug}`,
-        title: tour.seo?.metaTitle || `${tour.title} - Best Price Guaranteed`,
-        metaDescription: tour.seo?.metaDescription || tour.overview?.slice(0, 160) || 'Book this tour package with Baglamukhi Tour & Travels.',
-        canonicalUrl: `http://localhost:5173/tours/${tour.slug}`,
-        focusKeyword: `${tour.destination} Tour`,
-        ogTitle: tour.title,
-        ogDescription: tour.overview?.slice(0, 150),
-        ogImage: tour.featuredImage?.url,
-        schemaType: 'TouristTrip',
-      },
-      { upsert: true, new: true }
-    );
+    try {
+      await SEO.findOneAndUpdate(
+        { slug: `/tours/${tour.slug}` },
+        {
+          pageType: 'tour',
+          pageId: tour._id.toString(),
+          slug: `/tours/${tour.slug}`,
+          title: tour.seo?.metaTitle || `${tour.title} - Best Price Guaranteed`,
+          metaDescription: tour.seo?.metaDescription || tour.overview?.slice(0, 160) || 'Book this tour package with Baglamukhi Tour & Travels.',
+          canonicalUrl: `http://localhost:5173/tours/${tour.slug}`,
+          focusKeyword: `${tour.destination} Tour`,
+          ogTitle: tour.title,
+          ogDescription: tour.overview?.slice(0, 150),
+          ogImage: tour.featuredImage?.url,
+          schemaType: 'TouristTrip',
+        },
+        { upsert: true, new: true }
+      );
+    } catch (e) {
+      console.warn('[SEO Upsert Notice]:', e.message);
+    }
 
     res.status(201).json({
       success: true,
@@ -180,24 +231,44 @@ exports.updateTour = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Tour not found' });
     }
 
-    tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    const payload = { ...req.body };
+    if (typeof payload.featuredImage === 'string') {
+      payload.featuredImage = { url: payload.featuredImage, alt: payload.title || tour.title || 'Tour' };
+    }
+
+    if (Array.isArray(payload.itinerary)) {
+      payload.itinerary = payload.itinerary.filter((item) => item && (item.title || item.description)).map((item, idx) => ({
+        day: item.day || idx + 1,
+        title: item.title || `Day ${idx + 1}`,
+        description: item.description || 'Sightseeing and travel.',
+        meals: item.meals || 'Breakfast, Dinner',
+        hotel: item.hotel || 'Deluxe Hotel',
+        activities: item.activities || [],
+      }));
+    }
+
+    tour = await Tour.findByIdAndUpdate(req.params.id, payload, {
       new: true,
       runValidators: true,
     });
 
     // Update corresponding SEO entry
-    await SEO.findOneAndUpdate(
-      { slug: `/tours/${tour.slug}` },
-      {
-        pageType: 'tour',
-        pageId: tour._id.toString(),
-        slug: `/tours/${tour.slug}`,
-        title: tour.seo?.metaTitle || `${tour.title} | Baglamukhi Tour & Travels`,
-        metaDescription: tour.seo?.metaDescription || tour.overview?.slice(0, 160),
-        ogImage: tour.featuredImage?.url,
-      },
-      { upsert: true }
-    );
+    try {
+      await SEO.findOneAndUpdate(
+        { slug: `/tours/${tour.slug}` },
+        {
+          pageType: 'tour',
+          pageId: tour._id.toString(),
+          slug: `/tours/${tour.slug}`,
+          title: tour.seo?.metaTitle || `${tour.title} | Baglamukhi Tour & Travels`,
+          metaDescription: tour.seo?.metaDescription || tour.overview?.slice(0, 160),
+          ogImage: tour.featuredImage?.url,
+        },
+        { upsert: true }
+      );
+    } catch (e) {
+      console.warn('[SEO Upsert Notice]:', e.message);
+    }
 
     res.status(200).json({
       success: true,
