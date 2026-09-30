@@ -22,7 +22,7 @@ const blogSchema = new mongoose.Schema(
     },
     tags: [String],
     author: {
-      name: { type: String, default: 'Thakur Travel Experts' },
+      name: { type: String, default: 'Baglamukhi Travel Experts' },
       role: { type: String, default: 'Himachal & North India Travel Specialist' },
       avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80' },
     },

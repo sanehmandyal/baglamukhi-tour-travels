@@ -118,15 +118,15 @@ const AboutPage = () => {
         <div className="bg-slate-100 rounded-3xl p-8 sm:p-12 border border-slate-200 text-center space-y-4 max-w-3xl mx-auto">
           <h3 className="text-xl font-bold text-slate-900 font-display">Visit or Contact Our Head Office</h3>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            {settings.address || 'Shop No. 12, Main Bus Stand Complex, Near Mall Road, Kangra / Chandigarh Office, India'}
+            {settings.address || 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India'}
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
             <a
-              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919816012345'}`}
+              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
               className="px-6 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition flex items-center"
             >
               <Phone className="w-3.5 h-3.5 mr-1.5" />
-              Call {settings.primaryPhone || '+91 98000 00000'}
+              Call {settings.primaryPhone || '+91 98051 43007'}
             </a>
             <Link
               to="/contact-us"

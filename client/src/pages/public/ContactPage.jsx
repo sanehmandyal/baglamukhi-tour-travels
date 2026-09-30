@@ -20,7 +20,7 @@ const ContactPage = () => {
     <div>
       <SEOHead
         title="Contact Us | Baglamukhi Tour & Travels - 24/7 Helpline & Office Address"
-        description="Get in touch with Baglamukhi Tour & Travels. Call +91 98000 00000 or WhatsApp us 24/7. Office in Chandigarh and Kangra for instant holiday and cab bookings."
+        description="Get in touch with Baglamukhi Tour & Travels. Call +91 98051 43007 or WhatsApp us 24/7. Office near Amb Andaura Railway Station (AADR) & Kangra for instant holiday and cab bookings."
         canonical="/contact-us"
       />
 
@@ -57,11 +57,11 @@ const ContactPage = () => {
                   <Phone className="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-semibold text-slate-900 block">Phone Numbers</span>
-                    <a href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919816012345'}`} className="text-brand-600 hover:underline block">
-                      {settings.primaryPhone || '+91 98000 00000'} (Primary Helpline)
+                    <a href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`} className="text-brand-600 hover:underline block font-bold">
+                      {settings.primaryPhone || '+91 98051 43007'} (Primary Helpline)
                     </a>
-                    <a href={`tel:${settings.secondaryPhone?.replace(/\s+/g, '') || '+919805067890'}`} className="text-slate-600 hover:underline block">
-                      {settings.secondaryPhone || '+91 98050 67890'} (Booking Desk)
+                    <a href={`tel:${settings.secondaryPhone?.replace(/\s+/g, '') || '+919805143007'}`} className="text-slate-600 hover:underline block">
+                      {settings.secondaryPhone || '+91 98051 43007'} (Booking Desk)
                     </a>
                   </div>
                 </div>
@@ -71,12 +71,12 @@ const ContactPage = () => {
                   <div>
                     <span className="font-semibold text-slate-900 block">Instant WhatsApp</span>
                     <a
-                      href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919816012345'}?text=Hi%20Thakur%20Tour%20%26%20Travel,%20I%20want%20to%20inquire%20about%20a%20tour`}
+                      href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20want%20to%20inquire%20about%20a%20tour`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-600 font-medium hover:underline block"
                     >
-                      Chat with us on WhatsApp
+                      Chat with us on WhatsApp (+91 98051 43007)
                     </a>
                   </div>
                 </div>
@@ -96,7 +96,7 @@ const ContactPage = () => {
                   <div>
                     <span className="font-semibold text-slate-900 block">Head Office Address</span>
                     <p className="text-slate-600 text-xs leading-relaxed">
-                      {settings.address || 'Shop No. 12, Main Bus Stand Complex, Near Mall Road, Kangra / Chandigarh Office, India'}
+                      {settings.address || 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India'}
                     </p>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ const ContactPage = () => {
                   <Clock className="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-semibold text-slate-900 block">Working Hours</span>
-                    <p className="text-slate-600 text-xs">{settings.operatingHours || '24 Hours / 7 Days a Week'}</p>
+                    <p className="text-slate-600 text-xs">{settings.operatingHours || '24 Hours / 7 Days a Week (Round-the-Clock Dispatch)'}</p>
                   </div>
                 </div>
               </div>
@@ -131,8 +131,8 @@ const ContactPage = () => {
 
         {/* Embedded Google Map */}
         <div className="space-y-4">
-          <h3 className="text-xl font-bold text-slate-900 font-display">Find Our Office on Google Maps</h3>
-          <GoogleMapEmbed title="Baglamukhi Tour and Travels Chandigarh Kangra Office" />
+          <h3 className="text-xl font-bold text-slate-900 font-display">Find Our Office on Google Maps (Amb Andaura Railway Station)</h3>
+          <GoogleMapEmbed title="Baglamukhi Tour and Travels Amb Andaura Station Kangra Office" />
         </div>
       </section>
     </div>

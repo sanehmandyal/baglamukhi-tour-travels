@@ -21,8 +21,8 @@ const AdminLocationEditPage = () => {
     fullDescription: '',
     localOfficeDetails: {
       address: '',
-      phone: '+91 98000 00000',
-      whatsapp: '+919816012345',
+      phone: '+91 98051 43007',
+      whatsapp: '+919805143007',
       email: 'info@baglamukhitourtravels.com',
       operatingHours: '24 Hours / 7 Days a Week',
     },

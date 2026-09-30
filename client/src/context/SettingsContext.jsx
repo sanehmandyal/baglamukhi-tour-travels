@@ -7,13 +7,13 @@ export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     companyName: import.meta.env.VITE_COMPANY_NAME || 'BAGLAMUKHI TOUR & TRAVELS',
     tagline: 'Your Trusted Travel Partner for Himachal Pradesh & North India Tours',
-    primaryPhone: import.meta.env.VITE_PRIMARY_PHONE || '+91 98000 00000',
-    secondaryPhone: import.meta.env.VITE_SECONDARY_PHONE || '+91 98111 11111',
-    whatsappNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '+91 98000 00000',
+    primaryPhone: import.meta.env.VITE_PRIMARY_PHONE || '+91 98051 43007',
+    secondaryPhone: import.meta.env.VITE_SECONDARY_PHONE || '+91 98051 43007',
+    whatsappNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '+91 98051 43007',
     email: import.meta.env.VITE_EMAIL || 'info@baglamukhitourtravels.com',
     supportEmail: 'bookings@baglamukhitourtravels.com',
-    address: import.meta.env.VITE_ADDRESS || 'Near Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 176049, India',
-    city: 'Kangra & Chandigarh',
+    address: import.meta.env.VITE_ADDRESS || 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India',
+    city: 'Amb Andaura, Kangra & Chandigarh',
     state: 'Himachal Pradesh',
     operatingHours: '24/7 Helpline & Cab Dispatch Available',
     socialLinks: {

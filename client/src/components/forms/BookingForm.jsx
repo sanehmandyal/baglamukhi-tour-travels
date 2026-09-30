@@ -99,7 +99,7 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
                 type="tel"
                 name="phone"
                 required
-                placeholder="+91 98160 XXXXX"
+                placeholder="+91 98051 43007"
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none"
@@ -163,13 +163,15 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
               onChange={handleChange}
               className="w-full px-3 py-2.5 text-xs sm:text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white"
             >
+              <option value="Amb Andaura Railway Station (AADR - Vande Bharat)">Amb Andaura Railway Station (AADR - Vande Bharat)</option>
+              <option value="Maa Baglamukhi Temple Bankhandi Kangra">Maa Baglamukhi Temple (Bankhandi Kangra)</option>
               <option value="Chandigarh Airport (IXC)">Chandigarh Airport (IXC)</option>
               <option value="Chandigarh Railway Station">Chandigarh Railway Station</option>
               <option value="Delhi IGI Airport">Delhi IGI Airport (DEL)</option>
+              <option value="Una Himachal Station">Una Himachal Station (UHL)</option>
               <option value="Kalka Railway Station">Kalka Railway Station</option>
-              <option value="Una Himachal Station">Una Himachal Station (Vande Bharat)</option>
-              <option value="Amritsar">Amritsar</option>
-              <option value="Doorstep Pickup (Mohali / Panchkula / Zirakpur)">Doorstep Pickup (Mohali / Panchkula)</option>
+              <option value="Amritsar Airport / Station">Amritsar Airport / Station</option>
+              <option value="Doorstep Pickup (Mohali / Panchkula / Zirakpur)">Doorstep Pickup (Mohali / Panchkula / Zirakpur)</option>
             </select>
           </div>
         </div>

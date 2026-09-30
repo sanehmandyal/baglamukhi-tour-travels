@@ -71,7 +71,7 @@ const LocationDetailPage = () => {
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title={location.seo?.metaTitle || `Tour and Travel Agency in ${location.cityName} | Thakur Travels`}
+        title={location.seo?.metaTitle || `Tour and Travel Agency in ${location.cityName} | Baglamukhi Tour & Travels`}
         description={location.seo?.metaDescription || location.shortIntro?.slice(0, 160)}
         canonical={`/locations/${location.slug}`}
         ogImage={location.heroImage?.url}

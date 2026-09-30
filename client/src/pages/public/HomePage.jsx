@@ -382,11 +382,11 @@ const HomePage = () => {
                 Plan Custom Trip With Us
               </button>
               <a
-                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
                 className="px-6 py-3.5 text-sm font-bold text-white bg-white/15 hover:bg-white/20 border border-white/30 rounded-xl transition flex items-center"
               >
                 <PhoneCall className="w-4 h-4 mr-2 text-amber-400" />
-                <span>Call {settings.primaryPhone || '+91 98000 00000'}</span>
+                <span>Call {settings.primaryPhone || '+91 98051 43007'}</span>
               </a>
             </div>
           </div>
@@ -575,7 +575,7 @@ const HomePage = () => {
               Get Free Custom Tour Plan
             </button>
             <a
-              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi,%20I%20want%20to%20plan%20a%20tour%20package%20with%20Baglamukhi%20Tour%20%26%20Travels`}
+              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi,%20I%20want%20to%20plan%20a%20tour%20package%20with%20Baglamukhi%20Tour%20%26%20Travels`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-lg transition flex items-center"

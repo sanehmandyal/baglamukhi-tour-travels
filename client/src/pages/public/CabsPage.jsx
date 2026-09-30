@@ -324,15 +324,15 @@ const CabsPage = () => {
             provider: {
               '@type': 'LocalBusiness',
               name: 'Baglamukhi Tour & Travels',
-              telephone: settings.primaryPhone || '+91 98000 00000',
+              telephone: settings.primaryPhone || '+91 98051 43007',
               address: {
                 '@type': 'PostalAddress',
-                addressLocality: 'Chandigarh',
-                addressRegion: 'Punjab / Himachal Pradesh',
+                addressLocality: 'Amb Andaura / Kangra / Chandigarh',
+                addressRegion: 'Himachal Pradesh',
                 addressCountry: 'IN',
               },
             },
-            areaServed: ['Chandigarh', 'Himachal Pradesh', 'Shimla', 'Manali', 'Dharamshala', 'Kangra', 'Amritsar', 'Delhi NCR'],
+            areaServed: ['Amb Andaura', 'Kangra', 'Chandigarh', 'Himachal Pradesh', 'Shimla', 'Manali', 'Dharamshala', 'Amritsar', 'Delhi NCR'],
             description: 'Top-rated commercial tourist cab and tempo traveller booking service for Himachal Pradesh with expert hill chauffeurs.',
           }),
         }}
@@ -363,7 +363,7 @@ const CabsPage = () => {
               Get Instant Cab Fare Quote
             </button>
             <a
-              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20need%20a%20cab%20quote%20for%20Himachal`}
+              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20need%20a%20cab%20quote%20for%20Himachal`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3.5 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-md flex items-center space-x-2"
@@ -529,7 +529,7 @@ const CabsPage = () => {
 
                   <div className="flex items-center gap-2">
                     <a
-                      href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi,%20I%20want%20to%20inquire%20about%20booking%20the%20${encodeURIComponent(cab.name)}`}
+                      href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi,%20I%20want%20to%20inquire%20about%20booking%20the%20${encodeURIComponent(cab.name)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition flex items-center justify-center border border-emerald-200"
@@ -703,7 +703,7 @@ const CabsPage = () => {
               Request Call Back
             </button>
             <a
-              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
               className="px-6 py-3.5 text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition shadow-md flex items-center space-x-2"
             >
               <Phone className="w-4 h-4" />

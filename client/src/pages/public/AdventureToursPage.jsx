@@ -29,7 +29,7 @@ const AdventureToursPage = () => {
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title="Spiti Valley & Adventure Tour Packages | 4x4 Road Trips | Thakur Travels"
+        title="Spiti Valley & Adventure Tour Packages | 4x4 Road Trips | Baglamukhi Tour & Travels"
         description="Epic Himalayan adventure road trips to Spiti Valley, Chandratal Lake, Parvati Valley trekking, and Solang paragliding with 4x4 SUVs."
         canonical="/adventure-tours"
       />

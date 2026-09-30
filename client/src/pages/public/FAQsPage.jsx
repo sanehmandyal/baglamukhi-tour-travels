@@ -113,11 +113,11 @@ const FAQsPage = () => {
             Our Himachal holiday consultants are happy to answer your questions right away.
           </p>
           <a
-            href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919816012345'}`}
+            href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
             className="inline-flex items-center px-5 py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition"
           >
             <PhoneCall className="w-3.5 h-3.5 mr-1.5" />
-            Call {settings.primaryPhone || '+91 98000 00000'}
+            Call {settings.primaryPhone || '+91 98051 43007'}
           </a>
         </div>
       </div>

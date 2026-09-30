@@ -30,7 +30,7 @@ const HoneymoonToursPage = () => {
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title="Manali & Himachal Honeymoon Packages with Candlelight Dinner | Thakur Travels"
+        title="Manali & Himachal Honeymoon Packages with Candlelight Dinner | Baglamukhi Tour & Travels"
         description="Book romantic Himachal & Manali honeymoon packages with luxury mountain suites, flower bed decoration, candlelight dinner, and private car."
         canonical="/honeymoon-tours"
         keywords={['Manali honeymoon package', 'Himachal honeymoon tour', 'Shimla couple trip', 'romantic holiday package']}

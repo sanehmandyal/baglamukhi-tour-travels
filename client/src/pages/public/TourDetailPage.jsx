@@ -151,14 +151,14 @@ const TourDetailPage = () => {
 
             <div className="flex items-center space-x-3">
               <a
-                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
                 className="px-4 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-amber-50 hover:text-amber-700 rounded-xl transition flex items-center"
               >
                 <PhoneCall className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
                 Call Agent
               </a>
               <a
-                href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20am%20interested%20in%20${encodeURIComponent(tour.title)}`}
+                href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20am%20interested%20in%20${encodeURIComponent(tour.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow-sm"
@@ -397,10 +397,10 @@ const TourDetailPage = () => {
                 Talk directly with our Himachal tour expert to customize hotels, add nights, or request Force Cruiser / Tempo Travellers.
               </p>
               <a
-                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+                href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
                 className="block py-2.5 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl shadow-md transition"
               >
-                Call {settings.primaryPhone || '+91 98000 00000'}
+                Call {settings.primaryPhone || '+91 98051 43007'}
               </a>
             </div>
           </div>

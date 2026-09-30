@@ -12,15 +12,15 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     primaryPhone: {
       type: String,
-      default: '+91 98000 00000',
+      default: '+91 98051 43007',
     },
     secondaryPhone: {
       type: String,
-      default: '+91 98111 11111',
+      default: '+91 98051 43007',
     },
     whatsappNumber: {
       type: String,
-      default: '+91 98000 00000',
+      default: '+91 98051 43007',
     },
     email: {
       type: String,
@@ -32,11 +32,11 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      default: 'Near Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 176049, India',
+      default: 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India',
     },
     city: {
       type: String,
-      default: 'Kangra & Chandigarh',
+      default: 'Amb Andaura, Kangra & Chandigarh',
     },
     state: {
       type: String,
@@ -44,7 +44,7 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     pincode: {
       type: String,
-      default: '176049',
+      default: '177203',
     },
     operatingHours: {
       type: String,

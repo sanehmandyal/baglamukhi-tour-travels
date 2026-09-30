@@ -145,7 +145,7 @@ const BlogDetailPage = () => {
             className="w-14 h-14 rounded-2xl object-cover border-2 border-brand-200 flex-shrink-0"
           />
           <div>
-            <h4 className="text-sm font-bold text-slate-900">{blog.author?.name || 'Thakur Travel Specialist'}</h4>
+            <h4 className="text-sm font-bold text-slate-900">{blog.author?.name || 'Baglamukhi Travel Specialist'}</h4>
             <p className="text-xs text-brand-600 font-semibold">{blog.author?.role || 'Himachal Tourism Expert'}</p>
             <p className="text-xs text-slate-500 mt-1 font-light">
               Over a decade of hands-on experience guiding tourists across Himachal Pradesh and Punjab.

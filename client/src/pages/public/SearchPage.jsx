@@ -54,7 +54,7 @@ const SearchPage = () => {
   return (
     <div className="space-y-12 pb-16">
       {/* Search pages set to noindex per SEO best practices */}
-      <SEOHead title={`Search Results for "${query}" | Thakur Travels`} noindex={true} />
+      <SEOHead title={`Search Results for "${query}" | Baglamukhi Tour & Travels`} noindex={true} />
 
       <Breadcrumbs items={[{ name: 'Search', url: '/search' }]} />
 

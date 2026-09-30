@@ -60,7 +60,7 @@ exports.login = async (req, res, next) => {
             email: 'admin@baglamukhitourtravels.com',
             password: 'Admin@123456',
             role: 'admin',
-            phone: '+91 98000 00000',
+            phone: '+91 98051 43007',
             isActive: true,
           });
         } catch (createErr) {

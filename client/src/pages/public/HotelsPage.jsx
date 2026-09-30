@@ -31,7 +31,7 @@ const HotelsPage = () => {
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title="Hotels & Mountain Resorts in Manali & Shimla | Thakur Travels"
+        title="Hotels & Mountain Resorts in Kangra, Manali & Shimla | Baglamukhi Tour & Travels"
         description="Book handpicked deluxe hotels and luxury resorts in Manali, Shimla, Dharamshala, and Amritsar with mountain views, heaters, and breakfast."
         canonical="/hotels"
       />

@@ -81,12 +81,12 @@ const Footer = () => {
             <div className="space-y-2.5 text-xs text-slate-300 pt-2">
               <p className="flex items-start space-x-2.5">
                 <MapPin className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-                <span>{settings.address || 'Near Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 176049, India'}</span>
+                <span>{settings.address || 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India'}</span>
               </p>
               <p className="flex items-center space-x-2.5">
                 <Phone className="w-4 h-4 text-yellow-400 flex-shrink-0" />
-                <a href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`} className="hover:text-yellow-400 transition font-medium">
-                  {settings.primaryPhone || '+91 98000 00000'} / {settings.secondaryPhone || '+91 98111 11111'}
+                <a href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`} className="hover:text-yellow-400 transition font-medium">
+                  {settings.primaryPhone || '+91 98051 43007'} (24/7 Helpline & WhatsApp)
                 </a>
               </p>
               <p className="flex items-center space-x-2.5">
@@ -175,6 +175,12 @@ const Footer = () => {
                 <Link to="/locations/delhi" className="hover:text-yellow-400 transition flex items-center">
                   <ChevronRight className="w-3 h-3 mr-1 text-neutral-600" />
                   Delhi to Himachal Cabs
+                </Link>
+              </li>
+              <li>
+                <Link to="/cabs" className="hover:text-yellow-400 transition flex items-center">
+                  <ChevronRight className="w-3 h-3 mr-1 text-neutral-600" />
+                  Amb Andaura (Vande Bharat) Taxi
                 </Link>
               </li>
               <li>

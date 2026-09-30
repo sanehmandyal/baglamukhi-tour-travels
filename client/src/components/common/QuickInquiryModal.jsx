@@ -94,7 +94,7 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
                 <input
                   type="tel"
                   required
-                  placeholder="+91 98000 00000"
+                  placeholder="+91 98051 43007"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full pl-8 pr-3 py-2 text-xs border border-neutral-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none"

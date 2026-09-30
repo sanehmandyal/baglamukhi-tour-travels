@@ -61,15 +61,15 @@ const Navbar = ({ onOpenInquiry }) => {
 
           <div className="flex items-center space-x-4 ml-auto font-medium">
             <a
-              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
               className="flex items-center text-slate-200 hover:text-amber-400 transition"
             >
               <Phone className="w-3 h-3 mr-1 text-amber-400" />
-              {settings.primaryPhone || '+91 98000 00000'}
+              {settings.primaryPhone || '+91 98051 43007'}
             </a>
 
             <a
-              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919800000000'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20want%20to%20inquire%20about%20a%20tour%20package`}
+              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20want%20to%20inquire%20about%20a%20tour%20package`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-emerald-400 hover:text-emerald-300 transition"
@@ -260,11 +260,11 @@ const Navbar = ({ onOpenInquiry }) => {
 
             {/* Quick Call Desk (Desktop) */}
             <a
-              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919800000000'}`}
+              href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
               className="hidden xl:flex items-center space-x-2 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-50 hover:bg-amber-50 hover:text-amber-700 border border-slate-200 rounded-xl transition"
             >
               <Phone className="w-3.5 h-3.5 text-amber-500" />
-              <span>{settings.primaryPhone || '+91 98000 00000'}</span>
+              <span>{settings.primaryPhone || '+91 98051 43007'}</span>
             </a>
 
             {/* Radiant CTA Button */}

@@ -72,7 +72,7 @@ const AdminSeoManagerPage = () => {
       pageType: 'custom',
       title: 'Custom Tour Page | Baglamukhi Tour & Travels',
       metaDescription: 'Book reliable tour packages, taxi cabs, and hotel stays in Himachal with 24x7 support.',
-      keywords: 'himachal tour, cab rental, thakur tour travel',
+      keywords: 'himachal tour, cab rental, baglamukhi tour travels, amb andaura taxi',
       ogTitle: '',
       ogDescription: '',
       ogImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',

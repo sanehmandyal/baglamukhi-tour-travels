@@ -11,7 +11,7 @@ export const OrganizationSchema = () => {
     image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80',
     '@id': 'http://localhost:5173/#organization',
     url: 'http://localhost:5173',
-    telephone: settings.primaryPhone || '+91 98000 00000',
+    telephone: settings.primaryPhone || '+91 98051 43007',
     email: settings.email || 'info@baglamukhitourtravels.com',
     priceRange: '₹₹',
     address: {
@@ -87,7 +87,7 @@ export const TourPackageSchema = ({ tour }) => {
       '@type': 'TravelAgency',
       name: 'Baglamukhi Tour & Travels',
       url: 'http://localhost:5173',
-      telephone: '+91 98000 00000',
+      telephone: '+91 98051 43007',
     },
     itinerary: tour.itinerary?.map((item) => ({
       '@type': 'City',
@@ -113,7 +113,7 @@ export const ArticleSchema = ({ blog }) => {
     image: blog.featuredImage?.url,
     author: {
       '@type': 'Person',
-      name: blog.author?.name || 'Thakur Travel Experts',
+      name: blog.author?.name || 'Baglamukhi Travel Specialists',
     },
     publisher: {
       '@type': 'Organization',

@@ -42,7 +42,7 @@ const PrivacyPolicyPage = () => {
         <div>
           <h3 className="text-base font-bold text-slate-900 mb-2 font-display">4. Contacting Us</h3>
           <p>
-            If you have questions regarding our privacy practices, you can contact us at <strong>info@baglamukhitourtravels.com</strong> or call <strong>+91 98000 00000</strong>.
+            If you have questions regarding our privacy practices, you can contact us at <strong>info@baglamukhitourtravels.com</strong> or call <strong>+91 98051 43007</strong>.
           </p>
         </div>
       </div>

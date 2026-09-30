@@ -8,7 +8,7 @@ const GroupToursPage = () => {
   return (
     <div className="space-y-12 pb-16">
       <SEOHead
-        title="Group Tour Packages | College, Family & Social Group Trips | Thakur Travels"
+        title="Group Tour Packages | College, Family & Social Group Trips | Baglamukhi Tour & Travels"
         description="Organize large group tour packages to Manali, Shimla, and Goa with luxury tempo travellers, deluxe group hotel stays, and bonfire music nights."
         canonical="/group-tours"
       />

@@ -116,7 +116,7 @@ const BookingConfirmationPage = () => {
         {/* Buttons */}
         <div className="flex flex-wrap justify-center gap-4 pt-4">
           <a
-            href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919816012345'}?text=Hi%20Thakur%20Travels,%20I%20just%20submitted%20booking%20reference%20${code || 'online'}.`}
+            href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20just%20submitted%20booking%20reference%20${code || 'online'}.`}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow"
