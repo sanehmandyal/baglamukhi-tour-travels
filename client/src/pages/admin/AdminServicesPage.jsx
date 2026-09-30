@@ -140,25 +140,27 @@ const AdminServicesPage = () => {
   const fetchServices = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/services/admin/all');
-      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
-        setServices(res.data.data);
-      } else {
-        const publicRes = await api.get('/services');
-        if (publicRes.data?.success && Array.isArray(publicRes.data?.data) && publicRes.data.data.length > 0) {
-          setServices(publicRes.data.data);
-        } else {
-          setServices(DEFAULT_CABS);
-        }
-      }
-    } catch (err) {
+      let list = [];
       try {
-        const fallbackRes = await api.get('/services');
-        if (fallbackRes.data?.success && Array.isArray(fallbackRes.data?.data) && fallbackRes.data.data.length > 0) {
-          setServices(fallbackRes.data.data);
-          return;
+        const res = await api.get('/services/admin/all');
+        if (res.data?.success && Array.isArray(res.data?.data)) {
+          list = res.data.data;
         }
-      } catch (e) {}
+      } catch (e) {
+        try {
+          const publicRes = await api.get('/services');
+          if (publicRes.data?.success && Array.isArray(publicRes.data?.data)) {
+            list = publicRes.data.data;
+          }
+        } catch (err) {}
+      }
+
+      const dbTitles = new Set(list.map((s) => (s.slug || s.title || '').toLowerCase()));
+      const remainingDefaults = DEFAULT_CABS.filter(
+        (c) => !dbTitles.has((c.slug || c.title || '').toLowerCase())
+      );
+      setServices([...list, ...remainingDefaults]);
+    } catch (err) {
       setServices(DEFAULT_CABS);
     } finally {
       setLoading(false);

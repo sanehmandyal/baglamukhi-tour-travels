@@ -18,8 +18,13 @@ const DestinationsPage = () => {
       setLoading(true);
       try {
         const res = await api.get('/destinations');
-        if (res.data?.success && res.data.data?.length > 0) {
-          setDestinations(res.data.data);
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          const dbItems = res.data.data;
+          const dbSlugs = new Set(dbItems.map((d) => (d.slug || d.name || '').toLowerCase()));
+          const remainingDefaults = DEFAULT_DESTINATIONS.filter(
+            (d) => !dbSlugs.has((d.slug || d.name || '').toLowerCase())
+          );
+          setDestinations([...dbItems, ...remainingDefaults]);
         } else {
           setDestinations(DEFAULT_DESTINATIONS);
         }

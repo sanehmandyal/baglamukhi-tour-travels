@@ -268,7 +268,7 @@ const CabsPage = () => {
       try {
         setLoading(true);
         const res = await api.get('/services');
-        if (res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+        if (res.data?.success && Array.isArray(res.data.data)) {
           const mapped = res.data.data.map((item, idx) => {
             const inferredType = helperInferType(item);
             const featuresList = Array.isArray(item.features)
@@ -305,8 +305,12 @@ const CabsPage = () => {
             };
           });
 
-          // Prepend admin additions and merge
-          setFleet(mapped);
+          // Prepend admin additions and merge with presets
+          const dbIds = new Set(mapped.map((c) => (c.name || c.id || '').toLowerCase()));
+          const remainingPresets = BASE_FLEET_PRESETS.filter(
+            (c) => !dbIds.has((c.name || c.id || '').toLowerCase())
+          );
+          setFleet([...mapped, ...remainingPresets]);
         }
       } catch (err) {
         console.warn('[CabsPage] API fetch note:', err.message);

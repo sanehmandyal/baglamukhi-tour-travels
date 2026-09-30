@@ -72,10 +72,17 @@ const ToursPage = () => {
       params.append('limit', 9);
 
       const res = await api.get(`/tours?${params.toString()}`);
-      if (res.data?.success && res.data.data?.length > 0) {
-        setTours(res.data.data);
-        setTotalCount(res.data.total || res.data.data.length);
-        setTotalPages(res.data.totalPages || 1);
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        const dbItems = res.data.data;
+        const defaults = getFilteredDefaults();
+        const dbSlugs = new Set(dbItems.map((t) => (t.slug || t.title || '').toLowerCase()));
+        const remainingDefaults = defaults.filter(
+          (t) => !dbSlugs.has((t.slug || t.title || '').toLowerCase())
+        );
+        const merged = [...dbItems, ...remainingDefaults];
+        setTours(merged);
+        setTotalCount(merged.length);
+        setTotalPages(Math.ceil(merged.length / 9) || 1);
       } else {
         const defaults = getFilteredDefaults();
         setTours(defaults);

@@ -17,8 +17,13 @@ const AdminToursPage = () => {
     try {
       setLoading(true);
       const res = await api.get('/tours/admin/all');
-      if (res.data?.success && Array.isArray(res.data?.data) && res.data.data.length > 0) {
-        setTours(res.data.data);
+      if (res.data?.success && Array.isArray(res.data?.data)) {
+        const dbItems = res.data.data;
+        const dbSlugs = new Set(dbItems.map((t) => (t.slug || t.title || '').toLowerCase()));
+        const remainingDefaults = DEFAULT_TOURS.filter(
+          (t) => !dbSlugs.has((t.slug || t.title || '').toLowerCase())
+        );
+        setTours([...dbItems, ...remainingDefaults]);
       } else {
         setTours(DEFAULT_TOURS);
       }
