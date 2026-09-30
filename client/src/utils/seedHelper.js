@@ -130,6 +130,69 @@ export const syncDatabaseInventory = async (target = 'all') => {
     }
   }
 
+  if (target === 'all' || target === 'blogs') {
+    for (const blog of DEFAULT_BLOGS) {
+      try {
+        const payload = {
+          title: blog.title,
+          slug: blog.slug,
+          category: blog.category || 'Travel Tips',
+          tags: blog.tags || ['Himachal', 'Travel Guide'],
+          author: blog.author || { name: 'Baglamukhi Travels Team', role: 'Travel Expert' },
+          featuredImage: blog.featuredImage,
+          excerpt: blog.excerpt,
+          content: blog.content,
+          readingTime: blog.readingTime || '5 min read',
+          isPublished: true,
+          publishedAt: new Date(),
+        };
+        await api.post('/blogs', payload);
+        count++;
+      } catch (e) {
+        console.warn(`[SeedHelper] Blog ${blog.slug} insert note:`, e.message);
+      }
+    }
+  }
+
+  if (target === 'all' || target === 'testimonials') {
+    for (const test of DEFAULT_TESTIMONIALS) {
+      try {
+        const payload = {
+          name: test.name,
+          location: test.location,
+          tripTaken: test.tripTaken || test.tourTaken || 'Himachal Tour',
+          tourTaken: test.tourTaken || test.tripTaken || 'Himachal Tour',
+          rating: test.rating || 5,
+          reviewText: test.reviewText,
+          avatar: test.avatar,
+          isApproved: true,
+          isFeatured: true,
+        };
+        await api.post('/testimonials', payload);
+        count++;
+      } catch (e) {
+        console.warn(`[SeedHelper] Testimonial insert note:`, e.message);
+      }
+    }
+  }
+
+  if (target === 'all' || target === 'faqs') {
+    for (const faq of DEFAULT_FAQS) {
+      try {
+        const payload = {
+          question: faq.question,
+          answer: faq.answer,
+          category: faq.category || 'General',
+          isActive: true,
+        };
+        await api.post('/faqs', payload);
+        count++;
+      } catch (e) {
+        console.warn(`[SeedHelper] FAQ insert note:`, e.message);
+      }
+    }
+  }
+
   return {
     success: true,
     message: `Database sync completed (${count} records processed).`,

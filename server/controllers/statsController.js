@@ -5,6 +5,8 @@ const Destination = require('../models/Destination');
 const ContactMessage = require('../models/ContactMessage');
 const Service = require('../models/Service');
 const Hotel = require('../models/Hotel');
+const Testimonial = require('../models/Testimonial');
+const FAQ = require('../models/FAQ');
 
 // @desc    Get dashboard overview statistics
 // @route   GET /api/stats/dashboard
@@ -23,11 +25,13 @@ exports.getDashboardStats = async (req, res, next) => {
     const totalBlogs = await Blog.countDocuments({ isPublished: true });
     const totalServices = await Service.countDocuments({ isPublished: true });
     const totalHotels = await Hotel.countDocuments({ isPublished: true });
+    const totalTestimonials = await Testimonial.countDocuments({ isApproved: true });
+    const totalFaqs = await FAQ.countDocuments({ isActive: true });
     const unreadMessages = await ContactMessage.countDocuments({ status: 'Unread' });
 
     const recentBookings = await Booking.find()
       .sort({ createdAt: -1 })
-      .limit(6)
+      .limit(8)
       .populate('tourId', 'title slug');
 
     const recentMessages = await ContactMessage.find()
@@ -46,11 +50,13 @@ exports.getDashboardStats = async (req, res, next) => {
         },
         inventory: {
           tours: totalTours,
-          publishedTours,
+          publishedTours: publishedTours || totalTours,
           destinations: totalDestinations,
           blogs: totalBlogs,
           services: totalServices,
           hotels: totalHotels,
+          testimonials: totalTestimonials,
+          faqs: totalFaqs,
         },
         inbox: {
           unreadMessages,

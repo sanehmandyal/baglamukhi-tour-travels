@@ -20,6 +20,10 @@ connectDB().then(async () => {
     const Tour = require('./models/Tour');
     const Service = require('./models/Service');
     const Destination = require('./models/Destination');
+    const Blog = require('./models/Blog');
+    const Testimonial = require('./models/Testimonial');
+    const Booking = require('./models/Booking');
+    const FAQ = require('./models/FAQ');
 
     const existing = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
     if (!existing) {
@@ -37,9 +41,12 @@ connectDB().then(async () => {
     const tourCount = await Tour.countDocuments();
     const serviceCount = await Service.countDocuments();
     const destinationCount = await Destination.countDocuments();
+    const blogCount = await Blog.countDocuments();
+    const testimonialCount = await Testimonial.countDocuments();
+    const bookingCount = await Booking.countDocuments();
 
-    if (tourCount === 0 || serviceCount === 0 || destinationCount === 0) {
-      console.log('[Seed] Database inventory is empty or missing services/tours. Auto-seeding full Himachal packages & fleet...');
+    if (tourCount < 3 || serviceCount < 3 || destinationCount < 3 || blogCount === 0 || testimonialCount === 0 || bookingCount === 0) {
+      console.log('[Seed] Database inventory is partial or missing content. Auto-seeding full Himachal packages, authentic fleet, destinations, blogs & bookings...');
       await seedDatabase(true);
       console.log('[Seed] Auto-seeding completed successfully!');
     }

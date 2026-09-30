@@ -18,6 +18,14 @@ exports.createBooking = async (req, res, next) => {
       bookingId,
     };
 
+    if (bookingData.tourId && !bookingData.tourId.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete bookingData.tourId;
+    }
+
+    if (!bookingData.email) {
+      bookingData.email = `${(bookingData.phone || 'guest').replace(/[^0-9]/g, '') || 'inquiry'}@customer.inquiry`;
+    }
+
     const booking = await Booking.create(bookingData);
 
     res.status(201).json({
