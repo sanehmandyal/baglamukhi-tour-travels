@@ -12,22 +12,66 @@ const ImageUploadInput = ({
   const fileInputRef = useRef(null);
   const [activeTab, setActiveTab] = useState('upload'); // 'upload' | 'url'
   const [dragOver, setDragOver] = useState(false);
+  const [compressing, setCompressing] = useState(false);
 
-  const handleFileChange = (file) => {
+  // Client-side instant canvas image compressor
+  const compressImage = (file, maxWidth = 1200, maxHeight = 900, quality = 0.8) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width / height > maxWidth / maxHeight) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to lightweight JPEG
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        };
+        img.onerror = () => reject(new Error('Failed to load image for compression'));
+        img.src = event.target.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read image file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = async (file) => {
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      alert('File size exceeds 10MB. Please choose a smaller image.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    try {
+      setCompressing(true);
+      const compressedDataUrl = await compressImage(file);
       if (onChange) {
-        onChange(e.target.result);
+        onChange(compressedDataUrl);
       }
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error('[ImageUpload] Compression error:', err);
+      // Fallback to direct read
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (onChange) onChange(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setCompressing(false);
+    }
   };
 
   const handleDrop = (e) => {
@@ -89,60 +133,76 @@ const ImageUploadInput = ({
             }}
           />
           <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shadow-sm">
-            <UploadCloud className="w-5 h-5" />
+            {compressing ? (
+              <div className="w-5 h-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <UploadCloud className="w-5 h-5" />
+            )}
           </div>
           <div>
             <p className="text-xs font-bold text-slate-800">
-              Click to choose image from phone / computer
+              {compressing ? 'Optimizing photo size...' : 'Click to choose image from phone / computer'}
             </p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Supports PNG, JPG, JPEG, WEBP (Up to 10MB)</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Auto-optimized for ultra-fast loading (PNG, JPG, WEBP)</p>
           </div>
         </div>
       ) : (
         <div className="relative">
           <input
             type="url"
-            placeholder="https://example.com/image.jpg"
-            value={value || ''}
+            value={value}
             onChange={(e) => onChange && onChange(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
+            placeholder="https://images.unsplash.com/... or /images/cabs/..."
+            className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
           />
-          <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
         </div>
       )}
 
-      {/* Image Preview & Alt Text Input */}
+      {/* Image Preview Card */}
       {value && (
-        <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-start space-x-3 mt-2">
-          <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
-            <img src={value} alt={altValue || 'Preview'} className="w-full h-full object-cover" />
-            <button
-              type="button"
-              onClick={() => onChange && onChange('')}
-              className="absolute top-1 right-1 p-1 bg-slate-900/80 text-white hover:bg-rose-600 rounded-full transition"
-              title="Remove image"
-            >
-              <X className="w-3 h-3" />
-            </button>
+        <div className="relative p-2.5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center space-x-3 group">
+          <div className="w-16 h-12 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-200">
+            <img
+              src={value}
+              alt="Attached vehicle/photo"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/images/cabs/force-cruiser-4x4.jpg';
+              }}
+              className="w-full h-full object-cover"
+            />
           </div>
+          <div className="flex-1 min-w-0 pr-8">
+            <div className="flex items-center space-x-1.5 text-emerald-600 text-xs font-bold">
+              <Check className="w-3.5 h-3.5" />
+              <span>Image Attached Successfully</span>
+            </div>
+            <p className="text-[11px] text-slate-500 truncate mt-0.5 font-mono">
+              {value.startsWith('data:') ? 'Custom Uploaded Photo (Compressed Web Ready)' : value}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onChange && onChange('')}
+            className="p-1.5 bg-white text-rose-500 hover:text-rose-700 hover:bg-rose-50 border border-slate-200 rounded-lg shadow-sm transition"
+            title="Remove Image"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
-          <div className="flex-1 space-y-1.5">
-            <span className="text-[11px] font-bold text-emerald-600 flex items-center">
-              <Check className="w-3 h-3 mr-1" /> Image Attached Successfully
-            </span>
-            {onAltChange && (
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Image Alt / SEO Description</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Maa Baglamukhi Temple sanctum or Manali snow view"
-                  value={altValue}
-                  onChange={(e) => onAltChange(e.target.value)}
-                  className="w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500"
-                />
-              </div>
-            )}
-          </div>
+      {onAltChange && (
+        <div>
+          <label className="block text-[11px] font-semibold text-slate-600 mb-1">Image Alt Text (SEO)</label>
+          <input
+            type="text"
+            value={altValue}
+            onChange={(e) => onAltChange(e.target.value)}
+            placeholder="e.g. Force Cruiser 4x4 Mountain Taxi Himachal"
+            className="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:ring-1 focus:ring-amber-500"
+          />
         </div>
       )}
     </div>
