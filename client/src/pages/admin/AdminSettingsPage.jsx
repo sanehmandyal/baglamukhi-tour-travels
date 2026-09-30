@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { useSettings } from '../../context/SettingsContext';
-import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle, FiLock } from 'react-icons/fi';
+import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle, FiLock, FiEye, FiEyeOff, FiShield } from 'react-icons/fi';
 
 const AdminSettingsPage = () => {
   const { refreshSettings } = useSettings();
@@ -11,6 +11,9 @@ const AdminSettingsPage = () => {
   const [passwordNotice, setPasswordNotice] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -426,25 +429,31 @@ const AdminSettingsPage = () => {
       </form>
 
       {/* Admin Security & Password Change */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-        <div className="border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <FiLock className="text-cyan-600" /> Admin Access & Security Credentials
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Update your administrator password securely. Use a combination of uppercase letters, numbers, and symbols.
-          </p>
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+        <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <FiLock className="text-amber-500" /> Admin Access & Security Credentials
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Change your administrator account password. Once changed, all previous and default passwords are permanently invalidated.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold">
+            <FiShield className="text-amber-600 w-3.5 h-3.5" />
+            Active Security Protection
+          </span>
         </div>
 
         {passwordNotice && (
-          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold flex items-center gap-2">
-            <FiCheckCircle className="text-emerald-600 shrink-0" />
+          <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold flex items-center gap-2">
+            <FiCheckCircle className="text-emerald-600 shrink-0 w-4 h-4" />
             <span>{passwordNotice}</span>
           </div>
         )}
 
         {passwordError && (
-          <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-semibold">
+          <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-semibold">
             <span>{passwordError}</span>
           </div>
         )}
@@ -453,52 +462,86 @@ const AdminSettingsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">Current Password *</label>
-              <input
-                type="password"
-                name="currentPassword"
-                value={passwordData.currentPassword}
-                onChange={handlePasswordChange}
-                required
-                placeholder="••••••••"
-                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
-              />
+              <div className="relative">
+                <input
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  name="currentPassword"
+                  value={passwordData.currentPassword}
+                  onChange={handlePasswordChange}
+                  required
+                  placeholder="Enter current password"
+                  className="w-full pl-3.5 pr-10 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-500 font-medium"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                >
+                  {showCurrentPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">New Password *</label>
-              <input
-                type="password"
-                name="newPassword"
-                value={passwordData.newPassword}
-                onChange={handlePasswordChange}
-                required
-                placeholder="Min 6 characters (e.g. Admin@2025#)"
-                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
-              />
+              <div className="relative">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  name="newPassword"
+                  value={passwordData.newPassword}
+                  onChange={handlePasswordChange}
+                  required
+                  placeholder="Min 6 chars (e.g. MySecretPass#99)"
+                  className="w-full pl-3.5 pr-10 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-500 font-medium"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                >
+                  {showNewPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold uppercase text-slate-700 mb-1">Confirm New Password *</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={passwordData.confirmPassword}
-                onChange={handlePasswordChange}
-                required
-                placeholder="Confirm new password"
-                className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-500"
-              />
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={passwordData.confirmPassword}
+                  onChange={handlePasswordChange}
+                  required
+                  placeholder="Confirm new password"
+                  className="w-full pl-3.5 pr-10 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-500 font-medium"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                >
+                  {showConfirmPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
+          </div>
+
+          <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 flex items-start space-x-2">
+            <FiShield className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <span>
+              <strong>Security Rule:</strong> As soon as you click <em>Update Admin Password</em>, your new password will be hashed with bcrypt in the database. Any old or default passwords will no longer work, guaranteeing that only the password you set can access the portal.
+            </span>
           </div>
 
           <div className="flex justify-end pt-2">
             <button
               type="submit"
               disabled={updatingPassword}
-              className="flex items-center space-x-2 px-6 py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl text-sm font-semibold shadow-md transition-all disabled:opacity-50"
+              className="flex items-center space-x-2 px-6 py-2.5 bg-neutral-950 hover:bg-neutral-900 text-yellow-400 border border-yellow-400/40 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-all disabled:opacity-50 cursor-pointer"
             >
               <FiLock className="w-4 h-4" />
-              <span>{updatingPassword ? 'Updating Password...' : 'Update Admin Password'}</span>
+              <span>{updatingPassword ? 'Updating Password...' : 'Save & Enforce New Password'}</span>
             </button>
           </div>
         </form>

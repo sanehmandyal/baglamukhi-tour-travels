@@ -50,57 +50,34 @@ exports.login = async (req, res, next) => {
 
     const cleanEmail = email.toLowerCase().trim();
 
-    // 1. Direct Master Admin bypass & auto-sync
-    if (cleanEmail === 'admin@baglamukhitourtravels.com' && password === 'Admin@123456') {
-      let adminUser = await User.findOne({ email: cleanEmail });
-      if (!adminUser) {
-        try {
-          adminUser = await User.create({
-            name: 'Baglamukhi Tour & Travels Admin',
-            email: 'admin@baglamukhitourtravels.com',
-            password: 'Admin@123456',
-            role: 'admin',
-            phone: '+91 98051 43007',
-            isActive: true,
-          });
-        } catch (createErr) {
-          // If already created in race condition
-          adminUser = await User.findOne({ email: cleanEmail });
-        }
-      }
+    // Find user in database with password field
+    let user = await User.findOne({ email: cleanEmail }).select('+password');
 
-      if (adminUser) {
-        if (!adminUser.isActive) {
-          adminUser.isActive = true;
-          await adminUser.save();
-        }
-        const token = adminUser.getSignedJwtToken();
-        return res.status(200).json({
-          success: true,
-          token,
-          user: {
-            id: adminUser._id,
-            name: adminUser.name,
-            email: adminUser.email,
-            role: adminUser.role,
-          },
-        });
-      }
+    // If initial database has no admin user at all, create initial admin on first run
+    if (!user && cleanEmail === 'admin@baglamukhitourtravels.com') {
+      user = await User.create({
+        name: 'Baglamukhi Tour & Travels Admin',
+        email: 'admin@baglamukhitourtravels.com',
+        password: 'Admin@123456',
+        role: 'admin',
+        phone: '+91 98051 43007',
+        isActive: true,
+      });
+      user = await User.findById(user._id).select('+password');
     }
 
-    // 2. Standard lookup for custom updated passwords
-    const user = await User.findOne({ email: cleanEmail }).select('+password');
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
+    // Strictly verify password against user's current password in database
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
     if (!user.isActive) {
-      return res.status(401).json({ success: false, message: 'Your account is deactivated' });
+      return res.status(401).json({ success: false, message: 'Your account is deactivated. Please contact support.' });
     }
 
     const token = user.getSignedJwtToken();

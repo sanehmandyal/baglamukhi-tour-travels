@@ -44,7 +44,7 @@ const seedDatabase = async (dropDb = true) => {
     ]);
     console.log('[Seed] Cleared collections for fresh seed.');
 
-    // 1. Create or Update Admin User
+    // 1. Create or Preserve Admin User
     let adminUser = await User.findOne({ email: 'admin@baglamukhitourtravels.com' });
     if (!adminUser) {
       adminUser = await User.create({
@@ -57,10 +57,11 @@ const seedDatabase = async (dropDb = true) => {
       });
       console.log('[Seed] Admin user created (admin@baglamukhitourtravels.com / Admin@123456)');
     } else {
-      adminUser.password = 'Admin@123456';
-      adminUser.isActive = true;
-      await adminUser.save();
-      console.log('[Seed] Admin user verified & refreshed.');
+      if (!adminUser.isActive) {
+        adminUser.isActive = true;
+        await adminUser.save();
+      }
+      console.log('[Seed] Admin user preserved with their custom password.');
     }
 
     // 2. Create Site Settings
