@@ -28,21 +28,39 @@ export const syncDatabaseInventory = async (target = 'all') => {
   if (target === 'all' || target === 'services') {
     for (const cab of DEFAULT_CABS) {
       try {
+        const serviceType = cab.category === 'tempo-traveller' ? 'Tempo Traveller' : 'Cab & Taxi';
+        const routes = (cab.popularRoutes || ['Chandigarh to Manali', 'Maa Baglamukhi Dham']).map((r, i) => ({
+          route: typeof r === 'string' ? r : `Route ${i + 1}`,
+          distance: '150 km',
+          sedanPrice: 2500,
+          suvPrice: 3500,
+          tempoPrice: 5500,
+        }));
+
         const payload = {
           title: cab.title,
           slug: cab.slug,
+          serviceType: serviceType,
           category: cab.category || 'cab-rental',
-          vehicleType: cab.vehicleType,
-          capacity: cab.capacity,
-          luggageCapacity: cab.luggageCapacity,
+          vehicleType: cab.vehicleType || 'Mountain Cab',
+          capacity: cab.capacity || '4+1 Passengers',
+          luggageCapacity: cab.luggageCapacity || '3 Large Bags',
           pricePerKm: cab.pricePerKm || 14,
           baseFare: cab.baseFare || 2500,
-          shortDescription: cab.shortDescription,
-          fullDescription: cab.shortDescription,
-          image: cab.image,
-          features: Array.isArray(cab.features) ? cab.features.join(', ') : cab.features,
-          popularRoutes: Array.isArray(cab.popularRoutes) ? cab.popularRoutes.join(', ') : cab.popularRoutes,
+          ratePerKm: cab.pricePerKm || 14,
+          fullDayRate: cab.baseFare || 2500,
+          shortDescription: cab.shortDescription || 'Himachal tourist cab with experienced hill chauffeur.',
+          detailedContent: cab.shortDescription || 'Commercial tourist cab with certified mountain chauffeur.',
+          fullDescription: cab.shortDescription || 'Commercial tourist cab with certified mountain chauffeur.',
+          image: cab.image || '/images/cabs/force-cruiser-4x4.jpg',
+          featuredImage: {
+            url: cab.image || '/images/cabs/force-cruiser-4x4.jpg',
+            alt: cab.title || 'Cab',
+          },
+          features: Array.isArray(cab.features) ? cab.features : ['AC', 'Heater', 'Fastag', 'Pahadi Driver'],
+          popularRoutes: routes,
           isActive: true,
+          isPublished: true,
         };
         await api.post('/services', payload);
         count++;

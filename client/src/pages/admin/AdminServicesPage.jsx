@@ -266,17 +266,57 @@ const AdminServicesPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const rawRoutes = typeof formData.popularRoutes === 'string'
+        ? formData.popularRoutes.split(',').map(f => f.trim()).filter(Boolean)
+        : Array.isArray(formData.popularRoutes) ? formData.popularRoutes : [];
+
+      const formattedRoutes = rawRoutes.map((r, idx) => {
+        if (typeof r === 'object' && r !== null && r.route) return r;
+        const routeName = typeof r === 'string' ? r : `Himachal Route ${idx + 1}`;
+        const km = 150;
+        const perKm = Number(formData.pricePerKm) || 14;
+        return {
+          route: routeName,
+          distance: `${km} km`,
+          sedanPrice: perKm * km,
+          suvPrice: (perKm + 4) * km,
+          tempoPrice: (perKm + 10) * km,
+        };
+      });
+
+      const inferServiceType = (cat, title) => {
+        const text = `${cat || ''} ${title || ''}`.toLowerCase();
+        if (text.includes('tempo') || text.includes('traveller')) return 'Tempo Traveller';
+        if (text.includes('airport')) return 'Airport Transfer';
+        if (text.includes('bus') || text.includes('coach')) return 'Bus Rental';
+        if (text.includes('custom') || text.includes('tour')) return 'Custom Tour Transport';
+        return 'Cab & Taxi';
+      };
+
+      const finalServiceType = inferServiceType(formData.category, formData.title);
+      const finalShortDesc = formData.shortDescription || 'Commercial tourist cab with certified mountain chauffeur.';
+      const finalDetailed = formData.fullDescription || formData.detailedContent || formData.shortDescription || 'Full day and outstation tourist transport with experienced driver.';
+      const imgUrl = formData.image || '/images/cabs/force-cruiser-4x4.jpg';
+
       const payload = {
         ...formData,
+        serviceType: finalServiceType,
+        shortDescription: finalShortDesc,
+        detailedContent: finalDetailed,
+        fullDescription: finalDetailed,
         pricePerKm: Number(formData.pricePerKm) || 14,
         baseFare: Number(formData.baseFare) || 2500,
-        image: formData.image || '/images/cabs/force-cruiser-4x4.jpg',
+        ratePerKm: Number(formData.pricePerKm) || 14,
+        fullDayRate: Number(formData.baseFare) || 2500,
+        image: imgUrl,
         featuredImage: {
-          url: formData.image || '/images/cabs/force-cruiser-4x4.jpg',
-          alt: formData.title || 'Cab',
+          url: imgUrl,
+          alt: formData.title || 'Himachal Cab',
         },
         features: typeof formData.features === 'string' ? formData.features.split(',').map(f => f.trim()).filter(Boolean) : formData.features,
-        popularRoutes: typeof formData.popularRoutes === 'string' ? formData.popularRoutes.split(',').map(r => r.trim()).filter(Boolean) : formData.popularRoutes,
+        popularRoutes: formattedRoutes.length > 0 ? formattedRoutes : [
+          { route: 'Chandigarh to Manali', distance: '270 km', sedanPrice: 3500, suvPrice: 4800, tempoPrice: 7500 }
+        ],
         isActive: formData.isActive !== undefined ? formData.isActive : true,
         isPublished: formData.isActive !== undefined ? formData.isActive : true,
       };
