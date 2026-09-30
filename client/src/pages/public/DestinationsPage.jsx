@@ -45,10 +45,10 @@ const DestinationsPage = () => {
   return (
     <div>
       <SEOHead
-        title="Top Travel Destinations in Himachal & Punjab | Baglamukhi Tour & Travels"
-        description="Explore top tourist places in Himachal Pradesh and Punjab: Manali, Shimla, Dharamshala, Dalhousie, Spiti Valley, and Amritsar Golden Temple."
+        title="Top Himachal Destinations | Maa Baglamukhi, Manali, Shimla & Spiti"
+        description="Explore top tourist places and Shaktipeeths in Himachal Pradesh: Maa Baglamukhi Temple Bankhandi Kangra, Manali, Shimla, Dharamshala, Dalhousie, and Spiti Valley with Baglamukhi Tour & Travels."
         canonical="/destinations"
-        keywords={['Himachal destinations', 'places to visit in Himachal', 'Manali tourism', 'Shimla travel guide']}
+        keywords={['Maa Baglamukhi Temple Kangra', 'Himachal destinations', 'places to visit in Himachal', 'Manali tourism', 'Shimla travel guide', 'Dharamshala McLeodganj', 'Spiti Valley places']}
       />
 
       <Breadcrumbs items={[{ name: 'Destinations', url: '/destinations' }]} />

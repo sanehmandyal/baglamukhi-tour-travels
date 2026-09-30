@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Core Main Landing Pages -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</image:loc>
+      <image:title>Maa Baglamukhi Temple Bankhandi Kangra Tour &amp; Travels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/cabs</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Himachal Taxi, Cruiser &amp; Tempo Traveller Fleet</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/about-us</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/contact-us</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/blog</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/faqs</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/hotels</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/testimonials</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/gallery</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Theme Holiday Tour Category Landing Pages -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/pilgrimage-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/honeymoon-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/adventure-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/family-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/group-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/weekend-trips</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/customized-tours</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Cab & Taxi Fleet Service Specific Pages -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/services/cab-booking</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/services/tempo-traveller</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/services/airport-transfer</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/services/car-rental</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- High-Rank Tour Package Pages -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/9-devi-darshan-himachal-pilgrimage-package</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Maa Baglamukhi &amp; 9 Devi Darshan Himachal Yatra</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/manali-deluxe-5-days-tour-package</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Manali Deluxe 5 Days Holiday Tour Package</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/shimla-manali-combined-6-days-package</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Shimla Manali Combined 6 Days 5 Nights Complete Tour</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/dharamshala-dalhousie-scenic-hill-escape</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/spiti-valley-road-trip-adventure</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/tours/manali-honeymoon-special-package</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Destination Deep Dive Pages -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/baglamukhi-temple-kangra</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/manali</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/shimla</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/dharamshala</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/dalhousie</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/spiti-valley</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/amritsar</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/destinations/kinnaur</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Local City SEO Pages (Amb Andaura, Chandigarh, Mohali, Panchkula, Zirakpur) -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/locations/una</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/locations/chandigarh</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/locations/mohali</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/locations/zirakpur</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/locations/panchkula</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- High-Authority Editorial Blog Articles -->
+  <url>
+    <loc>https://baglamukhitourtravels.com/blog/maa-baglamukhi-temple-bankhandi-kangra-complete-darshan-guide</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/blog/best-time-to-visit-manali-season-guide</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/blog/shimla-manali-tour-itinerary-6-days</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://baglamukhitourtravels.com/blog/himachal-taxi-hiring-guide-force-cruiser-tempo-traveller</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+</urlset>

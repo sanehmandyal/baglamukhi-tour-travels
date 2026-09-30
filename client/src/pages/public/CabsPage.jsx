@@ -300,16 +300,18 @@ const CabsPage = () => {
   return (
     <div className="space-y-14 pb-20 bg-slate-50/50">
       <SEOHead
-        title="Himachal Cabs, Cruisers & Tempo Traveller Rental | Baglamukhi Tour & Travels"
-        description="Book verified Himachal cabs: Toyota Innova Crysta, Force Cruiser 4x4, Luxury Tempo Travellers (12S/17S), and Ertiga. Expert mountain drivers, zero hidden costs, 24/7 doorstep pickup."
+        title="Himachal Cabs, Cruisers & Tempo Traveller Rental | Amb Andaura Taxi"
+        description="Book verified commercial Himachal cabs: Force Cruiser 4x4, Toyota Innova Crysta, Maharaja Tempo Travellers (12S/17S/20S), and Ertiga. Station pickup at Amb Andaura (AADR), Una, and Chandigarh. Call +91 98051 43007."
         canonical="/cabs"
         keywords={[
+          'Amb Andaura railway station taxi',
+          'Maa Baglamukhi temple taxi service',
           'Himachal cab booking',
-          'Innova Crysta taxi Chandigarh to Manali',
           'Force Cruiser 4x4 rental Himachal',
           'Tempo Traveller rental Chandigarh',
-          'Baglamukhi temple taxi service',
-          'Chandigarh airport taxi to Shimla',
+          'Innova Crysta taxi Amb Andaura to Kangra',
+          'Una Himachal station cab service',
+          'Chandigarh to Manali taxi service',
         ]}
       />
 

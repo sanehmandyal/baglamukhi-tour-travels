@@ -11,6 +11,16 @@ Disallow: /booking-confirmed
 Disallow: /thank-you
 Disallow: /search
 
-# Dynamic and static XML Sitemap
-Sitemap: http://localhost:5173/sitemap.xml
-Sitemap: http://localhost:5000/api/seo/sitemap.xml
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# Dynamic and static XML Sitemaps
+Sitemap: https://baglamukhitourtravels.com/sitemap.xml
+Sitemap: https://baglamukhi-tour-travels-server.onrender.com/api/seo/sitemap.xml

@@ -16,6 +16,7 @@ import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import BookingForm from '../../components/forms/BookingForm';
 import GoogleMapEmbed from '../../components/common/GoogleMapEmbed';
+import { FAQSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
 
 const LocationDetailPage = () => {
@@ -77,6 +78,8 @@ const LocationDetailPage = () => {
         ogImage={location.heroImage?.url}
         keywords={location.seo?.focusKeyword || `travel agency in ${location.cityName}`}
       />
+
+      {location.faqs && location.faqs.length > 0 && <FAQSchema faqs={location.faqs} />}
 
       <Breadcrumbs
         items={[

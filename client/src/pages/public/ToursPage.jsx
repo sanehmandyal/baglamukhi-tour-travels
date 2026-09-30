@@ -119,10 +119,10 @@ const ToursPage = () => {
   return (
     <div>
       <SEOHead
-        title="Himachal Tour Packages | Manali, Shimla, Dharamshala & Devi Darshan"
-        description="Explore best-selling Himachal tour packages with Baglamukhi Tour & Travels. Customized private car tours, 3-star hotel stays, Solang Valley paragliding, and 9 Devi Darshan."
+        title="Himachal Tour Packages | Manali, Shimla, Maa Baglamukhi & 9 Devi Darshan"
+        description="Explore best-selling Himachal tour packages with Baglamukhi Tour & Travels. Private sanitized AC cabs, 3-Star/4-Star deluxe mountain resorts, and complete 9 Devi Shaktipeeth darshan. Call +91 98051 43007."
         canonical="/tours"
-        keywords={['Himachal tour packages', 'Manali holiday package', 'Shimla Manali 6 days tour', 'Devi Darshan yatra']}
+        keywords={['Himachal tour packages', 'Manali holiday package', 'Maa Baglamukhi yatra package', '9 Devi Darshan yatra', 'Shimla Manali 6 days tour', 'Dharamshala Dalhousie package', 'Spiti Valley tour']}
       />
 
       <Breadcrumbs items={[{ name: 'Tour Packages', url: '/tours' }]} />
