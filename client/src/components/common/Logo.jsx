@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../../context/SettingsContext';
 
 const Logo = ({
   variant = 'dark', // 'dark' (for light backgrounds) | 'light' (for dark footers/headers)
@@ -7,6 +8,9 @@ const Logo = ({
   withText = true,
   className = '',
 }) => {
+  const { settings } = useSettings();
+  const logoSrc = settings?.logoUrl || '/baglamukhi-temple-logo.jpg';
+
   const sizeClasses = {
     sm: {
       imgWrapper: 'w-9 h-9',
@@ -39,8 +43,12 @@ const Logo = ({
           className={`relative ${selectedSize.imgWrapper} rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shadow-lg shadow-amber-500/30 group-hover:scale-105 group-hover:rotate-2 transition-transform duration-300`}
         >
           <img
-            src="/baglamukhi-temple-logo.jpg"
-            alt="Maa Baglamukhi Temple Logo"
+            src={logoSrc}
+            alt={settings?.companyName || 'Maa Baglamukhi Temple Logo'}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/baglamukhi-temple-logo.jpg';
+            }}
             className="w-full h-full object-cover rounded-full filter brightness-105 group-hover:brightness-110 transition-all duration-300"
             loading="eager"
           />

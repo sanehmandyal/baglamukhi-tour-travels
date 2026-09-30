@@ -6,6 +6,7 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     companyName: import.meta.env.VITE_COMPANY_NAME || 'BAGLAMUKHI TOUR & TRAVELS',
+    logoUrl: import.meta.env.VITE_LOGO_URL || '/baglamukhi-temple-logo.jpg',
     tagline: 'Your Trusted Travel Partner for Himachal Pradesh & North India Tours',
     primaryPhone: import.meta.env.VITE_PRIMARY_PHONE || '+91 98051 43007',
     secondaryPhone: import.meta.env.VITE_SECONDARY_PHONE || '+91 98051 43007',
@@ -35,6 +36,7 @@ export const SettingsProvider = ({ children }) => {
         // Sanitize any legacy database numbers or addresses
         const clean = {
           ...raw,
+          logoUrl: raw.logoUrl || '/baglamukhi-temple-logo.jpg',
           primaryPhone:
             !raw.primaryPhone || raw.primaryPhone.includes('98000') || raw.primaryPhone.includes('98160')
               ? '+91 98051 43007'

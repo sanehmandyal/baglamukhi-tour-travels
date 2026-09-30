@@ -22,10 +22,12 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useSettings } from '../context/SettingsContext';
 import SEOHead from '../components/common/SEOHead';
 
 const AdminLayout = () => {
   const { user, logout, loading } = useAuth();
+  const { settings } = useSettings();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -87,8 +89,12 @@ const AdminLayout = () => {
               <div className="relative shrink-0">
                 <div className="w-10 h-10 rounded-full overflow-hidden p-[1.5px] bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 shadow-md shadow-amber-500/20">
                   <img
-                    src="/baglamukhi-temple-logo.jpg"
+                    src={settings?.logoUrl || '/baglamukhi-temple-logo.jpg'}
                     alt="Baglamukhi Maa Temple"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/baglamukhi-temple-logo.jpg';
+                    }}
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>

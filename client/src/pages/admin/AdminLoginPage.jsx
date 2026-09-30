@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Mail, ArrowRight, ArrowLeft, Shield, Sparkles, Home } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
 import SEOHead from '../../components/common/SEOHead';
 
 const AdminLoginPage = () => {
   const { login } = useAuth();
+  const { settings } = useSettings();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -68,8 +70,12 @@ const AdminLoginPage = () => {
               <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 opacity-75 blur-md animate-pulse"></div>
               <div className="relative w-20 h-20 rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shadow-2xl">
                 <img
-                  src="/baglamukhi-temple-logo.jpg"
+                  src={settings?.logoUrl || '/baglamukhi-temple-logo.jpg'}
                   alt="Maa Baglamukhi Temple Logo"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/baglamukhi-temple-logo.jpg';
+                  }}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>

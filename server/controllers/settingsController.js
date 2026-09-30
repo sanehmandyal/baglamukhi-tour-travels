@@ -39,6 +39,10 @@ exports.getSettings = async (req, res, next) => {
         settings.companyName = 'BAGLAMUKHI TOUR & TRAVELS';
         modified = true;
       }
+      if (!settings.logoUrl) {
+        settings.logoUrl = '/baglamukhi-temple-logo.jpg';
+        modified = true;
+      }
       if (modified) {
         await settings.save();
       }

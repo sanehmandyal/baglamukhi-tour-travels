@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { useSettings } from '../../context/SettingsContext';
-import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle, FiLock, FiEye, FiEyeOff, FiShield } from 'react-icons/fi';
+import ImageUploadInput from '../../components/common/ImageUploadInput';
+import { FiSave, FiSettings, FiPhone, FiMail, FiMapPin, FiGlobe, FiShare2, FiCode, FiCheckCircle, FiLock, FiEye, FiEyeOff, FiShield, FiImage, FiRefreshCw } from 'react-icons/fi';
 
 const AdminSettingsPage = () => {
   const { refreshSettings } = useSettings();
@@ -22,6 +23,7 @@ const AdminSettingsPage = () => {
 
   const [formData, setFormData] = useState({
     siteName: 'Baglamukhi Tour & Travels',
+    logoUrl: '/baglamukhi-temple-logo.jpg',
     tagline: 'Best Tour Packages, Cabs & Stays in Himachal & North India',
     primaryPhone: '+91 98051 43007',
     secondaryPhone: '+91 98051 43007',
@@ -51,6 +53,7 @@ const AdminSettingsPage = () => {
         setFormData(prev => ({
           ...prev,
           siteName: s.siteName || prev.siteName,
+          logoUrl: s.logoUrl || prev.logoUrl,
           tagline: s.tagline || prev.tagline,
           primaryPhone: (!s.primaryPhone || s.primaryPhone.includes('98000') || s.primaryPhone.includes('98160')) ? '+91 98051 43007' : s.primaryPhone,
           secondaryPhone: (!s.secondaryPhone || s.secondaryPhone.includes('98111') || s.secondaryPhone.includes('98050')) ? '+91 98051 43007' : s.secondaryPhone,
@@ -177,6 +180,79 @@ const AdminSettingsPage = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Website Brand Logo & Visual Emblem */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-3 border-b border-slate-100 gap-2">
+            <div>
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <FiImage className="text-amber-500" /> Website Official Logo & Brand Asset
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Upload a custom logo from your computer/phone or enter an image URL. It will instantly update across the website navigation, footer, admin portal, and login screen.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setFormData(prev => ({ ...prev, logoUrl: '/baglamukhi-temple-logo.jpg' }))}
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold border border-amber-200 transition cursor-pointer"
+              title="Reset to official circular temple logo"
+            >
+              <FiRefreshCw className="w-3.5 h-3.5" />
+              <span>Reset to Default Logo</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* Logo Upload Field */}
+            <div className="lg:col-span-7 space-y-3">
+              <ImageUploadInput
+                label="Brand Logo (Upload image or enter URL) *"
+                value={formData.logoUrl}
+                onChange={(val) => setFormData(prev => ({ ...prev, logoUrl: val }))}
+              />
+            </div>
+
+            {/* Live Dual Background Preview */}
+            <div className="lg:col-span-5 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                Live Brand Preview
+              </span>
+
+              {/* Light Background Preview (Navbar) */}
+              <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-full overflow-hidden p-[1.5px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shrink-0 shadow-md">
+                  <img
+                    src={formData.logoUrl || '/baglamukhi-temple-logo.jpg'}
+                    alt="Logo Preview"
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/baglamukhi-temple-logo.jpg'; }}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <div className="leading-tight">
+                  <span className="text-xs font-black text-slate-900 block font-display">BAGLAMUKHI <span className="text-amber-600">TOUR & TRAVELS</span></span>
+                  <span className="text-[10px] text-slate-500 font-bold uppercase">Header / Light Preview</span>
+                </div>
+              </div>
+
+              {/* Dark Background Preview (Footer & Admin) */}
+              <div className="p-3 bg-neutral-950 rounded-xl border border-neutral-800 shadow-sm flex items-center space-x-3 text-white">
+                <div className="w-12 h-12 rounded-full overflow-hidden p-[1.5px] bg-gradient-to-tr from-amber-600 via-yellow-300 to-amber-500 shrink-0 shadow-md">
+                  <img
+                    src={formData.logoUrl || '/baglamukhi-temple-logo.jpg'}
+                    alt="Logo Dark Preview"
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/baglamukhi-temple-logo.jpg'; }}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <div className="leading-tight">
+                  <span className="text-xs font-black text-white block font-display">BAGLAMUKHI <span className="text-amber-400">TOUR & TRAVELS</span></span>
+                  <span className="text-[10px] text-amber-400/90 font-bold uppercase">Footer / Dark Preview</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Business Identity */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">

@@ -10,6 +10,10 @@ const siteSettingsSchema = new mongoose.Schema(
       type: String,
       default: 'Baglamukhi Tour & Travels',
     },
+    logoUrl: {
+      type: String,
+      default: '/baglamukhi-temple-logo.jpg',
+    },
     tagline: {
       type: String,
       default: 'Your Trusted Travel Partner for Himachal Pradesh & North India Tours',
