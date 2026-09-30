@@ -305,10 +305,15 @@ const CabsPage = () => {
             };
           });
 
-          // Prepend admin additions and merge with presets
-          const dbIds = new Set(mapped.map((c) => (c.name || c.id || '').toLowerCase()));
+          // Prepend admin additions and merge with presets using normalized keys
+          const normKey = (str) => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const dbKeys = new Set();
+          mapped.forEach((c) => {
+            if (c.id) dbKeys.add(normKey(c.id));
+            if (c.name) dbKeys.add(normKey(c.name));
+          });
           const remainingPresets = BASE_FLEET_PRESETS.filter(
-            (c) => !dbIds.has((c.name || c.id || '').toLowerCase())
+            (c) => !dbKeys.has(normKey(c.id)) && !dbKeys.has(normKey(c.name))
           );
           setFleet([...mapped, ...remainingPresets]);
         }

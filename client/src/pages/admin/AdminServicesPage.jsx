@@ -540,26 +540,21 @@ const AdminServicesPage = () => {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Vehicle Image</label>
-                  <div className="space-y-2">
-                    <input
-                      type="text"
-                      name="image"
-                      value={formData.image}
-                      onChange={handleChange}
-                      placeholder="/images/cabs/force-cruiser-4x4.jpg or image URL"
-                      className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-brand-500"
-                    />
-                    <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                      <span>Presets:</span>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-cruiser-4x4.jpg' }))} className="text-brand-600 underline">Cruiser</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-tempo-traveller-12.jpg' }))} className="text-brand-600 underline">Tempo 12S</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-tempo-traveller-17.jpg' }))} className="text-brand-600 underline">Tempo 17S</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/toyota-innova-crysta.jpg' }))} className="text-brand-600 underline">Innova</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/tata-sumo-gold.jpg' }))} className="text-brand-600 underline">Sumo</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/maruti-ertiga.jpg' }))} className="text-brand-600 underline">Ertiga</button>
-                      <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/swift-dzire.jpg' }))} className="text-brand-600 underline">Dzire</button>
-                    </div>
+                  <ImageUploadInput
+                    label="Vehicle Image (Photo / Banner) *"
+                    value={formData.image}
+                    onChange={(val) => setFormData((prev) => ({ ...prev, image: val }))}
+                  />
+                  <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500 pt-1.5">
+                    <span className="font-semibold text-slate-600">Quick Photo Presets:</span>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-cruiser-4x4.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Cruiser 4x4</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-tempo-traveller-12.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Tempo 12S</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/force-tempo-traveller-17.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Tempo 17S</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/toyota-innova-crysta.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Innova</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/tata-sumo-gold.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Sumo</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/maruti-ertiga.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Ertiga</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/swift-dzire.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Dzire</button>
+                    <button type="button" onClick={() => setFormData(p => ({ ...p, image: '/images/cabs/mahindra-thar-4x4.jpg' }))} className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[10.5px]">Thar 4x4</button>
                   </div>
                 </div>
 
