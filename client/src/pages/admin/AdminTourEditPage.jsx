@@ -141,6 +141,11 @@ const AdminTourEditPage = () => {
         isPublished: formData.isPublished !== undefined ? formData.isPublished : true,
       };
 
+      // Strip non-ObjectId _id (e.g. tour_8)
+      if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+        delete payload._id;
+      }
+
       if (!isNew && id && id.match(/^[0-9a-fA-F]{24}$/)) {
         await api.put(`/tours/${id}`, payload);
       } else {

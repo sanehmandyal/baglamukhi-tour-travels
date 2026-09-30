@@ -41,10 +41,13 @@ exports.getServices = async (req, res, next) => {
 exports.getServiceBySlug = async (req, res, next) => {
   try {
     const slugOrId = req.params.slug;
-    let service = await Service.findOne({ slug: slugOrId });
+    let service = null;
 
-    if (!service && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+    if (slugOrId && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
       service = await Service.findById(slugOrId);
+    }
+    if (!service) {
+      service = await Service.findOne({ slug: slugOrId });
     }
 
     if (!service) {
@@ -90,7 +93,7 @@ exports.getAdminServices = async (req, res, next) => {
   }
 };
 
-// @desc    Create service / cab
+// @desc    Create service / cab (or upsert by slug)
 // @route   POST /api/services
 // @access  Private/Admin
 exports.createService = async (req, res, next) => {
@@ -100,12 +103,6 @@ exports.createService = async (req, res, next) => {
     const finalTitle = title || name || 'Himachal Cab';
     if (!slug) {
       slug = createSlug(finalTitle);
-    }
-
-    // Check slug uniqueness
-    const existing = await Service.findOne({ slug });
-    if (existing) {
-      slug = `${slug}-${Date.now().toString().slice(-4)}`;
     }
 
     const imgUrl = image || (featuredImage?.url) || '/images/cabs/force-cruiser-4x4.jpg';
@@ -138,7 +135,16 @@ exports.createService = async (req, res, next) => {
       isPublished: req.body.isPublished !== undefined ? req.body.isPublished : true,
     };
 
-    const service = await Service.create(serviceData);
+    if (serviceData._id && !serviceData._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete serviceData._id;
+    }
+
+    let service = await Service.findOne({ slug });
+    if (service) {
+      service = await Service.findByIdAndUpdate(service._id, serviceData, { new: true, runValidators: true });
+    } else {
+      service = await Service.create(serviceData);
+    }
 
     try {
       await SEO.findOneAndUpdate(
@@ -175,9 +181,23 @@ exports.createService = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateService = async (req, res, next) => {
   try {
+    const idOrSlug = req.params.id;
+    let service = null;
+
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      service = await Service.findById(idOrSlug);
+    }
+    if (!service) {
+      service = await Service.findOne({ slug: req.body.slug || idOrSlug });
+    }
+
     const { image, featuredImage, title, name, features, popularRoutes } = req.body;
     
     const updateData = { ...req.body };
+    if (updateData._id && !updateData._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete updateData._id;
+    }
+
     if (name && !title) updateData.title = name;
     if (image) {
       updateData.image = image;
@@ -198,13 +218,17 @@ exports.updateService = async (req, res, next) => {
         : [];
     }
 
-    const service = await Service.findByIdAndUpdate(req.params.id, updateData, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!service) {
-      return res.status(404).json({ success: false, message: 'Service not found' });
+    if (service) {
+      service = await Service.findByIdAndUpdate(service._id, updateData, {
+        new: true,
+        runValidators: true,
+      });
+    } else {
+      service = await Service.create({
+        ...updateData,
+        title: updateData.title || name || 'Cab',
+        slug: updateData.slug || createSlug(updateData.title || 'Cab')
+      });
     }
 
     res.status(200).json({
@@ -221,7 +245,15 @@ exports.updateService = async (req, res, next) => {
 // @access  Private/Admin
 exports.deleteService = async (req, res, next) => {
   try {
-    const service = await Service.findById(req.params.id);
+    const idOrSlug = req.params.id;
+    let service = null;
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      service = await Service.findById(idOrSlug);
+    }
+    if (!service) {
+      service = await Service.findOne({ slug: idOrSlug });
+    }
+
     if (!service) {
       return res.status(404).json({ success: false, message: 'Service not found' });
     }

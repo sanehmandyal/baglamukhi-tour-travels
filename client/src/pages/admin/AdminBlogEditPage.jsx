@@ -128,15 +128,23 @@ const AdminBlogEditPage = () => {
       }
     };
 
+    // Strip non-ObjectId _id (e.g. blog_1)
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
+
     try {
-      if (isEdit && id.match(/^[0-9a-fA-F]{24}$/)) {
+      if (isEdit && id && id.match(/^[0-9a-fA-F]{24}$/)) {
         await api.put(`/blogs/${id}`, payload);
       } else {
         await api.post('/blogs', payload);
       }
       navigate('/admin/blogs');
     } catch (err) {
-      navigate('/admin/blogs');
+      console.error('Error saving blog:', err);
+      setError(err.response?.data?.message || err.message || 'Failed to save blog post.');
+    } finally {
+      setSaving(false);
     }
   };
 

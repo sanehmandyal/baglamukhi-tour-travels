@@ -99,10 +99,13 @@ exports.getAdminTours = async (req, res, next) => {
 exports.getTourBySlug = async (req, res, next) => {
   try {
     const slugOrId = req.params.slug;
-    let tour = await Tour.findOne({ slug: slugOrId });
+    let tour = null;
 
-    if (!tour && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+    if (slugOrId && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
       tour = await Tour.findById(slugOrId);
+    }
+    if (!tour) {
+      tour = await Tour.findOne({ slug: slugOrId });
     }
 
     if (!tour) {
@@ -137,7 +140,7 @@ exports.getTourBySlug = async (req, res, next) => {
   }
 };
 
-// @desc    Create new tour
+// @desc    Create new tour (or upsert by slug)
 // @route   POST /api/tours
 // @access  Private/Admin
 exports.createTour = async (req, res, next) => {
@@ -147,17 +150,16 @@ exports.createTour = async (req, res, next) => {
       slug = createSlug(title);
     }
 
-    // Check slug uniqueness
-    const existingTour = await Tour.findOne({ slug });
-    if (existingTour) {
-      slug = `${slug}-${Date.now().toString().slice(-4)}`;
-    }
-
     const payload = {
       ...req.body,
       slug,
       isPublished: req.body.isPublished !== undefined ? req.body.isPublished : true,
     };
+
+    // Remove invalid non-ObjectId _id if present (e.g. tour_8)
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
 
     // Sanitize featuredImage
     if (typeof payload.featuredImage === 'string') {
@@ -178,16 +180,22 @@ exports.createTour = async (req, res, next) => {
     // Sanitize itinerary
     if (Array.isArray(itinerary)) {
       payload.itinerary = itinerary.filter((item) => item && (item.title || item.description)).map((item, idx) => ({
-        day: item.day || idx + 1,
+        day: Number(item.day) || idx + 1,
         title: item.title || `Day ${idx + 1}`,
         description: item.description || 'Sightseeing and travel.',
         meals: item.meals || 'Breakfast, Dinner',
         hotel: item.hotel || 'Deluxe Hotel',
-        activities: item.activities || [],
+        activities: Array.isArray(item.activities) ? item.activities : [],
       }));
     }
 
-    const tour = await Tour.create(payload);
+    // Upsert if tour with same slug exists, or create new
+    let tour = await Tour.findOne({ slug });
+    if (tour) {
+      tour = await Tour.findByIdAndUpdate(tour._id, payload, { new: true, runValidators: true });
+    } else {
+      tour = await Tour.create(payload);
+    }
 
     // Automatically register SEO entry
     try {
@@ -226,31 +234,44 @@ exports.createTour = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateTour = async (req, res, next) => {
   try {
-    let tour = await Tour.findById(req.params.id);
+    const idOrSlug = req.params.id;
+    let tour = null;
+
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      tour = await Tour.findById(idOrSlug);
+    }
     if (!tour) {
-      return res.status(404).json({ success: false, message: 'Tour not found' });
+      tour = await Tour.findOne({ slug: req.body.slug || idOrSlug });
     }
 
     const payload = { ...req.body };
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
+
     if (typeof payload.featuredImage === 'string') {
-      payload.featuredImage = { url: payload.featuredImage, alt: payload.title || tour.title || 'Tour' };
+      payload.featuredImage = { url: payload.featuredImage, alt: payload.title || tour?.title || 'Tour' };
     }
 
     if (Array.isArray(payload.itinerary)) {
       payload.itinerary = payload.itinerary.filter((item) => item && (item.title || item.description)).map((item, idx) => ({
-        day: item.day || idx + 1,
+        day: Number(item.day) || idx + 1,
         title: item.title || `Day ${idx + 1}`,
         description: item.description || 'Sightseeing and travel.',
         meals: item.meals || 'Breakfast, Dinner',
         hotel: item.hotel || 'Deluxe Hotel',
-        activities: item.activities || [],
+        activities: Array.isArray(item.activities) ? item.activities : [],
       }));
     }
 
-    tour = await Tour.findByIdAndUpdate(req.params.id, payload, {
-      new: true,
-      runValidators: true,
-    });
+    if (tour) {
+      tour = await Tour.findByIdAndUpdate(tour._id, payload, {
+        new: true,
+        runValidators: true,
+      });
+    } else {
+      tour = await Tour.create({ ...payload, slug: payload.slug || createSlug(payload.title || 'Tour') });
+    }
 
     // Update corresponding SEO entry
     try {
@@ -284,7 +305,15 @@ exports.updateTour = async (req, res, next) => {
 // @access  Private/Admin
 exports.deleteTour = async (req, res, next) => {
   try {
-    const tour = await Tour.findById(req.params.id);
+    const idOrSlug = req.params.id;
+    let tour = null;
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      tour = await Tour.findById(idOrSlug);
+    }
+    if (!tour) {
+      tour = await Tour.findOne({ slug: idOrSlug });
+    }
+
     if (!tour) {
       return res.status(404).json({ success: false, message: 'Tour not found' });
     }

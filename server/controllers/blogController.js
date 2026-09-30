@@ -39,14 +39,20 @@ exports.getBlogs = async (req, res, next) => {
   }
 };
 
-// @desc    Get single blog by slug
+// @desc    Get single blog by slug or ID
 // @route   GET /api/blogs/:slug
 // @access  Public
 exports.getBlogBySlug = async (req, res, next) => {
   try {
-    const blog = await Blog.findOne({ slug: req.params.slug, isPublished: true })
-      .populate('relatedTours', 'title slug featuredImage price duration')
-      .populate('relatedDestinations', 'name slug heroImage');
+    const slugOrId = req.params.slug;
+    let blog = null;
+
+    if (slugOrId && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+      blog = await Blog.findById(slugOrId);
+    }
+    if (!blog) {
+      blog = await Blog.findOne({ slug: slugOrId });
+    }
 
     if (!blog) {
       return res.status(404).json({ success: false, message: 'Blog article not found' });
@@ -68,7 +74,7 @@ exports.getBlogBySlug = async (req, res, next) => {
       recentBlogs,
       seo: seoData || {
         title: blog.seo?.metaTitle || `${blog.title} | Baglamukhi Tour & Travels Blog`,
-        metaDescription: blog.seo?.metaDescription || blog.excerpt.slice(0, 160),
+        metaDescription: blog.seo?.metaDescription || blog.excerpt?.slice(0, 160),
         canonicalUrl: `/blog/${blog.slug}`,
         focusKeyword: blog.seo?.focusKeyword || blog.title,
         ogImage: blog.featuredImage?.url,
@@ -95,7 +101,7 @@ exports.getAdminBlogs = async (req, res, next) => {
   }
 };
 
-// @desc    Create blog
+// @desc    Create blog (or upsert by slug)
 // @route   POST /api/blogs
 // @access  Private/Admin
 exports.createBlog = async (req, res, next) => {
@@ -105,24 +111,38 @@ exports.createBlog = async (req, res, next) => {
       slug = createSlug(title);
     }
 
-    const blog = await Blog.create({ ...req.body, slug });
+    const payload = { ...req.body, slug };
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
 
-    await SEO.findOneAndUpdate(
-      { slug: `/blog/${blog.slug}` },
-      {
-        pageType: 'blog',
-        pageId: blog._id.toString(),
-        slug: `/blog/${blog.slug}`,
-        title: blog.seo?.metaTitle || `${blog.title}`,
-        metaDescription: blog.seo?.metaDescription || blog.excerpt?.slice(0, 160),
-        canonicalUrl: `http://localhost:5173/blog/${blog.slug}`,
-        focusKeyword: blog.title,
-        ogTitle: blog.title,
-        ogImage: blog.featuredImage?.url,
-        schemaType: 'Article',
-      },
-      { upsert: true, new: true }
-    );
+    let blog = await Blog.findOne({ slug });
+    if (blog) {
+      blog = await Blog.findByIdAndUpdate(blog._id, payload, { new: true, runValidators: true });
+    } else {
+      blog = await Blog.create(payload);
+    }
+
+    try {
+      await SEO.findOneAndUpdate(
+        { slug: `/blog/${blog.slug}` },
+        {
+          pageType: 'blog',
+          pageId: blog._id.toString(),
+          slug: `/blog/${blog.slug}`,
+          title: blog.seo?.metaTitle || `${blog.title}`,
+          metaDescription: blog.seo?.metaDescription || blog.excerpt?.slice(0, 160),
+          canonicalUrl: `http://localhost:5173/blog/${blog.slug}`,
+          focusKeyword: blog.title,
+          ogTitle: blog.title,
+          ogImage: blog.featuredImage?.url,
+          schemaType: 'Article',
+        },
+        { upsert: true, new: true }
+      );
+    } catch (e) {
+      console.warn('[SEO Upsert Notice]:', e.message);
+    }
 
     res.status(201).json({
       success: true,
@@ -138,13 +158,27 @@ exports.createBlog = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateBlog = async (req, res, next) => {
   try {
-    const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
+    const idOrSlug = req.params.id;
+    let blog = null;
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      blog = await Blog.findById(idOrSlug);
+    }
     if (!blog) {
-      return res.status(404).json({ success: false, message: 'Blog not found' });
+      blog = await Blog.findOne({ slug: req.body.slug || idOrSlug });
+    }
+
+    const payload = { ...req.body };
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
+
+    if (blog) {
+      blog = await Blog.findByIdAndUpdate(blog._id, payload, {
+        new: true,
+        runValidators: true,
+      });
+    } else {
+      blog = await Blog.create({ ...payload, slug: payload.slug || createSlug(payload.title || 'Blog') });
     }
 
     res.status(200).json({
@@ -161,7 +195,15 @@ exports.updateBlog = async (req, res, next) => {
 // @access  Private/Admin
 exports.deleteBlog = async (req, res, next) => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const idOrSlug = req.params.id;
+    let blog = null;
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      blog = await Blog.findById(idOrSlug);
+    }
+    if (!blog) {
+      blog = await Blog.findOne({ slug: idOrSlug });
+    }
+
     if (!blog) {
       return res.status(404).json({ success: false, message: 'Blog not found' });
     }

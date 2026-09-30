@@ -281,6 +281,11 @@ const AdminServicesPage = () => {
         isPublished: formData.isActive !== undefined ? formData.isActive : true,
       };
 
+      // Strip non-ObjectId _id (e.g. cab_1)
+      if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+        delete payload._id;
+      }
+
       if (editingId && editingId.match(/^[0-9a-fA-F]{24}$/)) {
         await api.put(`/services/${editingId}`, payload);
       } else {

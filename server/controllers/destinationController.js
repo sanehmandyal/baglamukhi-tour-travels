@@ -53,10 +53,13 @@ exports.getDestinations = async (req, res, next) => {
 exports.getDestinationBySlug = async (req, res, next) => {
   try {
     const slugOrId = req.params.slug;
-    let destination = await Destination.findOne({ slug: slugOrId });
+    let destination = null;
 
-    if (!destination && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
+    if (slugOrId && slugOrId.match(/^[0-9a-fA-F]{24}$/)) {
       destination = await Destination.findById(slugOrId);
+    }
+    if (!destination) {
+      destination = await Destination.findOne({ slug: slugOrId });
     }
 
     if (!destination) {
@@ -122,7 +125,7 @@ exports.getAdminDestinations = async (req, res, next) => {
   }
 };
 
-// @desc    Create destination
+// @desc    Create destination (or upsert by slug)
 // @route   POST /api/destinations
 // @access  Private/Admin
 exports.createDestination = async (req, res, next) => {
@@ -132,12 +135,6 @@ exports.createDestination = async (req, res, next) => {
       slug = createSlug(name);
     }
 
-    // Check slug uniqueness
-    const existing = await Destination.findOne({ slug });
-    if (existing) {
-      slug = `${slug}-${Date.now().toString().slice(-4)}`;
-    }
-
     const payload = {
       ...req.body,
       slug,
@@ -145,6 +142,10 @@ exports.createDestination = async (req, res, next) => {
       detailedOverview: detailedOverview || shortDescription || `Explore beautiful sights and attractions in ${name}.`,
       isPublished: req.body.isPublished !== undefined ? req.body.isPublished : true,
     };
+
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
 
     if (typeof heroImage === 'string') {
       payload.heroImage = { url: heroImage, alt: name || 'Destination' };
@@ -161,7 +162,12 @@ exports.createDestination = async (req, res, next) => {
       }));
     }
 
-    const destination = await Destination.create(payload);
+    let destination = await Destination.findOne({ slug });
+    if (destination) {
+      destination = await Destination.findByIdAndUpdate(destination._id, payload, { new: true, runValidators: true });
+    } else {
+      destination = await Destination.create(payload);
+    }
 
     try {
       await SEO.findOneAndUpdate(
@@ -198,9 +204,23 @@ exports.createDestination = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateDestination = async (req, res, next) => {
   try {
+    const idOrSlug = req.params.id;
+    let destination = null;
+
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      destination = await Destination.findById(idOrSlug);
+    }
+    if (!destination) {
+      destination = await Destination.findOne({ slug: req.body.slug || idOrSlug });
+    }
+
     const payload = { ...req.body };
+    if (payload._id && !payload._id.toString().match(/^[0-9a-fA-F]{24}$/)) {
+      delete payload._id;
+    }
+
     if (typeof payload.heroImage === 'string') {
-      payload.heroImage = { url: payload.heroImage, alt: payload.name || 'Destination' };
+      payload.heroImage = { url: payload.heroImage, alt: payload.name || destination?.name || 'Destination' };
     }
 
     if (Array.isArray(payload.placesToVisit)) {
@@ -212,13 +232,13 @@ exports.updateDestination = async (req, res, next) => {
       }));
     }
 
-    const destination = await Destination.findByIdAndUpdate(req.params.id, payload, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!destination) {
-      return res.status(404).json({ success: false, message: 'Destination not found' });
+    if (destination) {
+      destination = await Destination.findByIdAndUpdate(destination._id, payload, {
+        new: true,
+        runValidators: true,
+      });
+    } else {
+      destination = await Destination.create({ ...payload, slug: payload.slug || createSlug(payload.name || 'Destination') });
     }
 
     try {
@@ -252,7 +272,15 @@ exports.updateDestination = async (req, res, next) => {
 // @access  Private/Admin
 exports.deleteDestination = async (req, res, next) => {
   try {
-    const destination = await Destination.findById(req.params.id);
+    const idOrSlug = req.params.id;
+    let destination = null;
+    if (idOrSlug && idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      destination = await Destination.findById(idOrSlug);
+    }
+    if (!destination) {
+      destination = await Destination.findOne({ slug: idOrSlug });
+    }
+
     if (!destination) {
       return res.status(404).json({ success: false, message: 'Destination not found' });
     }
