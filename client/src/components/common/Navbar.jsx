@@ -261,10 +261,10 @@ const Navbar = ({ onOpenInquiry }) => {
             {/* Quick Call Desk (Desktop) */}
             <a
               href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
-              className="hidden xl:flex items-center space-x-2 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-50 hover:bg-amber-50 hover:text-amber-700 border border-slate-200 rounded-xl transition"
+              className="hidden xl:flex items-center space-x-2 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-50 hover:bg-amber-50 hover:text-amber-700 border border-slate-200 rounded-xl transition whitespace-nowrap shrink-0 shadow-sm"
             >
               <Phone className="w-3.5 h-3.5 text-amber-500" />
-              <span>{settings.primaryPhone || '+91 98051 43007'}</span>
+              <span className="whitespace-nowrap">{settings.primaryPhone || '+91 98051 43007'}</span>
             </a>
 
             {/* Radiant CTA Button */}

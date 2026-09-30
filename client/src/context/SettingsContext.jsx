@@ -31,7 +31,36 @@ export const SettingsProvider = ({ children }) => {
     try {
       const res = await api.get('/settings');
       if (res.data.success && res.data.data) {
-        setSettings(res.data.data);
+        const raw = res.data.data;
+        // Sanitize any legacy database numbers or addresses
+        const clean = {
+          ...raw,
+          primaryPhone:
+            !raw.primaryPhone || raw.primaryPhone.includes('98000') || raw.primaryPhone.includes('98160')
+              ? '+91 98051 43007'
+              : raw.primaryPhone,
+          secondaryPhone:
+            !raw.secondaryPhone || raw.secondaryPhone.includes('98111') || raw.secondaryPhone.includes('98050')
+              ? '+91 98051 43007'
+              : raw.secondaryPhone,
+          whatsappNumber:
+            !raw.whatsappNumber || raw.whatsappNumber.includes('98000') || raw.whatsappNumber.includes('98160')
+              ? '+91 98051 43007'
+              : raw.whatsappNumber,
+          address:
+            !raw.address || raw.address.includes('176049') || !raw.address.includes('Amb Andaura')
+              ? 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India'
+              : raw.address,
+          officeAddress:
+            !raw.officeAddress || raw.officeAddress.includes('176049') || !raw.officeAddress.includes('Amb Andaura')
+              ? 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India'
+              : raw.officeAddress,
+          googleMapEmbedUrl:
+            !raw.googleMapEmbedUrl || raw.googleMapEmbedUrl.includes('Shimla') || !raw.googleMapEmbedUrl.includes('Amb+Andaura')
+              ? 'https://maps.google.com/maps?q=Amb+Andaura+Railway+Station,+Una+District,+Himachal+Pradesh+177203&t=&z=14&ie=UTF8&iwloc=&output=embed'
+              : raw.googleMapEmbedUrl,
+        };
+        setSettings(clean);
       }
     } catch (error) {
       console.warn('Using default settings fallback');
