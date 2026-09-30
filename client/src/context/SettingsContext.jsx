@@ -13,6 +13,8 @@ export const SettingsProvider = ({ children }) => {
     email: import.meta.env.VITE_EMAIL || 'info@baglamukhitourtravels.com',
     supportEmail: 'bookings@baglamukhitourtravels.com',
     address: import.meta.env.VITE_ADDRESS || 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India',
+    officeAddress: 'Near Amb Andaura Railway Station (AADR) & Maa Baglamukhi Temple, Bankhandi, Kangra, Himachal Pradesh - 177203, India',
+    googleMapEmbedUrl: 'https://maps.google.com/maps?q=Amb+Andaura+Railway+Station,+Una+District,+Himachal+Pradesh+177203&t=&z=14&ie=UTF8&iwloc=&output=embed',
     city: 'Amb Andaura, Kangra & Chandigarh',
     state: 'Himachal Pradesh',
     operatingHours: '24/7 Helpline & Cab Dispatch Available',

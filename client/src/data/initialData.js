@@ -299,7 +299,7 @@ export const DEFAULT_DESTINATIONS = [
     bestTimeToVisit: 'Open 365 Days. Navratri festivals and Thursdays are especially auspicious.',
     idealTripDuration: '2 to 3 Days (combined with Jwala Ji, Kangra Devi & Chamunda Devi)',
     nearestAirport: 'Kangra Gaggal Airport (DHM - 35 km) / Chandigarh Airport (215 km)',
-    nearestRailwayStation: 'Una Himachal (Vande Bharat Express - 70 km) / Pathankot Cantt (85 km)',
+    nearestRailwayStation: 'Amb Andaura Railway Station (AADR - Vande Bharat Express terminal - 45 km) / Una Himachal (70 km)',
     topAttractions: ['Mata Baglamukhi Sanctum', 'Sacred Havan Mandap', 'Bankhandi Forest Shrine', 'Jwala Ji Temple (22 km)', 'Kangra Fort (30 km)'],
     isFeatured: true,
   },
@@ -635,7 +635,7 @@ Performing the special yellow havan at the Bankhandi havan mandap is believed to
 
 ### How to Reach Maa Baglamukhi Temple
 - **By Air:** Gaggal Airport Kangra (DHM) is just 35 km away. Chandigarh International Airport (IXC) is 215 km (approx. 4.5 hours by private cab).
-- **By Train:** The nearest major railway station with Vande Bharat Express connectivity is **Una Himachal (70 km)**. Pathankot Cantt (PTKC) is 85 km.
+- **By Train:** The nearest major broad-gauge railway station with direct Vande Bharat Express connectivity is **Amb Andaura Railway Station (AADR - 45 km)** (closest terminal station to Maa Baglamukhi Dham Bankhandi). Una Himachal (UHL) is 70 km and Pathankot Cantt (PTKC) is 85 km.
 - **By Road:** Excellent all-weather four-lane highway connectivity from Chandigarh, Delhi, Una, and Hoshiarpur.
 
 ### Combine with 9 Devi Darshan Circuit
@@ -786,6 +786,6 @@ export const DEFAULT_FAQS = [
     category: 'General',
     question: 'Can you pick up our family directly from Chandigarh Airport, Kalka, or Delhi NCR?',
     answer:
-      'Yes, we provide 24/7 doorstep pickup and return drop from Chandigarh International Airport (IXC), Chandigarh Railway Station, Kalka Railway Station (for toy train connections), Una Himachal (Vande Bharat), and Delhi NCR.',
+      'Yes, we provide 24/7 doorstep pickup and return drop from Amb Andaura Railway Station (AADR - Vande Bharat Express terminal), Una Himachal Station (UHL), Chandigarh International Airport (IXC), Chandigarh Railway Station, Kalka Railway Station (for toy train connections), and Delhi NCR.',
   },
 ];
