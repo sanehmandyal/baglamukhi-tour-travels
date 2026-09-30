@@ -52,18 +52,14 @@ const AdminLayout = () => {
 
   const navItems = [
     { label: 'Dashboard', icon: LayoutDashboard, to: '/admin/dashboard' },
-    { label: 'Tour Packages', icon: Compass, to: '/admin/tours' },
     { label: 'Destinations', icon: MapPin, to: '/admin/destinations' },
-    { label: 'Local City SEO', icon: Map, to: '/admin/locations' },
-    { label: 'Cabs & Services', icon: Car, to: '/admin/services' },
-    { label: 'Bookings / Inquiries', icon: CalendarCheck, to: '/admin/bookings' },
-    { label: 'Travel Blogs CMS', icon: BookOpen, to: '/admin/blogs' },
-    { label: 'SEO Master Engine', icon: Search, to: '/admin/seo' },
-    { label: 'Customer Reviews', icon: Star, to: '/admin/testimonials' },
+    { label: 'Tour Packages', icon: Compass, to: '/admin/tours' },
+    { label: 'Cabs & Fleet Services', icon: Car, to: '/admin/services' },
+    { label: 'Bookings & Inquiries', icon: CalendarCheck, to: '/admin/bookings' },
+    { label: 'Travel Blogs & Guides', icon: BookOpen, to: '/admin/blogs' },
+    { label: 'Testimonials & Reviews', icon: Star, to: '/admin/testimonials' },
     { label: 'FAQs Manager', icon: HelpCircle, to: '/admin/faqs' },
-    { label: 'Gallery Photos', icon: Image, to: '/admin/gallery' },
-    { label: 'Contact Messages', icon: MessageSquare, to: '/admin/contact' },
-    { label: 'Site Settings & NAP', icon: Settings, to: '/admin/settings' },
+    { label: 'About & Site Settings', icon: Settings, to: '/admin/settings' },
   ];
 
   return (
