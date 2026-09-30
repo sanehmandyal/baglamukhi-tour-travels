@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Send, Phone, Calendar, User, Mail, MapPin, Sparkles } from 'lucide-react';
+import { X, Send, Phone, Calendar, User, Mail, MapPin, Sparkles, MessageCircle } from 'lucide-react';
 import api from '../../api/axios';
+import { useSettings } from '../../context/SettingsContext';
+import { getBookingWhatsAppUrl } from '../../utils/whatsappHelper';
 
 const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
   const navigate = useNavigate();
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -14,7 +17,7 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
     travelDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     adults: 2,
     children: 0,
-    pickupLocation: 'Chandigarh',
+    pickupLocation: 'Amb Andaura / Chandigarh',
     customMessage: '',
   });
 
@@ -22,6 +25,16 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
+
+  const handleDirectWhatsApp = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone) {
+      setError('Please enter your Name and Phone Number to connect on WhatsApp.');
+      return;
+    }
+    const waUrl = getBookingWhatsAppUrl(formData, settings?.whatsappNumber);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,8 +49,11 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
     try {
       const res = await api.post('/bookings', formData);
       if (res.data.success) {
+        const bookingData = res.data.data;
+        const waUrl = getBookingWhatsAppUrl(bookingData, settings?.whatsappNumber);
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
         onClose();
-        navigate(`/booking-confirmation?code=${res.data.data.bookingId}`);
+        navigate(`/booking-confirmation?code=${bookingData.bookingId}`);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit inquiry. Please call us directly.');
@@ -179,14 +195,25 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
             ></textarea>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black rounded-xl shadow-lg shadow-yellow-500/25 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50"
-          >
-            <Send className="w-4 h-4 text-neutral-950" />
-            <span>{loading ? 'Submitting Inquiry...' : 'Get Instant Custom Quote'}</span>
-          </button>
+          <div className="space-y-2 pt-1">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-neutral-950 font-black rounded-xl shadow-lg shadow-yellow-500/25 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer"
+            >
+              <Send className="w-4 h-4 text-neutral-950" />
+              <span>{loading ? 'Submitting Inquiry...' : 'Get Instant Custom Quote'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDirectWhatsApp}
+              className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition duration-200 flex items-center justify-center space-x-2 cursor-pointer"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Direct WhatsApp Inquiry (+91 98051 43007)</span>
+            </button>
+          </div>
         </form>
       </div>
     </div>

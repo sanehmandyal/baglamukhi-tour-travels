@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Send, Calendar, User, Phone, Mail, MapPin, Users, ShieldCheck, Check } from 'lucide-react';
+import { Send, Calendar, User, Phone, Mail, MapPin, Users, ShieldCheck, MessageCircle } from 'lucide-react';
 import api from '../../api/axios';
+import { useSettings } from '../../context/SettingsContext';
+import { getBookingWhatsAppUrl } from '../../utils/whatsappHelper';
 
 const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourId = null, startingPrice = null }) => {
   const navigate = useNavigate();
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,8 +19,8 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
     travelDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     adults: 2,
     children: 0,
-    pickupLocation: 'Chandigarh',
-    dropLocation: 'Chandigarh',
+    pickupLocation: 'Amb Andaura Railway Station (AADR - Vande Bharat)',
+    dropLocation: 'Amb Andaura / Chandigarh',
     customMessage: '',
     estimatedBudget: startingPrice ? startingPrice * 2 : 24998,
   });
@@ -36,6 +39,16 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
     });
   };
 
+  const handleDirectWhatsApp = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone) {
+      setError('Please provide at least your Name and Phone Number to connect on WhatsApp.');
+      return;
+    }
+    const waUrl = getBookingWhatsAppUrl(formData, settings?.whatsappNumber);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.travelDate) {
@@ -49,7 +62,11 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
     try {
       const res = await api.post('/bookings', formData);
       if (res.data.success) {
-        navigate(`/booking-confirmation?code=${res.data.data.bookingId}`);
+        const bookingData = res.data.data;
+        const waUrl = getBookingWhatsAppUrl(bookingData, settings?.whatsappNumber);
+        // Open WhatsApp directly with full booking specifics for the admin
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+        navigate(`/booking-confirmation?code=${bookingData.bookingId}`);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit booking. Please call our 24/7 helpline.');
@@ -232,20 +249,31 @@ const BookingForm = ({ defaultPackage = '', defaultDestination = 'Manali', tourI
           <span className="font-semibold text-brand-700">Instant SMS & WhatsApp Confirmation</span>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3.5 text-sm font-bold text-white bg-gradient-to-r from-brand-600 via-brand-500 to-cyanAccent-500 hover:from-brand-700 hover:to-cyanAccent-600 rounded-xl shadow-md shadow-brand-500/25 transition duration-200 flex items-center justify-center space-x-2 disabled:opacity-75"
-        >
-          {loading ? (
-            <span>Processing Booking...</span>
-          ) : (
-            <>
-              <Send className="w-4 h-4" />
-              <span>Confirm Booking & Receive Travel Voucher</span>
-            </>
-          )}
-        </button>
+        <div className="space-y-2.5 pt-1">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 text-sm font-bold text-white bg-gradient-to-r from-brand-600 via-brand-500 to-cyanAccent-500 hover:from-brand-700 hover:to-cyanAccent-600 rounded-xl shadow-md shadow-brand-500/25 transition duration-200 flex items-center justify-center space-x-2 disabled:opacity-75 cursor-pointer"
+          >
+            {loading ? (
+              <span>Processing Booking...</span>
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                <span>Confirm Booking & Receive Travel Voucher</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDirectWhatsApp}
+            className="w-full py-3 text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl transition duration-200 flex items-center justify-center space-x-2 cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4 text-emerald-600" />
+            <span>Instant Inquiry on WhatsApp (+91 98051 43007)</span>
+          </button>
+        </div>
       </form>
     </div>
   );

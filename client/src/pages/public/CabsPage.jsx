@@ -27,6 +27,7 @@ import { resolveVehicleImage } from '../../utils/vehicleImageHelper';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import { useSettings } from '../../context/SettingsContext';
+import { getCabWhatsAppUrl } from '../../utils/whatsappHelper';
 import { DEFAULT_CABS } from '../../data/initialData';
 
 const BASE_FLEET_PRESETS = [
@@ -443,7 +444,7 @@ const CabsPage = () => {
               Get Instant Cab Fare Quote
             </button>
             <a
-              href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20need%20a%20cab%20quote%20for%20Himachal`}
+              href={getCabWhatsAppUrl('Himachal Taxi / Cab / Tempo Traveller', settings?.whatsappNumber)}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3.5 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-md flex items-center space-x-2"
@@ -621,7 +622,7 @@ const CabsPage = () => {
 
                     <div className="flex items-center gap-2">
                       <a
-                        href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi,%20I%20want%20to%20inquire%20about%20booking%20the%20${encodeURIComponent(cab.name)}`}
+                        href={getCabWhatsAppUrl(cab.name, settings?.whatsappNumber, `${cab.passengers}, ${cab.category}`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition flex items-center justify-center border border-emerald-200"

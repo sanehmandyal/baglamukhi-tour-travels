@@ -4,6 +4,7 @@ import { CheckCircle2, Phone, MessageCircle, Calendar, User, MapPin, Printer } f
 import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
 import { useSettings } from '../../context/SettingsContext';
+import { getBookingWhatsAppUrl } from '../../utils/whatsappHelper';
 
 const BookingConfirmationPage = () => {
   const [searchParams] = useSearchParams();
@@ -116,13 +117,13 @@ const BookingConfirmationPage = () => {
         {/* Buttons */}
         <div className="flex flex-wrap justify-center gap-4 pt-4">
           <a
-            href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20just%20submitted%20booking%20reference%20${code || 'online'}.`}
+            href={getBookingWhatsAppUrl(booking || { bookingId: code, destination: 'Himachal Tour' }, settings?.whatsappNumber)}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow"
+            className="px-6 py-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow-md shadow-emerald-600/20"
           >
             <MessageCircle className="w-4 h-4 mr-1.5" />
-            Notify us on WhatsApp
+            Send Details to Admin WhatsApp (+91 98051 43007)
           </a>
 
           <button

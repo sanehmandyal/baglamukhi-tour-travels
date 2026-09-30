@@ -13,6 +13,7 @@ import {
   Sparkles,
   Compass,
   PhoneCall,
+  MessageCircle,
 } from 'lucide-react';
 import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
@@ -21,6 +22,7 @@ import TourCard from '../../components/cards/TourCard';
 import BlogCard from '../../components/cards/BlogCard';
 import { FAQSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
+import { getDestinationWhatsAppUrl } from '../../utils/whatsappHelper';
 import { DEFAULT_DESTINATIONS, DEFAULT_TOURS } from '../../data/initialData';
 
 const DestinationDetailPage = () => {
@@ -220,12 +222,23 @@ const DestinationDetailPage = () => {
               </div>
             </div>
 
-            <Link
-              to="/booking"
-              className="w-full py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition text-center block shadow-sm"
-            >
-              Book Cab to {destination.name}
-            </Link>
+            <div className="space-y-2 pt-2">
+              <Link
+                to={`/booking?destination=${encodeURIComponent(destination.name)}`}
+                className="w-full py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition text-center block shadow-sm"
+              >
+                Book Cab / Package for {destination.name}
+              </Link>
+              <a
+                href={getDestinationWhatsAppUrl(destination.name, settings?.whatsappNumber)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition text-center flex items-center justify-center space-x-1.5 shadow-sm"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>WhatsApp Inquiry for {destination.name}</span>
+              </a>
+            </div>
           </div>
         </div>
 

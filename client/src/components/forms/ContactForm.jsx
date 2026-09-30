@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle, Mail, Phone, User, MessageSquare } from 'lucide-react';
+import { Send, CheckCircle, Mail, Phone, User, MessageSquare, MessageCircle } from 'lucide-react';
 import api from '../../api/axios';
+import { useSettings } from '../../context/SettingsContext';
+import { getContactWhatsAppUrl } from '../../utils/whatsappHelper';
 
 const ContactForm = () => {
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,10 +16,21 @@ const ContactForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleDirectWhatsApp = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone) {
+      setError('Please provide at least your Name and Phone Number to connect on WhatsApp.');
+      return;
+    }
+    const waUrl = getContactWhatsAppUrl(formData, settings?.whatsappNumber);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleSubmit = async (e) => {
@@ -27,6 +41,9 @@ const ContactForm = () => {
     try {
       const res = await api.post('/contact', formData);
       if (res.data.success) {
+        setSubmittedData({ ...formData });
+        const waUrl = getContactWhatsAppUrl(formData, settings?.whatsappNumber);
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
         setSuccess(true);
         setFormData({ name: '', email: '', phone: '', subject: 'Tour Package Inquiry', message: '' });
       }
@@ -39,18 +56,32 @@ const ContactForm = () => {
 
   if (success) {
     return (
-      <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 text-center space-y-3">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 text-center space-y-4">
         <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto" />
         <h4 className="text-xl font-bold text-emerald-900 font-display">Thank You! Message Sent.</h4>
         <p className="text-xs sm:text-sm text-emerald-700 max-w-md mx-auto leading-relaxed">
-          Our travel executive has received your message and will call/WhatsApp you within 15 minutes with complete information.
+          Our travel executive has received your message and will call/WhatsApp you at <strong>{submittedData?.phone || 'your number'}</strong> within 15 minutes with complete information.
         </p>
-        <button
-          onClick={() => setSuccess(false)}
-          className="mt-4 px-5 py-2 text-xs font-semibold text-emerald-800 bg-white border border-emerald-300 rounded-xl hover:bg-emerald-100 transition"
-        >
-          Send Another Message
-        </button>
+
+        <div className="flex flex-wrap justify-center gap-3 pt-2">
+          {submittedData && (
+            <a
+              href={getContactWhatsAppUrl(submittedData, settings?.whatsappNumber)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow"
+            >
+              <MessageCircle className="w-4 h-4 mr-1.5" />
+              Chat Directly on WhatsApp (+91 98051 43007)
+            </a>
+          )}
+          <button
+            onClick={() => setSuccess(false)}
+            className="px-5 py-2.5 text-xs font-semibold text-emerald-800 bg-white border border-emerald-300 rounded-xl hover:bg-emerald-100 transition"
+          >
+            Send Another Message
+          </button>
+        </div>
       </div>
     );
   }
@@ -149,20 +180,31 @@ const ContactForm = () => {
           ></textarea>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-sm transition flex items-center justify-center space-x-2 disabled:opacity-75"
-        >
-          {loading ? (
-            <span>Sending Message...</span>
-          ) : (
-            <>
-              <Send className="w-4 h-4" />
-              <span>Send Message</span>
-            </>
-          )}
-        </button>
+        <div className="space-y-2.5 pt-1">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-sm transition flex items-center justify-center space-x-2 disabled:opacity-75 cursor-pointer"
+          >
+            {loading ? (
+              <span>Sending Message...</span>
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                <span>Send Message & Forward to WhatsApp</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDirectWhatsApp}
+            className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow transition duration-200 flex items-center justify-center space-x-2 cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>Chat Directly on WhatsApp (+91 98051 43007)</span>
+          </button>
+        </div>
       </form>
     </div>
   );

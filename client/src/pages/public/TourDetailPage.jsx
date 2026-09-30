@@ -25,6 +25,7 @@ import BookingForm from '../../components/forms/BookingForm';
 import TourCard from '../../components/cards/TourCard';
 import { TourPackageSchema, FAQSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
+import { getTourWhatsAppUrl } from '../../utils/whatsappHelper';
 import { DEFAULT_TOURS } from '../../data/initialData';
 
 const TourDetailPage = () => {
@@ -159,7 +160,7 @@ const TourDetailPage = () => {
                 Call Agent
               </a>
               <a
-                href={`https://wa.me/${settings.whatsappNumber?.replace(/[^0-9]/g, '') || '919805143007'}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20am%20interested%20in%20${encodeURIComponent(tour.title)}`}
+                href={getTourWhatsAppUrl(tour.title, tour.duration?.label || `${tour.duration?.days}D/${tour.duration?.nights}N`, startingPrice, settings?.whatsappNumber)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition flex items-center shadow-sm"
