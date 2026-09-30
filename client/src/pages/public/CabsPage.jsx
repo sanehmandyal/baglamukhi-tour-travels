@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import api from '../../api/axios';
+import { resolveVehicleImage } from '../../utils/vehicleImageHelper';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import { useSettings } from '../../context/SettingsContext';
@@ -292,7 +293,7 @@ const CabsPage = () => {
               colorName: item.colorName || item.colorTheme || 'Mountain Silver / White',
               colorDot: item.colorDot || 'bg-amber-500',
               tagline: item.tagline || item.shortDescription || 'Reliable tourist vehicle for Himachal and North India travel.',
-              image: item.image || item.featuredImage?.url || '/images/cabs/force-cruiser-4x4.jpg',
+              image: resolveVehicleImage(item),
               passengers: item.passengers || item.capacity || '4 to 7 Passengers',
               luggage: item.luggage || item.luggageCapacity || 'Roof Carrier + Boot',
               transmission: item.transmission || 'High-Torque Mountain Hill Engine',

@@ -2,6 +2,23 @@ const Service = require('../models/Service');
 const SEO = require('../models/SEO');
 const { createSlug } = require('../utils/slugify');
 
+function inferCarImage(title, passedImg) {
+  if (passedImg && (passedImg.startsWith('data:image') || (passedImg.startsWith('http') && !passedImg.includes('force-cruiser-4x4.jpg')))) {
+    return passedImg;
+  }
+  const t = (title || '').toLowerCase();
+  if (t.includes('scorpio')) return '/images/cabs/mahindra-scorpio.jpg';
+  if (t.includes('thar')) return '/images/cabs/mahindra-thar-4x4.jpg';
+  if (t.includes('dzire') || t.includes('sedan') || t.includes('etios') || t.includes('swift')) return '/images/cabs/swift-dzire.jpg';
+  if (t.includes('innova') || t.includes('crysta')) return '/images/cabs/toyota-innova-crysta.jpg';
+  if (t.includes('ertiga')) return '/images/cabs/maruti-ertiga.jpg';
+  if (t.includes('17 seater') || t.includes('17-seater')) return '/images/cabs/force-tempo-traveller-17.jpg';
+  if (t.includes('tempo') || t.includes('traveller') || t.includes('urbania') || t.includes('12 seater')) return '/images/cabs/force-tempo-traveller-12.jpg';
+  if (t.includes('sumo') || t.includes('spacio')) return '/images/cabs/tata-sumo-gold.jpg';
+  if (t.includes('cruiser') || t.includes('toofan')) return '/images/cabs/force-cruiser-4x4.jpg';
+  return passedImg || '/images/cabs/swift-dzire.jpg';
+}
+
 // @desc    Get all published transport & taxi services / cabs
 // @route   GET /api/services
 // @access  Public
@@ -23,7 +40,18 @@ exports.getServices = async (req, res, next) => {
       query.$and = [{ $or: [{ serviceType: category }, { category: category }] }];
     }
 
-    const services = await Service.find(query).sort({ createdAt: -1 });
+    const rawServices = await Service.find(query).sort({ createdAt: -1 }).lean();
+    const services = rawServices.map((s) => {
+      const accurateImg = inferCarImage(s.title || s.name, s.image || s.featuredImage?.url);
+      return {
+        ...s,
+        image: accurateImg,
+        featuredImage: {
+          url: accurateImg,
+          alt: s.title || 'Cab',
+        },
+      };
+    });
 
     res.status(200).json({
       success: true,
@@ -82,7 +110,19 @@ exports.getServiceBySlug = async (req, res, next) => {
 // @access  Private/Admin
 exports.getAdminServices = async (req, res, next) => {
   try {
-    const services = await Service.find().sort({ createdAt: -1 });
+    const rawServices = await Service.find().sort({ createdAt: -1 }).lean();
+    const services = rawServices.map((s) => {
+      const accurateImg = inferCarImage(s.title || s.name, s.image || s.featuredImage?.url);
+      return {
+        ...s,
+        image: accurateImg,
+        featuredImage: {
+          url: accurateImg,
+          alt: s.title || 'Cab',
+        },
+      };
+    });
+
     res.status(200).json({
       success: true,
       count: services.length,
@@ -105,7 +145,7 @@ exports.createService = async (req, res, next) => {
       slug = createSlug(finalTitle);
     }
 
-    const imgUrl = image || (featuredImage?.url) || '/images/cabs/force-cruiser-4x4.jpg';
+    const imgUrl = inferCarImage(finalTitle, image || (featuredImage?.url));
     const normFeatures = Array.isArray(features)
       ? features
       : typeof features === 'string'

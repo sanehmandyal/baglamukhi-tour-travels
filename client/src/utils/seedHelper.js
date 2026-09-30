@@ -7,6 +7,7 @@ import {
   DEFAULT_TESTIMONIALS,
   DEFAULT_FAQS,
 } from '../data/initialData';
+import { resolveVehicleImage } from './vehicleImageHelper';
 
 /**
  * Universal seeder helper that tries the backend /seed endpoint first,
@@ -37,6 +38,8 @@ export const syncDatabaseInventory = async (target = 'all') => {
           tempoPrice: 5500,
         }));
 
+        const carImg = resolveVehicleImage(cab);
+
         const payload = {
           title: cab.title,
           slug: cab.slug,
@@ -52,9 +55,9 @@ export const syncDatabaseInventory = async (target = 'all') => {
           shortDescription: cab.shortDescription || 'Himachal tourist cab with experienced hill chauffeur.',
           detailedContent: cab.shortDescription || 'Commercial tourist cab with certified mountain chauffeur.',
           fullDescription: cab.shortDescription || 'Commercial tourist cab with certified mountain chauffeur.',
-          image: cab.image || '/images/cabs/force-cruiser-4x4.jpg',
+          image: carImg,
           featuredImage: {
-            url: cab.image || '/images/cabs/force-cruiser-4x4.jpg',
+            url: carImg,
             alt: cab.title || 'Cab',
           },
           features: Array.isArray(cab.features) ? cab.features : ['AC', 'Heater', 'Fastag', 'Pahadi Driver'],

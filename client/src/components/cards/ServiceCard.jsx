@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
+import { resolveVehicleImage } from '../../utils/vehicleImageHelper';
 
 const ServiceCard = ({ service, onBookCab }) => {
   const navigate = useNavigate();
@@ -11,11 +12,11 @@ const ServiceCard = ({ service, onBookCab }) => {
       <div>
         <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
           <img
-            src={service.image || service.featuredImage?.url || '/images/cabs/force-cruiser-4x4.jpg'}
+            src={resolveVehicleImage(service)}
             alt={service.featuredImage?.alt || service.title}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = '/images/cabs/force-cruiser-4x4.jpg';
+              e.target.src = resolveVehicleImage(service.title);
             }}
             className="w-full h-full object-cover"
           />

@@ -4,8 +4,74 @@ import { FiPlus, FiEdit2, FiTrash2, FiTruck, FiUsers, FiDollarSign, FiX, FiCheck
 import ImageUploadInput from '../../components/common/ImageUploadInput';
 import { DEFAULT_CABS } from '../../data/initialData';
 import { syncDatabaseInventory } from '../../utils/seedHelper';
+import { resolveVehicleImage } from '../../utils/vehicleImageHelper';
 
 const VEHICLE_PRESETS = [
+  {
+    name: 'Mahindra Scorpio 4WD (Tough Hill SUV)',
+    category: 'cab-rental',
+    vehicleType: 'Heavy Mountain SUV (6-7 Seater)',
+    capacity: '6 to 7 Passengers',
+    luggageCapacity: '3 Large Bags + Carrier',
+    pricePerKm: 18,
+    baseFare: 4500,
+    image: '/images/cabs/mahindra-scorpio.jpg',
+    features: 'mHawk High-Torque Diesel, High Seating Position & Road Presence, Heavy Duty Suspension, Dedicated Hill Driver',
+    popularRoutes: 'Chandigarh to Shimla Kinnaur, Dharamshala to Dalhousie, Chandigarh to Manali',
+    shortDescription: 'Legendary Indian mountain SUV with superior hill-climbing power and rugged suspension for family expeditions.'
+  },
+  {
+    name: 'Mahindra Thar 4×4 Adventure SUV',
+    category: 'cab-rental',
+    vehicleType: '4x4 Mountain Off-Roader',
+    capacity: '4 Passengers',
+    luggageCapacity: '2 Soft Bags',
+    pricePerKm: 22,
+    baseFare: 5500,
+    image: '/images/cabs/mahindra-thar-4x4.jpg',
+    features: 'High 4x4 Traction Low Ratio, 226mm Ground Clearance, Convertible Hardtop, Snow Specialist',
+    popularRoutes: 'Manali to Atal Tunnel & Sissu, Spiti Winter Snow Drive, Rohtang Pass Excursion',
+    shortDescription: 'Iconic 4x4 off-roader for high-altitude mountain passes, winter snow excursions, and photography trips.'
+  },
+  {
+    name: 'Maruti Suzuki Swift Dzire Sedan',
+    category: 'cab-rental',
+    vehicleType: 'Executive Hill Sedan (4+1 Seater)',
+    capacity: '4 Passengers + 1 Driver',
+    luggageCapacity: '2 Large + 2 Small Bags',
+    pricePerKm: 11,
+    baseFare: 2500,
+    image: '/images/cabs/swift-dzire.jpg',
+    features: 'Chilled AC, Music System, Neat & Clean Cabin, Experienced Hill Driver',
+    popularRoutes: 'Chandigarh Airport Pickup, Chandigarh to Shimla, Una to Baglamukhi Temple',
+    shortDescription: 'Comfortable and affordable 4-passenger AC sedan for couple tours, airport transfers, and temple yatras.'
+  },
+  {
+    name: 'Toyota Innova Crysta (Luxury Mountain SUV)',
+    category: 'cab-rental',
+    vehicleType: 'Luxury Tourist SUV (6+1 / 7+1 Seater)',
+    capacity: '6+1 / 7+1 Passengers',
+    luggageCapacity: '4 Large Bags + Heavy Roof Carrier',
+    pricePerKm: 18,
+    baseFare: 4800,
+    image: '/images/cabs/toyota-innova-crysta.jpg',
+    features: 'Dual AC with Rear Roof Vents, Captain Reclining Seats, Superior Hill Suspension, Hill Certified Chauffeur',
+    popularRoutes: 'Chandigarh to Manali, Chandigarh to Shimla, Maa Baglamukhi 9 Devi Yatra, Delhi to Himachal',
+    shortDescription: 'The gold standard for family vacations and mountain road trips in Himachal. Premium comfort, extra legroom, and effortless power.'
+  },
+  {
+    name: 'Maruti Suzuki Ertiga Smart Hybrid',
+    category: 'cab-rental',
+    vehicleType: '6-Seater Family MUV',
+    capacity: '6 Passengers + 1 Driver',
+    luggageCapacity: '3 Bags + Roof Carrier',
+    pricePerKm: 14,
+    baseFare: 3400,
+    image: '/images/cabs/maruti-ertiga.jpg',
+    features: 'Smart Hybrid Petrol Engine, Dual AC, Comfortable 3-Row Seating, Rooftop Luggage Rack',
+    popularRoutes: 'Chandigarh to Dharamshala, Chandigarh to Shimla, Una to Kangra Temples',
+    shortDescription: 'Economical and spacious 6-seater family taxi for temple tours and mountain station vacations.'
+  },
   {
     name: 'Force Cruiser & Trax Toofan 4×4',
     category: 'cab-rental',
@@ -57,58 +123,6 @@ const VEHICLE_PRESETS = [
     features: 'CR4 High-Torque Engine, Rugged Hill Suspension, High Clearance for Mountain Roads, Pahadi Expert Chauffeur',
     popularRoutes: 'Chandigarh to Baglamukhi Kangra, Shimla to Kinnaur Spiti, Pathankot to Chamba & Dalhousie',
     shortDescription: 'The undisputed rugged workhorse of Himachal hill roads. Reliable power and high ground clearance for temple yatras and valley tours.'
-  },
-  {
-    name: 'Toyota Innova Crysta (Luxury Mountain SUV)',
-    category: 'cab-rental',
-    vehicleType: 'Luxury Tourist SUV (6+1 / 7+1 Seater)',
-    capacity: '6+1 / 7+1 Passengers',
-    luggageCapacity: '4 Large Bags + Heavy Roof Carrier',
-    pricePerKm: 18,
-    baseFare: 4800,
-    image: '/images/cabs/toyota-innova-crysta.jpg',
-    features: 'Dual AC with Rear Roof Vents, Captain Reclining Seats, Superior Hill Suspension, Hill Certified Chauffeur',
-    popularRoutes: 'Chandigarh to Manali, Chandigarh to Shimla, Maa Baglamukhi 9 Devi Yatra, Delhi to Himachal',
-    shortDescription: 'The gold standard for family vacations and mountain road trips in Himachal. Premium comfort, extra legroom, and effortless power.'
-  },
-  {
-    name: 'Maruti Suzuki Ertiga Smart Hybrid',
-    category: 'cab-rental',
-    vehicleType: '6-Seater Family MUV',
-    capacity: '6 Passengers + 1 Driver',
-    luggageCapacity: '3 Bags + Roof Carrier',
-    pricePerKm: 14,
-    baseFare: 3400,
-    image: '/images/cabs/maruti-ertiga.jpg',
-    features: 'Smart Hybrid Petrol Engine, Dual AC, Comfortable 3-Row Seating, Rooftop Luggage Rack',
-    popularRoutes: 'Chandigarh to Dharamshala, Chandigarh to Shimla, Una to Kangra Temples',
-    shortDescription: 'Economical and spacious 6-seater family taxi for temple tours and mountain station vacations.'
-  },
-  {
-    name: 'Maruti Suzuki Swift Dzire Sedan',
-    category: 'cab-rental',
-    vehicleType: 'Executive Hill Sedan (4+1 Seater)',
-    capacity: '4 Passengers + 1 Driver',
-    luggageCapacity: '2 Large + 2 Small Bags',
-    pricePerKm: 11,
-    baseFare: 2500,
-    image: '/images/cabs/swift-dzire.jpg',
-    features: 'Chilled AC, Music System, Neat & Clean Cabin, Experienced Hill Driver',
-    popularRoutes: 'Chandigarh Airport Pickup, Chandigarh to Shimla, Una to Baglamukhi Temple',
-    shortDescription: 'Comfortable and affordable 4-passenger AC sedan for couple tours, airport transfers, and temple yatras.'
-  },
-  {
-    name: 'Mahindra Thar 4×4 Adventure SUV',
-    category: 'cab-rental',
-    vehicleType: '4x4 Mountain Off-Roader',
-    capacity: '4 Passengers',
-    luggageCapacity: '2 Soft Bags',
-    pricePerKm: 22,
-    baseFare: 5500,
-    image: '/images/cabs/mahindra-thar-4x4.jpg',
-    features: 'High 4x4 Traction Low Ratio, 226mm Ground Clearance, Convertible Hardtop, Snow Specialist',
-    popularRoutes: 'Manali to Atal Tunnel & Sissu, Spiti Winter Snow Drive, Rohtang Pass Excursion',
-    shortDescription: 'Iconic 4x4 off-roader for high-altitude mountain passes, winter snow excursions, and photography trips.'
   }
 ];
 
@@ -392,10 +406,10 @@ const AdminServicesPage = () => {
               <div>
                 <div className="h-44 w-full relative bg-slate-100">
                   <img
-                    src={srv.image || '/images/cabs/force-cruiser-4x4.jpg'}
+                    src={resolveVehicleImage(srv)}
                     alt={srv.title}
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = '/images/cabs/force-cruiser-4x4.jpg'; }}
+                    onError={(e) => { e.target.src = resolveVehicleImage(srv.title); }}
                   />
                   <div className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-sm text-amber-400 px-2.5 py-1 rounded-lg text-[11px] font-bold capitalize">
                     {srv.category?.replace('-', ' ')}
