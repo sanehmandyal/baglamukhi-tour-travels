@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import { OrganizationSchema } from '../../components/common/SchemaMarkup';
 import { useSettings } from '../../context/SettingsContext';
 
 const AboutPage = () => {
@@ -24,8 +25,10 @@ const AboutPage = () => {
         title="About Us | Baglamukhi Tour & Travels - 15+ Years Travel Heritage"
         description="Learn about Baglamukhi Tour & Travels, Himachal Pradesh's trusted tour operator and taxi provider. Dedicated fleet, verified drivers, and 1,500+ happy travelers."
         canonical="/about-us"
+        keywords={['About Baglamukhi Tour and Travels', 'Himachal tour operator', 'Amb Andaura taxi company', 'Maa Baglamukhi travel agency', 'Himachal driver verified']}
       />
 
+      <OrganizationSchema />
       <Breadcrumbs items={[{ name: 'About Us', url: '/about-us' }]} />
 
       {/* Hero Banner */}

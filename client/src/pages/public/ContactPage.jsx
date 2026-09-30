@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import SEOHead from '../../components/common/SEOHead';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import { OrganizationSchema } from '../../components/common/SchemaMarkup';
 import ContactForm from '../../components/forms/ContactForm';
 import GoogleMapEmbed from '../../components/common/GoogleMapEmbed';
 import { useSettings } from '../../context/SettingsContext';
@@ -22,8 +23,10 @@ const ContactPage = () => {
         title="Contact Us | Baglamukhi Tour & Travels - 24/7 Helpline & Office Address"
         description="Get in touch with Baglamukhi Tour & Travels. Call +91 98051 43007 or WhatsApp us 24/7. Office near Amb Andaura Railway Station (AADR) & Kangra for instant holiday and cab bookings."
         canonical="/contact-us"
+        keywords={['Contact Baglamukhi Tour and Travels', 'Amb Andaura taxi contact number', 'Maa Baglamukhi temple cab phone number', 'Himachal holiday booking desk', 'Tempo Traveller contact Himachal']}
       />
 
+      <OrganizationSchema />
       <Breadcrumbs items={[{ name: 'Contact Us', url: '/contact-us' }]} />
 
       {/* Hero Banner */}

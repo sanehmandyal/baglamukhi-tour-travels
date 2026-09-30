@@ -22,12 +22,13 @@ exports.getSeoMeta = async (req, res, next) => {
 
     if (!seo) {
       // Return sensible fallback
+      const siteOrigin = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
       return res.status(200).json({
         success: true,
         data: {
-          title: 'Baglamukhi Tour & Travels | Best Holiday Packages & Cab Service',
-          metaDescription: 'Book customized Himachal tour packages, taxi rentals, and holiday trips with Baglamukhi Tour & Travels.',
-          canonicalUrl: `http://localhost:5173${normalizedSlug}`,
+          title: 'Baglamukhi Tour & Travels | Best Himachal Holiday Packages & Cab Service',
+          metaDescription: 'Book customized Himachal tour packages, Amb Andaura Railway Station taxi transfers, Maa Baglamukhi Darshan, and holiday trips with Baglamukhi Tour & Travels.',
+          canonicalUrl: `${siteOrigin}${normalizedSlug}`,
           robots: 'index, follow',
           schemaType: 'WebSite',
         },
@@ -69,7 +70,7 @@ exports.saveSeoMeta = async (req, res, next) => {
         slug: normalizedSlug,
         title,
         metaDescription,
-        canonicalUrl: canonicalUrl || `http://localhost:5173${normalizedSlug}`,
+        canonicalUrl: canonicalUrl || `https://baglamukhitourtravels.com${normalizedSlug}`,
         focusKeyword,
         secondaryKeywords,
         ogTitle: ogTitle || title,
@@ -170,7 +171,7 @@ exports.getSeoAudit = async (req, res, next) => {
 // @access  Public
 exports.generateSitemapXml = async (req, res, next) => {
   try {
-    const baseUrl = process.env.SITE_URL || 'http://localhost:5173';
+    const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
 
     const staticRoutes = [
       '',
@@ -300,7 +301,7 @@ exports.generateSitemapXml = async (req, res, next) => {
 // @route   GET /robots.txt & /api/seo/robots.txt
 // @access  Public
 exports.getRobotsTxt = (req, res) => {
-  const baseUrl = process.env.SITE_URL || 'http://localhost:5173';
+  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
   const robots = `User-agent: *
 Allow: /
 Disallow: /admin
@@ -315,7 +316,7 @@ Disallow: /thank-you
 Disallow: /search
 
 Sitemap: ${baseUrl}/sitemap.xml
-Sitemap: ${process.env.API_URL || 'http://localhost:5000'}/api/seo/sitemap.xml
+Sitemap: ${process.env.API_URL || 'https://baglamukhitourtravels.com'}/api/seo/sitemap.xml
 `;
   res.header('Content-Type', 'text/plain');
   res.status(200).send(robots);

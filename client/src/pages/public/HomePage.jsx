@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import api from '../../api/axios';
 import SEOHead from '../../components/common/SEOHead';
+import { OrganizationSchema, WebSiteSchema, FAQSchema, TaxiServiceSchema } from '../../components/common/SchemaMarkup';
 import TourCard from '../../components/cards/TourCard';
 import DestinationCard from '../../components/cards/DestinationCard';
 import BlogCard from '../../components/cards/BlogCard';
@@ -135,10 +136,15 @@ const HomePage = () => {
     <div className="space-y-16 sm:space-y-24 bg-slate-50/40">
       <SEOHead
         title="Baglamukhi Tour & Travels | Best Himachal Tour Packages, Cabs & Devi Darshan"
-        description="Book customized Himachal Pradesh holiday packages, Maa Baglamukhi Dham & 9 Devi Darshan yatra, Shimla Manali tours, Chandigarh taxi rentals with Baglamukhi Tour & Travels."
+        description="Official Baglamukhi Tour & Travels. Book top-rated Himachal tour packages, Amb Andaura Railway Station taxi pickup, Maa Baglamukhi havan yatra, Manali holidays, Shimla cabs, and Maharaja Tempo Travellers. Call +91 98051 43007."
         canonical="/"
-        keywords={['Baglamukhi Tour and Travels', 'Maa Baglamukhi temple taxi', 'Himachal tour packages', 'Manali tour package', 'Shimla trip', 'Chandigarh cab service']}
+        keywords={['Baglamukhi Tour and Travels', 'Maa Baglamukhi temple taxi', 'Amb Andaura railway station cab', 'Himachal tour packages', '9 Devi Darshan yatra', 'Manali tour package', 'Shimla trip', 'Tempo Traveller hire Chandigarh']}
       />
+
+      <OrganizationSchema />
+      <WebSiteSchema />
+      <TaxiServiceSchema cabName="Himachal Cabs, Cruisers & Tempo Travellers" />
+      {faqs && faqs.length > 0 && <FAQSchema faqs={faqs} />}
 
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[580px] sm:min-h-[620px] flex items-center justify-center bg-slate-900 overflow-hidden pt-12 pb-24">
