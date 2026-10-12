@@ -101,13 +101,11 @@ const AdminTourEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.destination) {
-      setError('Title and Destination are required.');
-      return;
-    }
-
     setSaving(true);
     setError('');
+
+    const finalTitle = formData.title?.trim() || 'Custom Himachal Holiday Tour Package';
+    const finalDest = formData.destination?.trim() || 'Himachal Pradesh';
 
     try {
       const cleanItinerary = (formData.itinerary || []).filter(item => item && (item.title || item.description)).map((item, idx) => ({
@@ -121,12 +119,14 @@ const AdminTourEditPage = () => {
 
       const payload = {
         ...formData,
+        title: finalTitle,
+        destination: finalDest,
         itinerary: cleanItinerary,
-        featuredImage: typeof formData.featuredImage === 'string' ? { url: formData.featuredImage, alt: formData.title } : {
+        featuredImage: typeof formData.featuredImage === 'string' ? { url: formData.featuredImage, alt: finalTitle } : {
           url: formData.featuredImage?.url || 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80',
-          alt: formData.featuredImage?.alt || formData.title || 'Tour Package',
+          alt: formData.featuredImage?.alt || finalTitle,
         },
-        overview: formData.overview || `Exclusive ${formData.title} package covering ${formData.destination} with private cab and hotel stay.`,
+        overview: formData.overview || `Exclusive ${finalTitle} package covering ${finalDest} with private cab and hotel stay.`,
         price: {
           startingPrice: Number(formData.price?.startingPrice) || 9999,
           discountedPrice: Number(formData.price?.discountedPrice) || Number(formData.price?.startingPrice) || 9999,
@@ -205,10 +205,9 @@ const AdminTourEditPage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Tour Package Title *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Tour Package Title</label>
               <input
                 type="text"
-                required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none"
@@ -217,10 +216,9 @@ const AdminTourEditPage = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Primary Destination *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Primary Destination</label>
               <input
                 type="text"
-                required
                 value={formData.destination}
                 onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
                 className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none"
@@ -281,10 +279,9 @@ const AdminTourEditPage = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Starting Price (INR) *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Starting Price (INR)</label>
               <input
                 type="number"
-                required
                 value={formData.price?.startingPrice || 12499}
                 onChange={(e) =>
                   setFormData({
@@ -298,7 +295,7 @@ const AdminTourEditPage = () => {
           </div>
 
           <ImageUploadInput
-            label="Featured Image (Upload from phone/device or URL) *"
+            label="Featured Image (Upload from phone/device or URL)"
             value={formData.featuredImage?.url || ''}
             onChange={(val) =>
               setFormData({
@@ -316,10 +313,9 @@ const AdminTourEditPage = () => {
           />
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Detailed Tour Overview *</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Detailed Tour Overview</label>
             <textarea
               rows="4"
-              required
               value={formData.overview}
               onChange={(e) => setFormData({ ...formData, overview: e.target.value })}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl"

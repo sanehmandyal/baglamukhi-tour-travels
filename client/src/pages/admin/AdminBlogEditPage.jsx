@@ -117,13 +117,21 @@ const AdminBlogEditPage = () => {
     setSaving(true);
     setError('');
 
+    const finalTitle = formData.title?.trim() || 'Himachal Travel Guide & Tips';
+    const finalSlug = formData.slug?.trim() || finalTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
     const payload = {
       ...formData,
-      tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
+      title: finalTitle,
+      slug: finalSlug,
+      featuredImage: formData.featuredImage || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+      summary: formData.summary || `Discover the best of Himachal Pradesh with expert tips and travel advice.`,
+      content: formData.content || `Explore breathtaking snow peaks, temple darshan, and mountain roads with Baglamukhi Tour & Travels.`,
+      tags: formData.tags ? formData.tags.split(',').map(t => t.trim()).filter(Boolean) : ['Himachal', 'Travel'],
       seo: {
-        metaTitle: formData.metaTitle || formData.title,
-        metaDescription: formData.metaDescription || formData.summary,
-        keywords: formData.keywords.split(',').map(k => k.trim()).filter(Boolean),
+        metaTitle: formData.metaTitle || finalTitle,
+        metaDescription: formData.metaDescription || formData.summary || finalTitle,
+        keywords: formData.keywords ? formData.keywords.split(',').map(k => k.trim()).filter(Boolean) : ['Himachal Travel'],
         canonicalUrl: formData.canonicalUrl
       }
     };
@@ -181,32 +189,31 @@ const AdminBlogEditPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Article Title *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Article Title</label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                required
                 placeholder="e.g., Ultimate Shimla & Manali Travel Itinerary for 2025"
                 className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">URL Slug *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">URL Slug</label>
               <input
                 type="text"
                 name="slug"
                 value={formData.slug}
                 onChange={handleChange}
-                required
+                placeholder="auto-generated-if-blank"
                 className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Category *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">Category</label>
               <select
                 name="category"
                 value={formData.category}

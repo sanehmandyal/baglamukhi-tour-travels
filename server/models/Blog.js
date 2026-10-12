@@ -4,39 +4,38 @@ const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      default: 'Himachal Travel Guide',
       trim: true,
     },
     slug: {
       type: String,
-      required: true,
-      unique: true,
+      default: () => 'blog-' + Date.now(),
       lowercase: true,
       trim: true,
       index: true,
     },
     category: {
       type: String,
-      required: true,
+      default: 'Travel Tips',
       index: true,
     },
     tags: [String],
     author: {
-      name: { type: String, default: 'Baglamukhi Travel Experts' },
+      name: { type: String, default: 'Baglamukhi Travel Team' },
       role: { type: String, default: 'Himachal & North India Travel Specialist' },
-      avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80' },
+      avatar: { type: String, default: '/baglamukhi-temple-logo.jpg' },
     },
     featuredImage: {
-      url: { type: String, required: true },
-      alt: { type: String, required: true },
+      url: { type: String, default: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80' },
+      alt: { type: String, default: 'Himachal Travel Guide' },
     },
     excerpt: {
       type: String,
-      required: true,
+      default: 'Helpful travel tips, best routes, and itineraries for your Himachal vacation.',
     },
     content: {
       type: String,
-      required: true,
+      default: 'Explore scenic destinations, snow adventures, and temple yatras with Baglamukhi Tour & Travels.',
     },
     readingTime: {
       type: String,

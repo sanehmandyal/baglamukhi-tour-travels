@@ -92,12 +92,10 @@ const AdminDestinationEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name) {
-      setError('Destination name is required.');
-      return;
-    }
     setSaving(true);
     setError('');
+
+    const finalName = formData.name?.trim() || 'Himachal Hill Destination';
 
     try {
       const cleanPlaces = (formData.placesToVisit || []).filter(p => p && (p.name || p.description)).map(p => ({
@@ -109,13 +107,14 @@ const AdminDestinationEditPage = () => {
 
       const payload = {
         ...formData,
+        name: finalName,
         placesToVisit: cleanPlaces,
-        heroImage: typeof formData.heroImage === 'string' ? { url: formData.heroImage, alt: formData.name } : {
+        heroImage: typeof formData.heroImage === 'string' ? { url: formData.heroImage, alt: finalName } : {
           url: formData.heroImage?.url || 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=80',
-          alt: formData.heroImage?.alt || formData.name || 'Destination'
+          alt: formData.heroImage?.alt || finalName
         },
-        shortDescription: formData.shortDescription || `${formData.name} is a premier destination in Himachal Pradesh.`,
-        detailedOverview: formData.detailedOverview || formData.shortDescription || `Explore ${formData.name} with Baglamukhi Tour & Travels.`,
+        shortDescription: formData.shortDescription || `${finalName} is a premier destination in Himachal Pradesh.`,
+        detailedOverview: formData.detailedOverview || formData.shortDescription || `Explore ${finalName} with Baglamukhi Tour & Travels.`,
         isPublished: formData.isPublished !== undefined ? formData.isPublished : true,
       };
 
@@ -169,10 +168,9 @@ const AdminDestinationEditPage = () => {
           <h3 className="text-base font-bold text-slate-900 font-display">Destination Overview</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Destination Name *</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Destination Name</label>
               <input
                 type="text"
-                required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-200 rounded-xl"
@@ -192,7 +190,7 @@ const AdminDestinationEditPage = () => {
           </div>
 
           <ImageUploadInput
-            label="Destination Hero Image (Upload from phone/device or URL) *"
+            label="Destination Hero Image (Upload from phone/device or URL)"
             value={formData.heroImage?.url || ''}
             onChange={(val) =>
               setFormData({
@@ -210,10 +208,9 @@ const AdminDestinationEditPage = () => {
           />
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Short Description *</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Short Description</label>
             <textarea
               rows="2"
-              required
               value={formData.shortDescription}
               onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
               className="w-full px-3 py-2 border border-slate-200 rounded-xl"
@@ -221,10 +218,9 @@ const AdminDestinationEditPage = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Detailed Overview *</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">Detailed Overview</label>
             <textarea
               rows="4"
-              required
               value={formData.detailedOverview}
               onChange={(e) => setFormData({ ...formData, detailedOverview: e.target.value })}
               className="w-full px-3 py-2 border border-slate-200 rounded-xl"

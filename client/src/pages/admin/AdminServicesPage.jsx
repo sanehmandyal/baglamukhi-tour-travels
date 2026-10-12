@@ -508,13 +508,12 @@ const AdminServicesPage = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Vehicle Name / Model *</label>
+                  <label className="block text-xs font-bold uppercase text-slate-700 mb-1">Vehicle Name / Model</label>
                   <input
                     type="text"
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    required
                     placeholder="e.g. Force Cruiser 4x4 or Toyota Innova Crysta"
                     className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-brand-500"
                   />
@@ -596,7 +595,7 @@ const AdminServicesPage = () => {
 
                 <div className="md:col-span-2">
                   <ImageUploadInput
-                    label="Vehicle Image (Photo / Banner) *"
+                    label="Vehicle Image (Photo / Banner)"
                     value={formData.image}
                     onChange={(val) => setFormData((prev) => ({ ...prev, image: val }))}
                   />

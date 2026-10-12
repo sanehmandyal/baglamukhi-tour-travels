@@ -4,13 +4,12 @@ const destinationSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Destination name is required'],
+      default: 'Scenic Himachal Destination',
       trim: true,
     },
     slug: {
       type: String,
-      required: true,
-      unique: true,
+      default: () => 'dest-' + Date.now(),
       lowercase: true,
       trim: true,
       index: true,
@@ -21,31 +20,29 @@ const destinationSchema = new mongoose.Schema(
     },
     state: {
       type: String,
-      required: true,
       default: 'Himachal Pradesh',
       index: true,
     },
     heroImage: {
-      url: { type: String, required: true },
-      alt: { type: String, required: true },
+      url: { type: String, default: 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=80' },
+      alt: { type: String, default: 'Himachal Destination' },
     },
     galleryImages: [
       {
-        url: { type: String, required: true },
-        alt: { type: String, required: true },
+        url: { type: String, default: 'https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=800&q=80' },
+        alt: { type: String, default: 'Destination View' },
       },
     ],
     shortDescription: {
       type: String,
-      required: true,
+      default: 'Explore this beautiful mountain destination with Baglamukhi Tour & Travels.',
     },
     detailedOverview: {
       type: String,
-      required: true,
+      default: 'Experience majestic pine hills, fresh snowfall, and local culture.',
     },
     bestTimeToVisit: {
       type: String,
-      required: true,
       default: 'October to June for pleasant weather; December to February for snow.',
     },
     idealTripDuration: {

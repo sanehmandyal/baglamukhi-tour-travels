@@ -4,13 +4,12 @@ const serviceSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'Vehicle or Service title is required'],
+      default: 'Himachal Tourist Cab',
       trim: true,
     },
     slug: {
       type: String,
-      required: true,
-      unique: true,
+      default: () => 'service-' + Date.now(),
       lowercase: true,
       trim: true,
       index: true,
