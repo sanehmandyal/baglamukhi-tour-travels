@@ -489,13 +489,13 @@ const CabsPage = () => {
             </p>
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex flex-wrap gap-2.5">
+          {/* Tab Navigation - Touch scrollable on mobile */}
+          <div className="flex overflow-x-auto no-scrollbar pb-2 sm:pb-0 gap-2 sm:gap-2.5 -mx-4 px-4 sm:mx-0 sm:px-0">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center space-x-2 ${
+                className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center space-x-2 shrink-0 ${
                   activeCategory === cat.id
                     ? 'bg-amber-500 text-white shadow-md shadow-amber-500/25'
                     : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'

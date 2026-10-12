@@ -8,11 +8,11 @@ const WhatsAppFloat = () => {
   const callPhone = settings.primaryPhone?.replace(/[^0-9+]/g, '') || '+919805143007';
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col space-y-3">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col space-y-2.5 sm:space-y-3 pb-safe">
       {/* Quick Direct Call Button (Black & Gold) */}
       <a
         href={`tel:${callPhone}`}
-        className="w-12 h-12 sm:w-14 sm:h-14 bg-neutral-950 hover:bg-neutral-900 text-yellow-400 border-2 border-yellow-400/80 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95 duration-200"
+        className="w-11 h-11 sm:w-14 sm:h-14 bg-neutral-950 hover:bg-neutral-900 text-yellow-400 border-2 border-yellow-400/80 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95 duration-200"
         title="Call Baglamukhi Travel Desk (+91 98051 43007)"
         aria-label="Call Baglamukhi Tour & Travels"
       >
@@ -24,11 +24,11 @@ const WhatsAppFloat = () => {
         href={`https://wa.me/${phone}?text=Hi%20Baglamukhi%20Tour%20%26%20Travels,%20I%20am%20interested%20in%20booking%20a%20tour%20package%20/%20taxi.`}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95 duration-200 border-2 border-white/40 shadow-emerald-500/30"
+        className="w-11 h-11 sm:w-14 sm:h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95 duration-200 border-2 border-white/40 shadow-emerald-500/30"
         title="Instant WhatsApp Inquiry (+91 98051 43007)"
         aria-label="Chat on WhatsApp"
       >
-        <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+        <MessageCircle className="w-5 h-5 sm:w-7 sm:h-7" />
       </a>
     </div>
   );

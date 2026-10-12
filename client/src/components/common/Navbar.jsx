@@ -45,27 +45,29 @@ const Navbar = ({ onOpenInquiry }) => {
   return (
     <header className="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-slate-100 shadow-sm">
       {/* Top Notification Strip */}
-      <div className="bg-slate-900 text-slate-300 text-[11px] py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-          <div className="flex items-center space-x-3">
-            <span className="flex items-center text-amber-400 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-amber-400" />
-              Verified Himachal Government Approved Agency
+      <div className="bg-slate-900 text-slate-300 text-[11px] py-1.5 px-3 sm:px-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
+          <div className="flex items-center space-x-2 sm:space-x-3 overflow-hidden text-ellipsis whitespace-nowrap">
+            <span className="flex items-center text-amber-400 font-medium truncate">
+              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-amber-400 shrink-0" />
+              <span className="truncate">Himachal Govt Approved</span>
             </span>
-            <span className="hidden lg:inline text-slate-600">•</span>
-            <span className="hidden lg:flex items-center text-slate-300">
-              <Sparkles className="w-3 h-3 mr-1 text-amber-400" />
-              Maa Baglamukhi Darshan, Taxi Fleet & Tour Packages
+            <span className="hidden md:inline text-slate-600">•</span>
+            <span className="hidden md:flex items-center text-slate-300">
+              <Sparkles className="w-3 h-3 mr-1 text-amber-400 shrink-0" />
+              Maa Baglamukhi Darshan & Tour Packages
             </span>
           </div>
 
-          <div className="flex items-center space-x-4 ml-auto font-medium">
+          <div className="flex items-center space-x-2.5 sm:space-x-4 shrink-0 font-medium text-[10.5px] sm:text-[11px]">
             <a
               href={`tel:${settings.primaryPhone?.replace(/\s+/g, '') || '+919805143007'}`}
               className="flex items-center text-slate-200 hover:text-amber-400 transition"
+              title="Call Helpline"
             >
-              <Phone className="w-3 h-3 mr-1 text-amber-400" />
-              {settings.primaryPhone || '+91 98051 43007'}
+              <Phone className="w-3 h-3 mr-1 text-amber-400 shrink-0" />
+              <span className="hidden xs:inline">{settings.primaryPhone || '+91 98051 43007'}</span>
+              <span className="xs:hidden">Call</span>
             </a>
 
             <a
@@ -73,25 +75,27 @@ const Navbar = ({ onOpenInquiry }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-emerald-400 hover:text-emerald-300 transition"
+              title="WhatsApp Chat"
             >
-              <MessageCircle className="w-3 h-3 mr-1" />
-              WhatsApp
+              <MessageCircle className="w-3 h-3 mr-0.5 sm:mr-1 shrink-0" />
+              <span>WhatsApp</span>
             </a>
 
             <Link
               to="/admin/login"
-              className="flex items-center text-amber-300 hover:text-amber-200 bg-amber-500/20 hover:bg-amber-500/30 px-2.5 py-0.5 rounded text-[11px] font-semibold transition border border-amber-500/40"
+              className="flex items-center text-amber-300 hover:text-amber-200 bg-amber-500/20 hover:bg-amber-500/30 px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold transition border border-amber-500/40"
             >
-              <Lock className="w-3 h-3 mr-1 text-amber-400" />
-              Admin Login
+              <Lock className="w-3 h-3 mr-1 text-amber-400 shrink-0" />
+              <span className="hidden sm:inline">Admin Login</span>
+              <span className="sm:hidden">Admin</span>
             </Link>
           </div>
         </div>
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center shrink-0">
             <Logo variant="dark" size="md" />
@@ -313,108 +317,112 @@ const Navbar = ({ onOpenInquiry }) => {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 max-h-[85vh] overflow-y-auto">
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 px-4 pt-3 pb-8 space-y-3 max-h-[85vh] overflow-y-auto shadow-2xl transition-all">
           <form onSubmit={handleSearch} className="relative my-2">
             <input
               type="text"
               placeholder="Search destination, tour package..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="w-full pl-9 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
           </form>
 
-          <div className="space-y-1 font-medium text-slate-700">
+          <div className="space-y-1 font-medium text-slate-800">
             <Link
               to="/"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/tours"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               All Tour Packages
             </Link>
-            <div className="pl-4 space-y-1.5 text-xs text-slate-500">
+            <div className="pl-4 space-y-1 text-sm text-slate-600 border-l-2 border-amber-200 ml-3 my-1">
               <Link
                 to="/pilgrimage-tours"
-                className="block py-1 hover:text-amber-600"
+                className="flex items-center min-h-[40px] px-3 py-1.5 hover:text-amber-600 font-medium transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                • 🛕 Maa Baglamukhi & 9 Devi Yatra
+                🛕 Maa Baglamukhi & 9 Devi Yatra
               </Link>
               <Link
                 to="/honeymoon-tours"
-                className="block py-1 hover:text-amber-600"
+                className="flex items-center min-h-[40px] px-3 py-1.5 hover:text-amber-600 font-medium transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                • ❤️ Honeymoon Special Packages
+                ❤️ Honeymoon Special Packages
               </Link>
               <Link
                 to="/family-tours"
-                className="block py-1 hover:text-amber-600"
+                className="flex items-center min-h-[40px] px-3 py-1.5 hover:text-amber-600 font-medium transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                • 👨‍👩‍👧 Family Holiday Packages
+                👨‍👩‍👧 Family Holiday Packages
               </Link>
               <Link
                 to="/adventure-tours"
-                className="block py-1 hover:text-amber-600"
+                className="flex items-center min-h-[40px] px-3 py-1.5 hover:text-amber-600 font-medium transition"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                • 🏔️ Spiti Valley Adventure
+                🏔️ Spiti Valley Adventure
               </Link>
             </div>
 
             <Link
               to="/destinations"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Destinations (Manali, Shimla, Kangra, etc.)
+              Destinations (Manali, Shimla, etc.)
             </Link>
             <Link
               to="/cabs"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Cab & Taxi Services
             </Link>
             <Link
               to="/blog"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Travel Guides & Blog
             </Link>
             <Link
               to="/about"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
             </Link>
             <Link
               to="/contact"
-              className="block px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 font-semibold text-xs"
+              className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl hover:bg-amber-50 hover:text-amber-600 font-bold text-sm transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact Us
             </Link>
           </div>
 
-          <div className="pt-2 border-t border-slate-100 space-y-2">
+          <div className="pt-3 border-t border-slate-100 space-y-2.5">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigate('/booking');
+                if (onOpenInquiry) {
+                  onOpenInquiry();
+                } else {
+                  navigate('/booking');
+                }
               }}
-              className="w-full py-2.5 text-center text-xs font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl shadow-md transition"
+              className="w-full py-3 text-center text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl shadow-md transition active:scale-98"
             >
               Book Your Trip Now
             </button>
@@ -422,7 +430,7 @@ const Navbar = ({ onOpenInquiry }) => {
             <Link
               to="/admin/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center space-x-2 w-full py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-amber-50 hover:text-amber-700 transition"
+              className="flex items-center justify-center space-x-2 w-full py-2.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-amber-50 hover:text-amber-700 transition"
             >
               <Lock className="w-3.5 h-3.5 text-amber-600" />
               <span>Admin Portal Login</span>

@@ -63,27 +63,27 @@ const QuickInquiryModal = ({ isOpen, onClose, initialPackage = '' }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-neutral-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-3xl shadow-2xl border border-neutral-800 max-w-lg w-full overflow-hidden relative">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-neutral-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-fadeIn">
+      <div className="bg-white rounded-3xl shadow-2xl border border-neutral-800 max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden relative my-auto">
         {/* Black & Gold Luxury Header */}
-        <div className="bg-neutral-950 px-6 py-5 text-white flex justify-between items-center border-b border-neutral-800">
+        <div className="bg-neutral-950 px-5 sm:px-6 py-4 sm:py-5 text-white flex justify-between items-center border-b border-neutral-800 shrink-0">
           <div>
-            <h3 className="text-lg font-black font-display text-white flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              Get a Free Instant Tour Quote
+            <h3 className="text-base sm:text-lg font-black font-display text-white flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-yellow-400 shrink-0" />
+              <span>Get Free Instant Tour Quote</span>
             </h3>
-            <p className="text-xs text-yellow-400/90 mt-0.5">Maa Baglamukhi Darshan, Himachal Tours & Cab Dispatch</p>
+            <p className="text-[11px] sm:text-xs text-yellow-400/90 mt-0.5">Maa Baglamukhi Darshan, Himachal Tours & Cabs</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-neutral-800 transition"
+            className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-neutral-800 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs sm:text-sm">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 text-xs sm:text-sm overflow-y-auto flex-1">
           {error && (
             <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">{error}</div>
           )}

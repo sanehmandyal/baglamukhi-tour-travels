@@ -13,19 +13,19 @@ const Logo = ({
 
   const sizeClasses = {
     sm: {
-      imgWrapper: 'w-9 h-9',
-      title: 'text-base',
-      subtitle: 'text-[9.5px]',
+      imgWrapper: 'w-8 h-8 sm:w-9 sm:h-9',
+      title: 'text-sm sm:text-base',
+      subtitle: 'text-[8.5px] sm:text-[9.5px]',
     },
     md: {
-      imgWrapper: 'w-11 h-11 sm:w-12 sm:h-12',
-      title: 'text-base sm:text-lg',
-      subtitle: 'text-[10px] sm:text-[11px]',
+      imgWrapper: 'w-9 h-9 xs:w-10 xs:h-10 sm:w-12 sm:h-12',
+      title: 'text-[13px] xs:text-sm sm:text-lg',
+      subtitle: 'text-[8.5px] xs:text-[9px] sm:text-[11px]',
     },
     lg: {
-      imgWrapper: 'w-14 h-14 sm:w-16 sm:h-16',
-      title: 'text-xl sm:text-2xl',
-      subtitle: 'text-xs sm:text-sm',
+      imgWrapper: 'w-12 h-12 sm:w-16 sm:h-16',
+      title: 'text-lg sm:text-2xl',
+      subtitle: 'text-[10px] sm:text-sm',
     },
   };
 

@@ -108,15 +108,15 @@ const AdminBookingsPage = () => {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table - Responsive swipeable on mobile */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-soft overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-xs text-slate-500">Loading bookings...</div>
         ) : bookings.length === 0 ? (
           <div className="p-12 text-center text-xs text-slate-500">No booking inquiries found.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full min-w-[700px] text-left text-xs border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-slate-700 font-bold">
                   <th className="py-3 px-4">Booking Ref</th>
