@@ -64,19 +64,13 @@ const HomePage = () => {
         ]);
 
         if (toursRes.status === 'fulfilled' && toursRes.value?.data?.success && Array.isArray(toursRes.value.data.data)) {
-          const dbTours = toursRes.value.data.data;
-          const dbSlugs = new Set(dbTours.map((t) => (t.slug || t.title || '').toLowerCase()));
-          const remaining = DEFAULT_TOURS.filter((t) => !dbSlugs.has((t.slug || t.title || '').toLowerCase()));
-          setFeaturedTours([...dbTours, ...remaining].slice(0, 6));
+          setFeaturedTours(toursRes.value.data.data.slice(0, 6));
         } else {
           setFeaturedTours(DEFAULT_TOURS.slice(0, 6));
         }
 
         if (destRes.status === 'fulfilled' && destRes.value?.data?.success && Array.isArray(destRes.value.data.data)) {
-          const dbDests = destRes.value.data.data;
-          const dbSlugs = new Set(dbDests.map((d) => (d.slug || d.name || '').toLowerCase()));
-          const remaining = DEFAULT_DESTINATIONS.filter((d) => !dbSlugs.has((d.slug || d.name || '').toLowerCase()));
-          setDestinations([...dbDests, ...remaining].slice(0, 4));
+          setDestinations(destRes.value.data.data.slice(0, 4));
         } else {
           setDestinations(DEFAULT_DESTINATIONS.slice(0, 4));
         }

@@ -73,16 +73,11 @@ const ToursPage = () => {
 
       const res = await api.get(`/tours?${params.toString()}`);
       if (res.data?.success && Array.isArray(res.data.data)) {
+        // Strictly honor database records so admin deletions are live
         const dbItems = res.data.data;
-        const defaults = getFilteredDefaults();
-        const dbSlugs = new Set(dbItems.map((t) => (t.slug || t.title || '').toLowerCase()));
-        const remainingDefaults = defaults.filter(
-          (t) => !dbSlugs.has((t.slug || t.title || '').toLowerCase())
-        );
-        const merged = [...dbItems, ...remainingDefaults];
-        setTours(merged);
-        setTotalCount(merged.length);
-        setTotalPages(Math.ceil(merged.length / 9) || 1);
+        setTours(dbItems);
+        setTotalCount(res.data.total !== undefined ? res.data.total : dbItems.length);
+        setTotalPages(res.data.totalPages || Math.ceil(dbItems.length / 9) || 1);
       } else {
         const defaults = getFilteredDefaults();
         setTours(defaults);

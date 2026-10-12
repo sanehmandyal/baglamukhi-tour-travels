@@ -16,18 +16,14 @@ const AdminDestinationsPage = () => {
       setLoading(true);
       const res = await api.get('/destinations/admin/all');
       if (res.data?.success && Array.isArray(res.data?.data)) {
-        const dbItems = res.data.data;
-        const dbSlugs = new Set(dbItems.map((d) => (d.slug || d.name || '').toLowerCase()));
-        const remainingDefaults = DEFAULT_DESTINATIONS.filter(
-          (d) => !dbSlugs.has((d.slug || d.name || '').toLowerCase())
-        );
-        setDestinations([...dbItems, ...remainingDefaults]);
+        // Strictly honor database records so deletions remain permanent
+        setDestinations(res.data.data);
       } else {
-        setDestinations(DEFAULT_DESTINATIONS);
+        setDestinations([]);
       }
     } catch (err) {
-      console.warn('[AdminDestinations] API unavailable, using default destinations');
-      setDestinations(DEFAULT_DESTINATIONS);
+      console.warn('[AdminDestinations] API unavailable:', err.message);
+      setDestinations([]);
     } finally {
       setLoading(false);
     }

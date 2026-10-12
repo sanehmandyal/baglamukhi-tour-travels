@@ -169,13 +169,14 @@ const AdminServicesPage = () => {
         } catch (err) {}
       }
 
-      const dbTitles = new Set(list.map((s) => (s.slug || s.title || '').toLowerCase()));
-      const remainingDefaults = DEFAULT_CABS.filter(
-        (c) => !dbTitles.has((c.slug || c.title || '').toLowerCase())
-      );
-      setServices([...list, ...remainingDefaults]);
+      if (Array.isArray(list)) {
+        // Strictly honor database records so deletions remain permanent
+        setServices(list);
+      } else {
+        setServices([]);
+      }
     } catch (err) {
-      setServices(DEFAULT_CABS);
+      setServices([]);
     } finally {
       setLoading(false);
     }

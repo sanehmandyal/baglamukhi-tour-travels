@@ -19,12 +19,8 @@ const DestinationsPage = () => {
       try {
         const res = await api.get('/destinations');
         if (res.data?.success && Array.isArray(res.data.data)) {
-          const dbItems = res.data.data;
-          const dbSlugs = new Set(dbItems.map((d) => (d.slug || d.name || '').toLowerCase()));
-          const remainingDefaults = DEFAULT_DESTINATIONS.filter(
-            (d) => !dbSlugs.has((d.slug || d.name || '').toLowerCase())
-          );
-          setDestinations([...dbItems, ...remainingDefaults]);
+          // Strictly honor database records so deletions are permanent
+          setDestinations(res.data.data);
         } else {
           setDestinations(DEFAULT_DESTINATIONS);
         }

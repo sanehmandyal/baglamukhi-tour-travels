@@ -18,18 +18,14 @@ const AdminToursPage = () => {
       setLoading(true);
       const res = await api.get('/tours/admin/all');
       if (res.data?.success && Array.isArray(res.data?.data)) {
-        const dbItems = res.data.data;
-        const dbSlugs = new Set(dbItems.map((t) => (t.slug || t.title || '').toLowerCase()));
-        const remainingDefaults = DEFAULT_TOURS.filter(
-          (t) => !dbSlugs.has((t.slug || t.title || '').toLowerCase())
-        );
-        setTours([...dbItems, ...remainingDefaults]);
+        // Strictly honor database records so deletions remain permanent
+        setTours(res.data.data);
       } else {
-        setTours(DEFAULT_TOURS);
+        setTours([]);
       }
     } catch (err) {
-      console.warn('[AdminTours] API unavailable, using default tours data');
-      setTours(DEFAULT_TOURS);
+      console.warn('[AdminTours] API unavailable:', err.message);
+      setTours([]);
     } finally {
       setLoading(false);
     }
