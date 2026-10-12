@@ -1210,9 +1210,9 @@ const seedDatabase = async (dropDb = true) => {
         category: 'Travel Guides',
         tags: ['Manali', 'Best Time', 'Snowfall', 'Himachal Travel', 'Solang Valley'],
         author: {
-          name: 'Rajesh Thakur',
-          role: 'Founder & Senior Himachal Travel Consultant',
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+          name: 'Baglamukhi Travel Editorial',
+          role: 'Himachal & Sacred Temple Travel Specialists',
+          avatar: '/baglamukhi-temple-logo.jpg',
         },
         featuredImage: {
           url: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80',
@@ -1278,9 +1278,9 @@ Summers in Manali offer refreshing respite from the heat of Delhi, Chandigarh, a
         category: 'Destination Guides',
         tags: ['Shimla', 'Manali', 'Comparison', 'Himachal Tours'],
         author: {
-          name: 'Aman Thakur',
+          name: 'Baglamukhi Travel Editorial',
           role: 'Tour Operations Lead',
-          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80',
+          avatar: '/baglamukhi-temple-logo.jpg',
         },
         featuredImage: {
           url: 'https://images.unsplash.com/photo-1597074866923-dc0589150358?auto=format&fit=crop&w=1200&q=80',
@@ -1336,8 +1336,9 @@ Our 6 Days 5 Nights **Shimla-Manali Combined Package** lets you enjoy the best o
         category: 'Travel Tips',
         tags: ['Himachal Itinerary', 'Chandigarh', 'Shimla Manali Route'],
         author: {
-          name: 'Rajesh Thakur',
-          role: 'Founder & Senior Himachal Travel Consultant',
+          name: 'Baglamukhi Travel Editorial',
+          role: 'Himachal Travel Consultant',
+          avatar: '/baglamukhi-temple-logo.jpg',
         },
         featuredImage: {
           url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',

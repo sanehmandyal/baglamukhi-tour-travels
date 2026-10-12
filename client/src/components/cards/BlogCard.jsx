@@ -57,27 +57,14 @@ const BlogCard = ({ blog }) => {
           </p>
         </div>
 
-        {/* Author and Read More Link */}
-        <div className="pt-4 mt-4 border-t border-neutral-100 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {blog.author?.avatar ? (
-              <img src={blog.author.avatar} alt={blog.author.name} className="w-6 h-6 rounded-full object-cover" />
-            ) : (
-              <div className="w-6 h-6 rounded-full bg-neutral-900 text-yellow-400 flex items-center justify-center text-[10px] font-bold">
-                B
-              </div>
-            )}
-            <span className="text-xs text-neutral-600 font-semibold truncate max-w-[120px]">
-              {blog.author?.name || 'Baglamukhi Editorial'}
-            </span>
-          </div>
-
+        {/* Card Footer: Read More Link */}
+        <div className="pt-4 mt-4 border-t border-neutral-100 flex items-center justify-end">
           <Link
             to={`/blog/${blog.slug}`}
-            className="text-xs font-bold text-neutral-950 hover:text-yellow-600 flex items-center transition"
+            className="text-xs font-bold text-neutral-950 hover:text-yellow-600 flex items-center transition group-hover:translate-x-0.5"
           >
             <span>Read Article</span>
-            <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform text-yellow-500" />
+            <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform text-yellow-500" />
           </Link>
         </div>
       </div>

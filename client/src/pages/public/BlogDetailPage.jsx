@@ -84,23 +84,14 @@ const BlogDetailPage = () => {
             {blog.title}
           </h1>
 
-          <div className="flex items-center justify-center space-x-4 text-xs text-slate-500 pt-2 flex-wrap">
-            <div className="flex items-center space-x-2">
-              <img
-                src={blog.author?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
-                alt={blog.author?.name}
-                className="w-7 h-7 rounded-full object-cover border"
-              />
-              <span className="font-semibold text-slate-800">{blog.author?.name}</span>
-            </div>
-            <span>•</span>
+          <div className="flex items-center justify-center space-x-3 text-xs text-slate-500 pt-2 flex-wrap">
             <span className="flex items-center">
-              <Calendar className="w-3.5 h-3.5 mr-1 text-brand-500" />
+              <Calendar className="w-3.5 h-3.5 mr-1 text-amber-500" />
               {dateStr}
             </span>
             <span>•</span>
             <span className="flex items-center">
-              <Clock className="w-3.5 h-3.5 mr-1 text-brand-500" />
+              <Clock className="w-3.5 h-3.5 mr-1 text-amber-500" />
               {blog.readingTime || '5 min read'}
             </span>
           </div>
@@ -137,21 +128,7 @@ const BlogDetailPage = () => {
           </div>
         )}
 
-        {/* Author Bio Box (E-E-A-T Signal) */}
-        <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200 flex items-center space-x-4 my-8">
-          <img
-            src={blog.author?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
-            alt={blog.author?.name}
-            className="w-14 h-14 rounded-2xl object-cover border-2 border-brand-200 flex-shrink-0"
-          />
-          <div>
-            <h4 className="text-sm font-bold text-slate-900">{blog.author?.name || 'Baglamukhi Travel Specialist'}</h4>
-            <p className="text-xs text-brand-600 font-semibold">{blog.author?.role || 'Himachal Tourism Expert'}</p>
-            <p className="text-xs text-slate-500 mt-1 font-light">
-              Over a decade of hands-on experience guiding tourists across Himachal Pradesh and Punjab.
-            </p>
-          </div>
-        </div>
+
 
         {/* Article FAQs */}
         {blog.faqs && blog.faqs.length > 0 && (
