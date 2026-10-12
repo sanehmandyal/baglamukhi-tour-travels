@@ -15,6 +15,6 @@ router.get('/admin/all', protect, authorize('admin', 'manager'), getAdminTours);
 router.get('/:slug', getTourBySlug);
 router.post('/', protect, authorize('admin', 'manager'), createTour);
 router.put('/:id', protect, authorize('admin', 'manager'), updateTour);
-router.delete('/:id', protect, authorize('admin'), deleteTour);
+router.delete('/:id', protect, authorize('admin', 'manager', 'editor'), deleteTour);
 
 module.exports = router;

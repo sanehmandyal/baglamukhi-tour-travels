@@ -53,11 +53,23 @@ const AdminToursPage = () => {
 
   const handleDelete = async (id, title) => {
     if (window.confirm(`Are you sure you want to delete tour package: "${title}"?`)) {
+      // Check if it's a mock/default item (e.g. tour_1, tour_2) not yet stored in MongoDB
+      const isMockItem = typeof id === 'string' && (id.startsWith('tour_') || !id.match(/^[0-9a-fA-F]{24}$/));
+
+      if (isMockItem) {
+        // Remove locally from state
+        setTours((prev) => prev.filter((t) => t._id !== id));
+        return;
+      }
+
       try {
         await api.delete(`/tours/${id}`);
+        setTours((prev) => prev.filter((t) => t._id !== id));
         fetchTours();
       } catch (err) {
-        alert('Failed to delete tour package.');
+        console.error('Delete tour error:', err);
+        const errorMsg = err.response?.data?.message || err.message || 'Failed to delete tour package.';
+        alert(`Failed to delete tour package: ${errorMsg}`);
       }
     }
   };

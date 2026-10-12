@@ -51,11 +51,20 @@ const AdminDestinationsPage = () => {
 
   const handleDelete = async (id, name) => {
     if (window.confirm(`Delete destination "${name}"?`)) {
+      const isMockItem = typeof id === 'string' && (id.startsWith('dest_') || !id.match(/^[0-9a-fA-F]{24}$/));
+
+      if (isMockItem) {
+        setDestinations((prev) => prev.filter((d) => d._id !== id));
+        return;
+      }
+
       try {
         await api.delete(`/destinations/${id}`);
+        setDestinations((prev) => prev.filter((d) => d._id !== id));
         fetchDestinations();
       } catch (err) {
-        alert('Failed to delete destination.');
+        const errorMsg = err.response?.data?.message || err.message || 'Failed to delete destination.';
+        alert(`Failed to delete destination: ${errorMsg}`);
       }
     }
   };

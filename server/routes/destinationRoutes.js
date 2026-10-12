@@ -15,6 +15,6 @@ router.get('/admin/all', protect, authorize('admin', 'manager'), getAdminDestina
 router.get('/:slug', getDestinationBySlug);
 router.post('/', protect, authorize('admin', 'manager'), createDestination);
 router.put('/:id', protect, authorize('admin', 'manager'), updateDestination);
-router.delete('/:id', protect, authorize('admin'), deleteDestination);
+router.delete('/:id', protect, authorize('admin', 'manager', 'editor'), deleteDestination);
 
 module.exports = router;
