@@ -127,8 +127,8 @@ const VEHICLE_PRESETS = [
 ];
 
 const AdminServicesPage = () => {
-  const [services, setServices] = useState(DEFAULT_CABS);
-  const [loading, setLoading] = useState(false);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
@@ -150,6 +150,19 @@ const AdminServicesPage = () => {
   });
 
   const [seeding, setSeeding] = useState(false);
+
+  const formatRoutesToString = (routes) => {
+    if (!routes) return '';
+    if (typeof routes === 'string') return routes;
+    if (Array.isArray(routes)) {
+      return routes
+        .map((r) => (typeof r === 'object' && r !== null ? r.route || r.name || '' : String(r)))
+        .map((r) => r.trim())
+        .filter(Boolean)
+        .join(', ');
+    }
+    return '';
+  };
 
   const fetchServices = async () => {
     try {
@@ -200,7 +213,7 @@ const AdminServicesPage = () => {
 
   const handleOpenModal = (service = null) => {
     if (service) {
-      setEditingId(service._id);
+      setEditingId(service._id || service.slug);
       setFormData({
         title: service.title || '',
         slug: service.slug || '',
@@ -214,7 +227,7 @@ const AdminServicesPage = () => {
         fullDescription: service.fullDescription || '',
         image: service.image || '/images/cabs/force-cruiser-4x4.jpg',
         features: Array.isArray(service.features) ? service.features.join(', ') : service.features || '',
-        popularRoutes: Array.isArray(service.popularRoutes) ? service.popularRoutes.join(', ') : service.popularRoutes || '',
+        popularRoutes: formatRoutesToString(service.popularRoutes),
         isActive: service.isActive !== undefined ? service.isActive : true
       });
     } else {
@@ -341,7 +354,7 @@ const AdminServicesPage = () => {
         delete payload._id;
       }
 
-      if (editingId && editingId.match(/^[0-9a-fA-F]{24}$/)) {
+      if (editingId) {
         await api.put(`/services/${editingId}`, payload);
       } else {
         await api.post('/services', payload);
@@ -357,15 +370,16 @@ const AdminServicesPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, slug) => {
     if (!window.confirm('Are you sure you want to delete this transport service?')) return;
     try {
-      if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
-        await api.delete(`/services/${id}`);
+      const target = id && id.toString().match(/^[0-9a-fA-F]{24}$/) ? id : slug || id;
+      if (target) {
+        await api.delete(`/services/${target}`);
       }
-      setServices(prev => prev.filter(s => s._id !== id));
+      setServices(prev => prev.filter(s => s._id !== id && s.slug !== slug));
     } catch (err) {
-      setServices(prev => prev.filter(s => s._id !== id));
+      setServices(prev => prev.filter(s => s._id !== id && s.slug !== slug));
     }
   };
 
@@ -401,38 +415,45 @@ const AdminServicesPage = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {services.map(srv => (
-            <div key={srv._id || srv.slug} className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-soft flex flex-col justify-between hover:shadow-md transition">
-              <div>
-                <div className="h-44 w-full relative bg-slate-100">
+            <div key={srv._id || srv.slug} className="h-full bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-soft flex flex-col justify-between hover:shadow-md transition">
+              <div className="flex-1 flex flex-col">
+                <div className="aspect-[16/10] w-full relative bg-slate-900 shrink-0">
                   <img
                     src={resolveVehicleImage(srv)}
                     alt={srv.title}
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = resolveVehicleImage(srv.title); }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = resolveVehicleImage(srv.title); }}
                   />
-                  <div className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-sm text-amber-400 px-2.5 py-1 rounded-lg text-[11px] font-bold capitalize">
-                    {srv.category?.replace('-', ' ')}
+                  <div className="absolute top-3 right-3 bg-slate-900/85 backdrop-blur-sm text-amber-400 px-2.5 py-1 rounded-lg text-[11px] font-bold capitalize">
+                    {srv.category?.replace('-', ' ') || 'Cab Fleet'}
+                  </div>
+                  <div className="absolute bottom-3 right-3 bg-slate-950/85 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
+                    Base: ₹{Number(srv.baseFare || 2500).toLocaleString('en-IN')}
                   </div>
                 </div>
 
-                <div className="p-4 space-y-3">
-                  <h3 className="font-bold text-slate-900 text-sm">{srv.title}</h3>
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-sm line-clamp-1" title={srv.title}>{srv.title}</h3>
+                    <p className="text-[11px] font-semibold text-amber-600 line-clamp-1 mt-0.5">{srv.vehicleType || 'Himachal Tourist Cab'}</p>
+                  </div>
+
                   <div className="flex items-center justify-between text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    <span className="flex items-center gap-1 font-semibold text-slate-700">
-                      <FiUsers className="text-brand-600" /> {srv.capacity}
+                    <span className="flex items-center gap-1 font-semibold text-slate-700 truncate">
+                      <FiUsers className="text-brand-600 shrink-0" /> {srv.capacity || '4+1 Passengers'}
                     </span>
-                    <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                    <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded shrink-0">
                       ₹{srv.pricePerKm || 14}/km
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-500 line-clamp-2">{srv.shortDescription}</p>
+                  <p className="text-xs text-slate-500 line-clamp-2 min-h-[2.25rem]">{srv.shortDescription}</p>
 
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1 overflow-hidden max-h-[1.5rem]">
                     {(Array.isArray(srv.features) ? srv.features : srv.features?.split(','))?.slice(0, 3).map((f, i) => (
-                      <span key={i} className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+                      <span key={i} className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium truncate max-w-[46%]">
                         {typeof f === 'string' ? f.trim() : f}
                       </span>
                     ))}
@@ -440,7 +461,7 @@ const AdminServicesPage = () => {
                 </div>
               </div>
 
-              <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+              <div className="p-4 border-t border-slate-100 bg-slate-50/50 mt-auto flex items-center justify-between">
                 <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${srv.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
                   {srv.isActive ? 'Active Fleet' : 'Inactive'}
                 </span>
@@ -454,7 +475,7 @@ const AdminServicesPage = () => {
                     <FiEdit2 className="w-3.5 h-3.5" />
                   </button>
                   <button
-                    onClick={() => handleDelete(srv._id)}
+                    onClick={() => handleDelete(srv._id, srv.slug)}
                     className="p-2 text-slate-600 hover:text-rose-600 hover:bg-white rounded-xl border border-slate-200 transition"
                     title="Delete Vehicle"
                   >

@@ -249,10 +249,34 @@ const BASE_FLEET_PRESETS = [
   },
 ];
 
+const formatCabCategoryLabel = (cat, serviceType) => {
+  const c = (cat || '').toLowerCase();
+  if (c === 'tempo-traveller' || c.includes('tempo')) return 'Tempo Traveller';
+  if (c === 'airport-transfer' || c.includes('airport')) return 'Airport / Station Transfer';
+  if (c === 'luxury-cars' || c.includes('luxury') || c.includes('4x4')) return 'Luxury & 4x4 SUV';
+  if (c === 'bus-rental' || c.includes('bus')) return 'Bus & Coach Rental';
+  if (c === 'cab-rental') return 'Himachal Cab & Taxi';
+  return serviceType || 'Verified Hill Fleet';
+};
+
+const extractPopularRoutes = (popularRoutes) => {
+  if (!popularRoutes) return [];
+  if (typeof popularRoutes === 'string') {
+    return popularRoutes.split(',').map((r) => r.trim()).filter(Boolean);
+  }
+  if (Array.isArray(popularRoutes)) {
+    return popularRoutes
+      .map((r) => (typeof r === 'object' && r !== null ? r.route || r.name || '' : String(r)))
+      .map((r) => r.trim())
+      .filter(Boolean);
+  }
+  return [];
+};
+
 const helperInferType = (cab) => {
   const str = `${cab.name || cab.title || ''} ${cab.category || ''} ${cab.vehicleType || ''}`.toLowerCase();
   if (str.includes('tempo') || str.includes('traveller') || str.includes('van') || str.includes('bus')) return 'tempo';
-  if (str.includes('4x4') || str.includes('cruiser') || str.includes('trax') || str.includes('thar') || str.includes('sumo') || str.includes('offroad')) return '4x4';
+  if (str.includes('4x4') || str.includes('4×4') || str.includes('cruiser') || str.includes('trax') || str.includes('thar') || str.includes('sumo') || str.includes('offroad')) return '4x4';
   if (str.includes('sedan') || str.includes('dzire') || str.includes('etios') || str.includes('amaze')) return 'sedan';
   return 'suv';
 };
@@ -262,8 +286,48 @@ const CabsPage = () => {
   const { openInquiry } = useOutletContext();
   const [activeCategory, setActiveCategory] = useState('all');
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [fleet, setFleet] = useState(BASE_FLEET_PRESETS);
-  const [loading, setLoading] = useState(false);
+  const [fleet, setFleet] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const mapCabRecord = (item, idx) => {
+    const inferredType = helperInferType(item);
+    const featuresList = Array.isArray(item.features)
+      ? item.features.map((f) => String(f).trim()).filter(Boolean)
+      : typeof item.features === 'string'
+      ? item.features.split(',').map((f) => f.trim()).filter(Boolean)
+      : [
+          'High Ground Clearance for Mountain Ghats',
+          'Clean Cabin & Experienced Pahadi Driver',
+          'Dual AC & Heating System',
+        ];
+
+    const routesList = extractPopularRoutes(item.popularRoutes);
+
+    return {
+      id: item.slug || item._id || `cab-${idx}`,
+      _id: item._id,
+      name: item.title || item.name || 'Himachal Tourist Cab',
+      type: inferredType,
+      vehicleType: item.vehicleType || item.category || 'Himachal Tourist Taxi',
+      categoryLabel: formatCabCategoryLabel(item.category, item.serviceType),
+      tagline:
+        item.shortDescription ||
+        item.tagline ||
+        'Reliable tourist vehicle with experienced mountain driver for Himachal and North India travel.',
+      image: resolveVehicleImage(item),
+      passengers: item.capacity || item.passengers || '4+1 Passengers',
+      luggage: item.luggageCapacity || item.luggage || '3 Large Bags + Carrier',
+      features: featuresList,
+      popularRoutes:
+        routesList.length > 0
+          ? routesList
+          : item.terrain
+          ? String(item.terrain).split(',').map((r) => r.trim()).filter(Boolean)
+          : ['Maa Baglamukhi Kangra', 'Chandigarh to Manali', 'Shimla & Dharamshala'],
+      pricePerKm: Number(item.pricePerKm || item.ratePerKm || 14),
+      baseFare: Number(item.baseFare || item.fullDayRate || 2500),
+    };
+  };
 
   useEffect(() => {
     const fetchCabs = async () => {
@@ -271,57 +335,15 @@ const CabsPage = () => {
         setLoading(true);
         const res = await api.get('/services');
         if (res.data?.success && Array.isArray(res.data.data)) {
-          const mapped = res.data.data.map((item, idx) => {
-            const inferredType = helperInferType(item);
-            const featuresList = Array.isArray(item.features)
-              ? item.features
-              : typeof item.features === 'string'
-              ? item.features.split(',').map((f) => f.trim()).filter(Boolean)
-              : [
-                  'High Ground Clearance for Mountain Ghats',
-                  'Clean Cabin & Experienced Pahadi Driver',
-                  'Dual AC & Heating System',
-                  'All India Tourist Permit & Fastag',
-                ];
-
-            return {
-              id: item.slug || item._id || `cab-${idx}`,
-              _id: item._id,
-              name: item.title || item.name,
-              type: inferredType,
-              category: item.category || item.vehicleType || 'Himachal Tourist Taxi',
-              badge: item.badge || 'Verified Hill Fleet',
-              colorName: item.colorName || item.colorTheme || 'Mountain Silver / White',
-              colorDot: item.colorDot || 'bg-amber-500',
-              tagline: item.tagline || item.shortDescription || 'Reliable tourist vehicle for Himachal and North India travel.',
-              image: resolveVehicleImage(item),
-              passengers: item.passengers || item.capacity || '4 to 7 Passengers',
-              luggage: item.luggage || item.luggageCapacity || 'Roof Carrier + Boot',
-              transmission: item.transmission || 'High-Torque Mountain Hill Engine',
-              climateControl: item.climateControl || 'High-Power AC & Mountain Heating',
-              terrain: item.terrain || 'Maa Baglamukhi Kangra, Shimla, Manali, Spiti & All Valleys',
-              features: featuresList,
-              idealFor: item.idealFor || 'Temple Yatras, Family Holidays, Group Tours',
-              pricePerKm: item.pricePerKm || item.ratePerKm,
-              baseFare: item.baseFare || item.fullDayRate,
-            };
-          });
-
-          // Prepend admin additions and merge with presets using normalized keys
-          const normKey = (str) => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-          const dbKeys = new Set();
-          mapped.forEach((c) => {
-            if (c.id) dbKeys.add(normKey(c.id));
-            if (c.name) dbKeys.add(normKey(c.name));
-          });
-          const remainingPresets = BASE_FLEET_PRESETS.filter(
-            (c) => !dbKeys.has(normKey(c.id)) && !dbKeys.has(normKey(c.name))
-          );
-          setFleet([...mapped, ...remainingPresets]);
+          // Strictly use the cars managed by the admin in the database
+          const mapped = res.data.data.map((item, idx) => mapCabRecord(item, idx));
+          setFleet(mapped);
+        } else {
+          setFleet(BASE_FLEET_PRESETS.map((item, idx) => mapCabRecord(item, idx)));
         }
       } catch (err) {
         console.warn('[CabsPage] API fetch note:', err.message);
-        setFleet(BASE_FLEET_PRESETS);
+        setFleet(BASE_FLEET_PRESETS.map((item, idx) => mapCabRecord(item, idx)));
       } finally {
         setLoading(false);
       }
@@ -511,7 +533,7 @@ const CabsPage = () => {
             ))}
           </div>
 
-          {/* Fleet Showcase Grid */}
+          {/* Fleet Showcase Grid - 100% Equal-Height Cards Displaying Admin Data */}
           {loading ? (
             <div className="text-center py-16">
               <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
@@ -522,107 +544,133 @@ const CabsPage = () => {
               <p className="text-sm font-medium text-slate-600">No vehicles found in this category.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {filteredFleet.map((cab) => (
                 <div
                   key={cab.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-amber-400 shadow-soft hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group"
+                  className="h-full bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-amber-400 shadow-soft hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group"
                 >
-                  <div>
+                  <div className="flex-1 flex flex-col">
                     {/* Vehicle Image Container */}
-                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-900 shrink-0">
                       <img
                         src={cab.image}
                         alt={cab.name}
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80';
+                          e.target.src = resolveVehicleImage(cab.name);
                         }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      
-                      {/* Badge Top Left */}
+
+                      {/* Category Badge Top Left */}
                       <div className="absolute top-3 left-3">
                         <span className="px-3 py-1 text-[11px] font-black text-slate-950 bg-amber-400 backdrop-blur-md rounded-full shadow-sm">
-                          {cab.badge}
+                          {cab.categoryLabel}
                         </span>
                       </div>
 
-                      {/* Color Theme Pill Top Right */}
+                      {/* Rate Pill Top Right */}
                       <div className="absolute top-3 right-3">
-                        <span className="px-2.5 py-1 text-[10px] font-bold text-white bg-slate-900/80 backdrop-blur-md rounded-full flex items-center space-x-1.5 border border-white/20">
-                          <span className={`w-2 h-2 rounded-full ${cab.colorDot || 'bg-amber-400'}`}></span>
-                          <span className="truncate max-w-[120px]">{cab.colorName}</span>
+                        <span className="px-2.5 py-1 text-[11px] font-extrabold text-amber-400 bg-slate-950/85 backdrop-blur-md rounded-full border border-white/15">
+                          ₹{cab.pricePerKm}/km
                         </span>
                       </div>
 
-                      {/* Quality pill bottom right */}
+                      {/* Base Fare Pill Bottom Right */}
                       <div className="absolute bottom-3 right-3 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl text-right border border-white/10">
-                        <span className="text-[10px] text-amber-400 font-bold block">Chauffeur</span>
-                        <span className="text-xs font-black text-white">Hill Certified</span>
+                        <span className="text-[10px] text-amber-400 font-bold block">Starting Base Fare</span>
+                        <span className="text-xs font-black text-white">₹{cab.baseFare.toLocaleString('en-IN')}/day</span>
                       </div>
                     </div>
 
-                    <div className="p-6 space-y-4">
+                    <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                      {/* Title, Vehicle Type, Short Description */}
                       <div>
-                        <h3 className="text-lg font-black text-slate-900 group-hover:text-amber-600 transition">
+                        <h3 className="text-lg font-black text-slate-900 group-hover:text-amber-600 transition line-clamp-1" title={cab.name}>
                           {cab.name}
                         </h3>
-                        <p className="text-xs text-slate-500 font-medium">{cab.category}</p>
-                        <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal">{cab.tagline}</p>
+                        <p className="text-xs text-amber-600 font-bold line-clamp-1 mt-0.5" title={cab.vehicleType}>
+                          {cab.vehicleType}
+                        </p>
+                        <p className="text-xs text-slate-600 mt-2 leading-relaxed font-normal line-clamp-2 min-h-[2.5rem]">
+                          {cab.tagline}
+                        </p>
                       </div>
 
-                      {/* Quick Specs Grid */}
-                      <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 text-xs">
-                        <div className="flex items-center space-x-1.5 text-slate-700">
+                      {/* Admin Specifications Grid (Seating, Luggage, Rate/Km, Base Fare) */}
+                      <div className="grid grid-cols-2 gap-2.5 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs">
+                        <div className="flex items-center space-x-1.5 text-slate-700 min-w-0">
                           <Users className="w-4 h-4 text-amber-600 shrink-0" />
-                          <span className="font-semibold truncate">{cab.passengers}</span>
+                          <span className="font-semibold truncate" title={cab.passengers}>{cab.passengers}</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 text-slate-700">
+                        <div className="flex items-center space-x-1.5 text-slate-700 min-w-0">
                           <Briefcase className="w-4 h-4 text-amber-600 shrink-0" />
-                          <span className="font-semibold truncate">{cab.luggage}</span>
+                          <span className="font-semibold truncate" title={cab.luggage}>{cab.luggage}</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
-                          <Fuel className="w-4 h-4 text-sky-600 shrink-0" />
-                          <span className="text-[11px] text-slate-600 truncate">{cab.climateControl}</span>
+                        <div className="flex items-center space-x-1.5 text-slate-700 pt-1.5 border-t border-slate-200/60 min-w-0">
+                          <Navigation className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <span className="text-[11px] font-bold text-emerald-700 truncate">Rate: ₹{cab.pricePerKm}/km</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
-                          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span className="text-[11px] text-slate-600 truncate">GPS Tracked</span>
-                        </div>
-                        <div className="col-span-2 flex items-center space-x-1.5 text-slate-700 pt-1 border-t border-slate-200/60">
-                          <Mountain className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span className="text-[11px] text-slate-600 truncate">Terrain: {cab.terrain}</span>
+                        <div className="flex items-center space-x-1.5 text-slate-700 pt-1.5 border-t border-slate-200/60 min-w-0">
+                          <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0" />
+                          <span className="text-[11px] font-bold text-slate-700 truncate">Base: ₹{cab.baseFare.toLocaleString('en-IN')}</span>
                         </div>
                       </div>
 
-                      {/* Key Features Bullet List */}
-                      <div className="space-y-1.5 pt-1">
+                      {/* Key Mountain Features Bullet List (Uniform 3 rows) */}
+                      <div className="space-y-1.5 pt-0.5 min-h-[4.5rem]">
                         <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wider block">
                           Included Hill Features:
                         </span>
-                        {cab.features.slice(0, 5).map((f, fIdx) => (
-                          <div key={fIdx} className="flex items-start text-xs text-slate-600">
-                            <CheckCircle className="w-3.5 h-3.5 text-emerald-500 mr-2 shrink-0 mt-0.5" />
-                            <span>{f}</span>
+                        {(cab.features.length > 0
+                          ? cab.features.slice(0, 3)
+                          : ['High Ground Clearance', 'Experienced Pahadi Chauffeur', 'Clean Sanitized AC Cabin']
+                        ).map((f, fIdx) => (
+                          <div key={fIdx} className="flex items-center text-xs text-slate-600">
+                            <CheckCircle className="w-3.5 h-3.5 text-emerald-500 mr-2 shrink-0" />
+                            <span className="line-clamp-1">{f}</span>
                           </div>
                         ))}
+                      </div>
+
+                      {/* Popular Mountain Routes (Admin Field) */}
+                      <div className="pt-2.5 border-t border-slate-100">
+                        <span className="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">
+                          Popular Mountain Routes:
+                        </span>
+                        <div className="flex items-center gap-1.5 overflow-hidden">
+                          {cab.popularRoutes.slice(0, 2).map((routeStr, rIdx) => (
+                            <span
+                              key={rIdx}
+                              className="text-[11px] bg-amber-50 text-amber-900 border border-amber-200/70 px-2.5 py-0.5 rounded-lg font-semibold truncate max-w-[48%]"
+                              title={routeStr}
+                            >
+                              {routeStr}
+                            </span>
+                          ))}
+                          {cab.popularRoutes.length > 2 && (
+                            <span className="text-[10px] font-bold text-slate-500 shrink-0">
+                              +{cab.popularRoutes.length - 2}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Footer Action Card */}
-                  <div className="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between gap-3">
+                  <div className="p-6 pt-4 border-t border-slate-100 mt-auto flex items-center justify-between gap-3 bg-slate-50/40">
                     <div>
-                      <span className="text-[10.5px] font-bold text-amber-600 uppercase block">Fare Estimate</span>
+                      <span className="text-[10.5px] font-bold text-amber-600 uppercase block">Direct Fare</span>
                       <span className="text-xs font-black text-slate-900">
-                        {cab.pricePerKm ? `₹${cab.pricePerKm}/km onwards` : cab.baseFare ? `₹${cab.baseFare}/day` : 'Best Price Guarantee'}
+                        ₹{cab.pricePerKm}/km • ₹{cab.baseFare.toLocaleString('en-IN')}/day
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <a
-                        href={getCabWhatsAppUrl(cab.name, settings?.whatsappNumber, `${cab.passengers}, ${cab.category}`)}
+                        href={getCabWhatsAppUrl(cab.name, settings?.whatsappNumber, `${cab.passengers}, ₹${cab.pricePerKm}/km`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition flex items-center justify-center border border-emerald-200"
@@ -632,7 +680,7 @@ const CabsPage = () => {
                       </a>
 
                       <button
-                        onClick={() => openInquiry(`Cab Booking: ${cab.name}`)}
+                        onClick={() => openInquiry(`Cab Booking: ${cab.name} (₹${cab.pricePerKm}/km)`)}
                         className="py-2.5 px-4 text-xs font-extrabold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition text-center"
                       >
                         Inquire Fleet

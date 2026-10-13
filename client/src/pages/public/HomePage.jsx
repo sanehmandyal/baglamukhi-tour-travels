@@ -76,8 +76,8 @@ const HomePage = () => {
         }
 
         if (servRes.status === 'fulfilled' && servRes.value?.data?.success && Array.isArray(servRes.value.data.data)) {
-          const mapped = servRes.value.data.data.map((s, idx) => {
-            const img = s.image || s.featuredImage?.url || DEFAULT_CABS[idx % DEFAULT_CABS.length]?.image || '/images/cabs/force-cruiser-4x4.jpg';
+          const mapped = servRes.value.data.data.map((s) => {
+            const img = s.image || s.featuredImage?.url || '/images/cabs/force-cruiser-4x4.jpg';
             return {
               ...s,
               image: img,
@@ -87,9 +87,7 @@ const HomePage = () => {
               },
             };
           });
-          const dbTitles = new Set(mapped.map((s) => (s.slug || s.title || s.name || '').toLowerCase()));
-          const remaining = DEFAULT_CABS.filter((c) => !dbTitles.has((c.slug || c.title || '').toLowerCase()));
-          setServices([...mapped, ...remaining].slice(0, 6));
+          setServices(mapped.slice(0, 6));
         } else {
           setServices(DEFAULT_CABS.slice(0, 6));
         }

@@ -3,7 +3,13 @@ const SEO = require('../models/SEO');
 const { createSlug } = require('../utils/slugify');
 
 function inferCarImage(title, passedImg) {
-  if (passedImg && (passedImg.startsWith('data:image') || (passedImg.startsWith('http') && !passedImg.includes('force-cruiser-4x4.jpg')))) {
+  if (
+    passedImg &&
+    (passedImg.startsWith('data:image') ||
+      passedImg.startsWith('/uploads/') ||
+      (passedImg.startsWith('http') && !passedImg.includes('force-cruiser-4x4.jpg')) ||
+      (passedImg.startsWith('/images/cabs/') && passedImg !== '/images/cabs/force-cruiser-4x4.jpg'))
+  ) {
     return passedImg;
   }
   const t = (title || '').toLowerCase();
@@ -16,7 +22,7 @@ function inferCarImage(title, passedImg) {
   if (t.includes('tempo') || t.includes('traveller') || t.includes('urbania') || t.includes('12 seater')) return '/images/cabs/force-tempo-traveller-12.jpg';
   if (t.includes('sumo') || t.includes('spacio')) return '/images/cabs/tata-sumo-gold.jpg';
   if (t.includes('cruiser') || t.includes('toofan')) return '/images/cabs/force-cruiser-4x4.jpg';
-  return passedImg || '/images/cabs/swift-dzire.jpg';
+  return passedImg || '/images/cabs/force-cruiser-4x4.jpg';
 }
 
 // @desc    Get all published transport & taxi services / cabs

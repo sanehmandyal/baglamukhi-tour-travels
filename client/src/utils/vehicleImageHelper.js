@@ -2,18 +2,26 @@
  * Utility to resolve authentic vehicle images based on car model name, category, or custom upload.
  */
 export const resolveVehicleImage = (vehicle) => {
-  if (!vehicle) return '/images/cabs/swift-dzire.jpg';
+  if (!vehicle) return '/images/cabs/force-cruiser-4x4.jpg';
 
   const rawImage = typeof vehicle === 'string' ? vehicle : (vehicle.image || vehicle.featuredImage?.url || '');
 
-  // If user uploaded a custom base64 image or a custom remote URL that is not the generic default, use it
-  if (rawImage && (rawImage.startsWith('data:image') || (rawImage.startsWith('http') && !rawImage.includes('force-cruiser-4x4.jpg')))) {
+  // If admin uploaded a custom base64 image, local upload, remote URL, or specific cab preset, honor it directly
+  if (
+    rawImage &&
+    (rawImage.startsWith('data:image') ||
+      rawImage.startsWith('/uploads/') ||
+      (rawImage.startsWith('http') && !rawImage.includes('force-cruiser-4x4.jpg')) ||
+      (rawImage.startsWith('/images/cabs/') && rawImage !== '/images/cabs/force-cruiser-4x4.jpg'))
+  ) {
     return rawImage;
   }
 
-  // If user has a specific local cab path that matches its own name, keep it
+  // Otherwise infer from vehicle title/name first
   const title = (
-    (typeof vehicle === 'object' ? (vehicle.title || vehicle.name || vehicle.vehicleType || vehicle.slug || '') : vehicle)
+    typeof vehicle === 'object'
+      ? (vehicle.title || vehicle.name || vehicle.slug || vehicle.vehicleType || '')
+      : vehicle
   ).toLowerCase();
 
   if (title.includes('scorpio')) {
@@ -48,5 +56,5 @@ export const resolveVehicleImage = (vehicle) => {
     return rawImage;
   }
 
-  return '/images/cabs/swift-dzire.jpg';
+  return '/images/cabs/force-cruiser-4x4.jpg';
 };
