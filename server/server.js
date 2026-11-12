@@ -167,10 +167,11 @@ app.get(['/', '/api/health', '/health'], (req, res) => {
   });
 });
 
-// SEO direct root endpoints: robots.txt and sitemap.xml
-const { generateSitemapXml, getRobotsTxt } = require('./controllers/seoController');
+// SEO direct root endpoints: robots.txt, sitemap.xml, and llms.txt
+const { generateSitemapXml, getRobotsTxt, getLlmsTxt } = require('./controllers/seoController');
 app.get('/sitemap.xml', generateSitemapXml);
 app.get('/robots.txt', getRobotsTxt);
+app.get('/llms.txt', getLlmsTxt);
 
 // API Routes
 app.use(['/api/auth', '/auth'], require('./routes/authRoutes'));

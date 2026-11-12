@@ -6,7 +6,7 @@ const getSiteOrigin = () => {
   if (typeof window !== 'undefined' && window.location.origin) {
     return window.location.origin;
   }
-  return 'https://baglamukhitourtravels.com';
+  return 'https://baglamukhitourtravels.in';
 };
 
 export const OrganizationSchema = () => {
@@ -31,7 +31,7 @@ export const OrganizationSchema = () => {
     description:
       'Leading tour and travel agency in Himachal Pradesh specializing in Maa Baglamukhi temple darshan, Amb Andaura Railway Station (AADR) taxi transfers, 9 Devi Shaktipeeth yatras, Shimla Manali holiday packages, and luxury Tempo Traveller rentals.',
     telephone: settings.primaryPhone || '+91 98051 43007',
-    email: settings.email || 'info@baglamukhitourtravels.com',
+    email: settings.email || 'info@baglamukhitourtravels.in',
     priceRange: '₹₹',
     currenciesAccepted: 'INR',
     paymentAccepted: 'Cash, Credit Card, Debit Card, UPI, Net Banking',

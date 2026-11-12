@@ -22,7 +22,7 @@ exports.getSeoMeta = async (req, res, next) => {
 
     if (!seo) {
       // Return sensible fallback
-      const siteOrigin = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
+      const siteOrigin = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
       return res.status(200).json({
         success: true,
         data: {
@@ -70,7 +70,7 @@ exports.saveSeoMeta = async (req, res, next) => {
         slug: normalizedSlug,
         title,
         metaDescription,
-        canonicalUrl: canonicalUrl || `https://baglamukhitourtravels.com${normalizedSlug}`,
+        canonicalUrl: canonicalUrl || `https://baglamukhitourtravels.in${normalizedSlug}`,
         focusKeyword,
         secondaryKeywords,
         ogTitle: ogTitle || title,
@@ -171,7 +171,7 @@ exports.getSeoAudit = async (req, res, next) => {
 // @access  Public
 exports.generateSitemapXml = async (req, res, next) => {
   try {
-    const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
+    const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
 
     const staticRoutes = [
       '',
@@ -301,7 +301,7 @@ exports.generateSitemapXml = async (req, res, next) => {
 // @route   GET /robots.txt & /api/seo/robots.txt
 // @access  Public
 exports.getRobotsTxt = (req, res) => {
-  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.com';
+  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
   const robots = `User-agent: *
 Allow: /
 Disallow: /admin
@@ -315,9 +315,98 @@ Disallow: /booking-confirmed
 Disallow: /thank-you
 Disallow: /search
 
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# AI Search & LLM Crawlers
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# XML Sitemaps & LLM Context
 Sitemap: ${baseUrl}/sitemap.xml
-Sitemap: ${process.env.API_URL || 'https://baglamukhitourtravels.com'}/api/seo/sitemap.xml
+Sitemap: ${process.env.API_URL || baseUrl}/api/seo/sitemap.xml
 `;
   res.header('Content-Type', 'text/plain');
   res.status(200).send(robots);
+};
+
+// @desc    Dynamic llms.txt endpoint
+// @route   GET /llms.txt & /api/seo/llms.txt
+// @access  Public
+exports.getLlmsTxt = (req, res) => {
+  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
+  const content = `# Baglamukhi Tour & Travels
+
+> Premier Himachal Pradesh Tour Operator, Amb Andaura Railway Station Taxi Service, and Maa Baglamukhi Dham & 9 Devi Darshan Specialist.
+
+Baglamukhi Tour & Travels is an authorized, government-registered travel operator based near Amb Andaura Railway Station (AADR) and Maa Baglamukhi Temple Bankhandi in Kangra, Himachal Pradesh, India. We provide customized Himachal tour packages, 24/7 commercial tourist taxi services (yellow plate), luxury Maharaja Tempo Travellers, Force Cruiser 4x4 mountain SUVs, and doorstep railway station/airport transfers across Himachal Pradesh, Punjab, Chandigarh, and Delhi NCR.
+
+- Official Website: ${baseUrl}
+- Primary 24/7 Phone / WhatsApp: +91 98051 43007
+- Email: info@baglamukhitourtravels.in / bookings@baglamukhitourtravels.in
+- Base Stations: Amb Andaura Railway Station (AADR), Kangra (Bankhandi), Una, Chandigarh, Pathankot
+
+## Core Tour Packages
+- [All Himachal Tour Packages](${baseUrl}/tours): Complete catalog of personalized holiday packages across Shimla, Manali, Dharamshala, Dalhousie, and Spiti Valley.
+- [Maa Baglamukhi Dham & 9 Devi Darshan Yatra](${baseUrl}/tours/9-devi-darshan-himachal-yatra): 5-7 days holy pilgrimage covering Mansa Devi, Naina Devi, Chintpurni, Jwala Ji, Baglamukhi Bankhandi, Kangra Brajeshwari, Chamunda Devi, and Amritsar Golden Temple.
+- [Shimla & Manali Honeymoon / Family Tour](${baseUrl}/tours/shimla-manali-honeymoon-package): 6 Days / 5 Nights classic Himachal holiday covering Kufri, Solang Valley, Atal Tunnel Rohtang, and local sightseeing.
+- [Dharamshala, McLeodganj & Dalhousie Peace Tour](${baseUrl}/tours/dharamshala-dalhousie-5-days-tour): 5 Days / 4 Nights scenic holiday covering Dalai Lama Temple, HPCA Stadium, Khajjiar (Mini Switzerland), and cedar forests.
+- [Spiti Valley High Altitude 4x4 Adventure](${baseUrl}/tours/spiti-valley-road-trip-7-days): 7 Days road expedition to Kaza, Key Monastery, Kibber, Chicham Bridge, Hikkim, and Chandratal Lake.
+
+## Taxi & Mountain Fleet Rental
+- [All Cabs & Fleet Models](${baseUrl}/cabs): Verified commercial yellow plate tourist fleet with native Pahadi chauffeurs and all-inclusive pricing.
+- [Force Cruiser & Trax Toofan 4x4](${baseUrl}/cabs): Rugged 9 to 13-seater mountain cruisers ideal for temple groups, Spiti Valley, and steep ghats (₹18/km onwards).
+- [Force Tempo Traveller 12 Seater Luxury Maharaja](${baseUrl}/cabs): 2x1 pushback Maharaja recliners, individual AC blowers, TV, and air suspension for family groups (₹24/km onwards).
+- [Force Tempo Traveller 17 Seater Hill Specialist](${baseUrl}/cabs): Spacious 17-passenger van with wide center aisle and heavy roof carrier (₹28/km onwards).
+- [Toyota Innova Crysta Luxury SUV](${baseUrl}/cabs): 6+1 / 7+1 premium family SUV with captain seats, dual AC, and hill-hold assist (₹18/km onwards).
+- [Maruti Suzuki Ertiga Smart Hybrid](${baseUrl}/cabs): Economical 6-seater family taxi for temple tours and mountain vacations (₹14/km onwards).
+- [Maruti Suzuki Swift Dzire Sedan](${baseUrl}/cabs): Agile 4-passenger AC sedan for couple tours, airport pickups, and railway transfers (₹11/km onwards).
+
+## Station & Temple Pickup Locations
+- [Amb Andaura Railway Station Taxi](${baseUrl}/locations/amb-andaura-railway-station-taxi): Nearest terminal station to Maa Baglamukhi Dham (45 km) with direct Vande Bharat Express connectivity from New Delhi. 24/7 doorstep platform taxi pickup.
+- [Chandigarh Airport & Station Taxi](${baseUrl}/locations/chandigarh-airport-taxi-service): Direct one-way and roundtrip cab transfers to Shimla, Manali, Dharamshala, and Baglamukhi.
+- [Una Himachal Railway Station Cab](${baseUrl}/locations/una-himachal-railway-station-taxi): Reliable cabs from Una to Chintpurni, Jwala Ji, and Kangra.
+
+## Optional & Machine-Readable Resources
+- [Full LLM Knowledge Document](${baseUrl}/llms-full.txt): Comprehensive deep-dive documentation of all routes, fleet specs, itineraries, and rates.
+- [XML Sitemap](${baseUrl}/sitemap.xml): Complete URL index for search engines and web crawlers.
+- [Robots Configuration](${baseUrl}/robots.txt): Crawler rules and indexing directives.
+`;
+  res.header('Content-Type', 'text/markdown; charset=utf-8');
+  res.status(200).send(content);
 };

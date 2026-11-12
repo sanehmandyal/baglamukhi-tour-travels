@@ -11,6 +11,7 @@ Disallow: /booking-confirmed
 Disallow: /thank-you
 Disallow: /search
 
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 Disallow: /admin
@@ -21,6 +22,37 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/*
 
-# Dynamic and static XML Sitemaps
-Sitemap: https://baglamukhitourtravels.com/sitemap.xml
-Sitemap: https://baglamukhi-tour-travels-server.onrender.com/api/seo/sitemap.xml
+# AI Search & LLM Crawlers
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# XML Sitemaps
+Sitemap: https://baglamukhitourtravels.in/sitemap.xml
+Sitemap: https://baglamukhitourtravels.in/api/seo/sitemap.xml
