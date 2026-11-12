@@ -53,6 +53,6 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/*
 
-# XML Sitemaps
-Sitemap: https://baglamukhitourtravels.in/sitemap.xml
-Sitemap: https://baglamukhitourtravels.in/api/seo/sitemap.xml
+# XML Sitemaps & LLM Context
+Sitemap: https://www.a1baglamukhitours.in/sitemap.xml
+Sitemap: https://www.a1baglamukhitours.in/api/seo/sitemap.xml

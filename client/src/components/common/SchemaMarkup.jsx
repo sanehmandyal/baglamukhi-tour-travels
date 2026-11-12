@@ -6,7 +6,7 @@ const getSiteOrigin = () => {
   if (typeof window !== 'undefined' && window.location.origin) {
     return window.location.origin;
   }
-  return 'https://baglamukhitourtravels.in';
+  return 'https://www.a1baglamukhitours.in';
 };
 
 export const OrganizationSchema = () => {

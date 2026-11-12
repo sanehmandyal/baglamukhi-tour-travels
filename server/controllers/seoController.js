@@ -22,7 +22,7 @@ exports.getSeoMeta = async (req, res, next) => {
 
     if (!seo) {
       // Return sensible fallback
-      const siteOrigin = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
+      const siteOrigin = process.env.SITE_URL || 'https://www.a1baglamukhitours.in';
       return res.status(200).json({
         success: true,
         data: {
@@ -70,7 +70,7 @@ exports.saveSeoMeta = async (req, res, next) => {
         slug: normalizedSlug,
         title,
         metaDescription,
-        canonicalUrl: canonicalUrl || `https://baglamukhitourtravels.in${normalizedSlug}`,
+        canonicalUrl: canonicalUrl || `https://www.a1baglamukhitours.in${normalizedSlug}`,
         focusKeyword,
         secondaryKeywords,
         ogTitle: ogTitle || title,
@@ -171,7 +171,7 @@ exports.getSeoAudit = async (req, res, next) => {
 // @access  Public
 exports.generateSitemapXml = async (req, res, next) => {
   try {
-    const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
+    const baseUrl = process.env.SITE_URL || 'https://www.a1baglamukhitours.in';
 
     const staticRoutes = [
       '',
@@ -301,7 +301,7 @@ exports.generateSitemapXml = async (req, res, next) => {
 // @route   GET /robots.txt & /api/seo/robots.txt
 // @access  Public
 exports.getRobotsTxt = (req, res) => {
-  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
+  const baseUrl = process.env.SITE_URL || 'https://www.a1baglamukhitours.in';
   const robots = `User-agent: *
 Allow: /
 Disallow: /admin
@@ -369,7 +369,7 @@ Sitemap: ${process.env.API_URL || baseUrl}/api/seo/sitemap.xml
 // @route   GET /llms.txt & /api/seo/llms.txt
 // @access  Public
 exports.getLlmsTxt = (req, res) => {
-  const baseUrl = process.env.SITE_URL || 'https://baglamukhitourtravels.in';
+  const baseUrl = process.env.SITE_URL || 'https://www.a1baglamukhitours.in';
   const content = `# Baglamukhi Tour & Travels
 
 > Premier Himachal Pradesh Tour Operator, Amb Andaura Railway Station Taxi Service, and Maa Baglamukhi Dham & 9 Devi Darshan Specialist.

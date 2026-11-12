@@ -27,7 +27,7 @@ const SEOHead = ({
     settings.tagline ||
     'Official Baglamukhi Tour & Travels. Book customized Himachal tour packages, Amb Andaura Railway Station taxi pickup, 9 Devi Darshan yatra, and luxury Tempo Travellers. Call +91 98051 43007.';
 
-  const currentOrigin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'https://baglamukhitourtravels.in';
+  const currentOrigin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : 'https://www.a1baglamukhitours.in';
   const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
 
   const canonicalUrl = canonical

@@ -72,6 +72,7 @@ app.use(compression());
 const isAllowedOrigin = (origin) => {
   if (!origin) return true; // allow curl, mobile apps, server-to-server
   if (origin.includes('localhost') || origin.includes('127.0.0.1')) return true;
+  if (origin.includes('a1baglamukhitours.in')) return true;
   if (origin.endsWith('.vercel.app') || origin === 'https://baglamukhi-tour-travels.vercel.app') return true;
   if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
   return false;
